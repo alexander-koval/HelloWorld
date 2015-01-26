@@ -16,6 +16,8 @@ public:
 
     Shader(void);
 
+    ~Shader(void);
+
     bool loadFromFile(const std::string& filename, Type type);
 
     bool loadFromMemory(const std::string& shader, Type type);
@@ -26,7 +28,7 @@ public:
 
     void unUse(void);
 
-    void AddAttribute(const std::string& attribute);
+    void addAttribute(const std::string& attribute);
 
     void addUniform(const std::string& uniform);
 
@@ -35,8 +37,6 @@ public:
     GLuint operator() (const std::string& uniform);
 
     void deleteShaderProgram(void);
-
-    ~Shader(void);
 
 private:
     GLuint m_program;
