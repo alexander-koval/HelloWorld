@@ -13,12 +13,14 @@ source_group("" FILES ${icebird_window_source_files})
 add_library(icebird-window STATIC ${icebird_window_source_files})
 
 target_link_libraries(icebird-window
-    X11
-    Xxf86vm
-    Xrandr
-    Xi
-    Xinerama
-    Xcursor
-    pthread
-    glfw
+#    X11
+#    Xxf86vm
+#    Xrandr
+#    Xi
+#    Xinerama
+#    Xcursor
+#    pthread
+    ${OPENGL_glu_LIBRARY}
+    ${GLFW_LIBRARIES}
+    ${EXTRA_LIBS}
 )

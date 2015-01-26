@@ -23,15 +23,18 @@ endif()
 add_library(icebird-graphics STATIC ${icebird_graphics_source_files})
 
 target_link_libraries(icebird-graphics
-    EGL
-    X11
-    Xxf86vm
-    Xrandr
-    Xi
-    Xinerama
-    Xcursor
-    pthread
-    glfw
-    GLU
-    GL
+#    EGL
+#    X11
+#    Xxf86vm
+#    Xrandr
+#    Xi
+#    Xinerama
+#    Xcursor
+#    pthread
+#    glfw
+#    GLU
+#    GL
+    ${OPENGL_glu_LIBRARY}
+    ${GLFW_LIBRARIES}
+    ${EXTRA_LIBS}
 )
