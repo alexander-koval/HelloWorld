@@ -21,12 +21,16 @@ void Shader::deleteShaderProgram(void) {
 }
 
 void Shader::loadFromMemory(const std::string &shader, Type type) {
-    GLuint shader_id = glCreateShader(type);
+    GLuint shader_id = 0;
+    if (VERTEX == type) shader_id = glCreateShader(GL_VERTEX_SHADER);
+    if (FRAGMENT == type) shader_id = glCreateShader(GL_FRAGMENT_SHADER);
+    if (GEOMETRY == type) shader_id = glCreateShader(GL_GEOMETRY_SHADER);
     const char* tmp = shader.c_str();
-    glShaderSource(shader_id, 1, &tmp, NULL);
+    glShaderSource(shader_id, 1, &tmp, 0);
 
     GLint status = 0;
     glCompileShader(shader_id);
+    glGetShaderiv(shader_id, GL_COMPILE_STATUS, &status);
     if (GL_FALSE == status) {
         GLint info_log_lenght;
         glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &info_log_lenght);
@@ -85,7 +89,7 @@ void Shader::use(void) {
 }
 
 void Shader::unUse(void) {
-    glUseProgram(NULL);
+    glUseProgram(0);
 }
 
 void Shader::addAttribute(const std::string &attribute) {
