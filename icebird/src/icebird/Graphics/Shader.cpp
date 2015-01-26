@@ -3,11 +3,12 @@
 #include <iostream>
 
 Shader::Shader(void)
-    : m_totalShaders(0)
-    , m_shaders(0)
-    , m_attributes(0)
-    , m_uniforms(0) {
-
+    : m_totalShaders(0) {
+    m_shaders[VERTEX] = 0;
+    m_shaders[GEOMETRY] = 0;
+    m_shaders[FRAGMENT] = 0;
+    m_attributes.clear();
+    m_uniforms.clear();
 }
 
 Shader::~Shader() {
@@ -55,6 +56,50 @@ void Shader::loadFromFile(const std::string &filename, Type type) {
 void Shader::createAndLinkProgram(void) {
     m_program = glCreateProgram();
     if (m_shaders[VERTEX] != 0) {
-
+        glAttachShader(m_program, m_shaders[VERTEX]);
     }
+    if (m_shaders[FRAGMENT] != 0) {
+        glAttachShader(m_program, m_shaders[FRAGMENT]);
+    }
+    if (m_shaders[GEOMETRY] != 0) {
+        glAttachShader(m_program, m_shaders[GEOMETRY]);
+    }
+    GLint status = 0;
+    glLinkProgram(m_program);
+    glGetProgramiv(m_program, GL_LINK_STATUS, &status);
+    if (GL_FALSE == status) {
+        GLint info_log_lenght = 0;
+        glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &info_log_lenght);
+        GLchar* info_log = new GLchar[info_log_lenght];
+        glGetProgramInfoLog(m_program, info_log_lenght, NULL, info_log);
+        std::cerr << "Link log: " << info_log << std::endl;
+        delete[] info_log;
+    }
+    glDeleteShader(m_shaders[VERTEX]);
+    glDeleteShader(m_shaders[FRAGMENT]);
+    glDeleteShader(m_shaders[GEOMETRY]);
+}
+
+void Shader::use(void) {
+    glUseProgram(m_program);
+}
+
+void Shader::unUse(void) {
+    glUseProgram(NULL);
+}
+
+void Shader::addAttribute(const std::string &attribute) {
+    m_attributes[attribute] = glGetAttribLocation(m_program, attribute.c_str());
+}
+
+GLuint Shader::operator [](const std::string& attribute) {
+    return m_attributes[attribute];
+}
+
+void Shader::addUniform(const std::string &uniform) {
+    m_uniforms[uniform] = glGetUniformLocation(m_program, uniform.c_str());
+}
+
+GLuint Shader::operator ()(const std::string& uniform) {
+    return m_uniforms[uniform];
 }

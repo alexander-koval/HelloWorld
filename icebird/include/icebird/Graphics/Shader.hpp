@@ -18,9 +18,9 @@ public:
 
     ~Shader(void);
 
-    bool loadFromFile(const std::string& filename, Type type);
+    void loadFromFile(const std::string& filename, Type type);
 
-    bool loadFromMemory(const std::string& shader, Type type);
+    void loadFromMemory(const std::string& shader, Type type);
 
     void createAndLinkProgram(void);
 
