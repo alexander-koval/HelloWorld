@@ -132,10 +132,12 @@ void init() {
 
 void render() {
     glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(GL_RED, 0, 0, 0);
+    glClearColor(0.7, 0.7, 0.7, 0);
     shader.use();
+//    modelView = glm::rotate(modelView, 0.01f, glm::vec3(0, 0, 1));
     GL_CHECK(glUniformMatrix4fv(shader("MVP"), 1, GL_FALSE,
                                 glm::value_ptr(projection * modelView)));
+    GL_CHECK(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0));
     shader.unUse();
 }
 
@@ -159,7 +161,7 @@ int main() {
     glfwSetWindowSize(window, WIDTH, HEIGHT);
 
     glewExperimental = GL_TRUE;
-    GLenum err= glewInit();
+    GLenum err = GL_CHECK(glewInit());
     if (GLEW_OK != err) {
         std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
     } else {
