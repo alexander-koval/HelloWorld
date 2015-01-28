@@ -3,11 +3,11 @@
 
 #include <GL/glew.h>
 
-extern unsigned char positionColor_frag[];
+extern const char* positionColor_frag;
 
 extern unsigned int positionColor_frag_len;
 
-extern unsigned char positionColor_vert[];
+extern const char* positionColor_vert;
 
 extern unsigned int positionColor_vert_len;
 

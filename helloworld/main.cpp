@@ -90,15 +90,15 @@ void glCheckError(const char* file, unsigned int line) {
 }
 
 void init() {
-//    shader.loadFromFile("shaders/shaderpc.vert", Shader::VERTEX);
-//    shader.loadFromFile("shaders/shaderpc.frag", Shader::FRAGMENT);
-    char* positionColorSource_frag = reinterpret_cast<char*>(&positionColor_frag[0]);
-    char* positionColorSource_vert = reinterpret_cast<char*>(&positionColor_vert[0]);
+    shader.loadFromFile("shaders/shaderpc.vert", Shader::VERTEX);
+    shader.loadFromFile("shaders/shaderpc.frag", Shader::FRAGMENT);
+//    char* positionColorSource_frag = reinterpret_cast<char*>(&positionColor_frag[0]);
+//    char* positionColorSource_vert = reinterpret_cast<char*>(&positionColor_vert[0]);
 //    printf("SIZE: %d", _binary_shaderpc_frag_size);
-    printf("CODE VERTEX: \n%s", positionColorSource_vert);
-    printf("CODE FRAGMENT: \n%s", positionColorSource_frag);
-    shader.loadFromMemory(std::string(positionColorSource_vert), Shader::VERTEX);
-    shader.loadFromMemory(std::string(positionColorSource_frag), Shader::FRAGMENT);
+    printf("CODE VERTEX: \n%s", positionColor_vert);
+    printf("CODE FRAGMENT: \n%s", positionColor_frag);
+//    shader.loadFromMemory(std::string(positionColor_vert, positionColor_frag_len), Shader::VERTEX);
+//    shader.loadFromMemory(std::string(positionColor_frag, positionColor_vert_len), Shader::FRAGMENT);
     GL_CHECK(shader.createAndLinkProgram());
     GL_CHECK(shader.use());
     shader.addAttribute("a_vertex");
