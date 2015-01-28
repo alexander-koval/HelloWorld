@@ -7,6 +7,7 @@
 #include <icebird/Graphics/glm/glm.hpp>
 #include <icebird/Graphics/glm/gtc/matrix_transform.hpp>
 #include <icebird/Graphics/glm/gtc/type_ptr.hpp>
+#include <icebird/Graphics/Shaders.hpp>
 
 #define GL_CHECK(x) x; glCheckError(__FILE__, __LINE__);
 #define STRINGIFY(x) #x
@@ -89,8 +90,15 @@ void glCheckError(const char* file, unsigned int line) {
 }
 
 void init() {
-    shader.loadFromFile("shaders/shaderpc.vert", Shader::VERTEX);
-    shader.loadFromFile("shaders/shaderpc.frag", Shader::FRAGMENT);
+//    shader.loadFromFile("shaders/shaderpc.vert", Shader::VERTEX);
+//    shader.loadFromFile("shaders/shaderpc.frag", Shader::FRAGMENT);
+    char* positionColorSource_frag = reinterpret_cast<char*>(&positionColor_frag[0]);
+    char* positionColorSource_vert = reinterpret_cast<char*>(&positionColor_vert[0]);
+//    printf("SIZE: %d", _binary_shaderpc_frag_size);
+    printf("CODE VERTEX: \n%s", positionColorSource_vert);
+    printf("CODE FRAGMENT: \n%s", positionColorSource_frag);
+    shader.loadFromMemory(std::string(positionColorSource_vert), Shader::VERTEX);
+    shader.loadFromMemory(std::string(positionColorSource_frag), Shader::FRAGMENT);
     GL_CHECK(shader.createAndLinkProgram());
     GL_CHECK(shader.use());
     shader.addAttribute("a_vertex");

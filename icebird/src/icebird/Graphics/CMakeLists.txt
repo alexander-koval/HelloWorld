@@ -4,6 +4,8 @@ set(SRCROOT ${PROJECT_SOURCE_DIR}/src/icebird/Graphics)
 file(GLOB icebird_graphics_source_files
     "${INCROOT}/Shader.hpp"
     "${SRCROOT}/Shader.cpp"
+    "${INCROOT}/Shaders.hpp"
+    "${SRCROOT}/Shaders.cpp"
     "${SRCROOT}/shaders/shaderpc.frag"
     "${SRCROOT}/shaders/shaderpc.vert"
 )
