@@ -8,4 +8,3 @@ void main(void) {
     v_smoothColor = vec4(a_color, 1);
     gl_Position = MVP * vec4(a_vertex, 1);
 }
-

@@ -5,4 +5,3 @@ layout(location = 0) out vec4 v_fragColor;
 void main(void) {
     v_fragColor = v_smoothColor;
 }
-
