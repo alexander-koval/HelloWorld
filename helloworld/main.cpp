@@ -90,13 +90,8 @@ void glCheckError(const char* file, unsigned int line) {
 }
 
 void init() {
-    std::string positionColorFrag = std::string(positionColor_frag, positionColor_frag_len);
-    std::string positionColorVert = std::string(positionColor_vert, positionColor_vert_len);
-    printf("CODE VERTEX: \n%s\n%d\n", positionColorVert.c_str(), positionColor_vert_len);
-    printf("CODE FRAGMENT: \n%s\n%d\n", positionColorFrag.c_str(), positionColor_frag_len);
-
-    shader.loadFromMemory(positionColorVert, Shader::VERTEX);
-    shader.loadFromMemory(positionColorFrag, Shader::FRAGMENT);
+    shader.loadFromMemory(positionColor_vert, Shader::VERTEX);
+    shader.loadFromMemory(positionColor_frag, Shader::FRAGMENT);
     GL_CHECK(shader.createAndLinkProgram());
     GL_CHECK(shader.use());
     shader.addAttribute("a_vertex");
