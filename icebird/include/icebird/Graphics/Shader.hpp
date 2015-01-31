@@ -1,9 +1,9 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <map>
-#include <GL/glew.h>
+#include <icebird/Graphics/GL/OpenGL.hpp>
 #include <string>
+#include <map>
 
 class Shader
 {
@@ -12,6 +12,11 @@ public:
         VERTEX,
         GEOMETRY,
         FRAGMENT
+    };
+
+    enum ParameterType {
+        ATTRIBUTE,
+        UNIFORM
     };
 
     Shader(void);
@@ -28,9 +33,13 @@ public:
 
     void unUse(void);
 
+    void addParameter(const std::string& parameter, ParameterType type);
+
     void addAttribute(const std::string& attribute);
 
     void addUniform(const std::string& uniform);
+
+    GLuint getParameter(const std::string& parameter, ParameterType type);
 
     GLuint operator[] (const std::string& attribute);
 

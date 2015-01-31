@@ -6,6 +6,10 @@ file(GLOB icebird_graphics_source_files
     "${SRCROOT}/Shader.cpp"
     "${INCROOT}/Shaders.hpp"
     "${SRCROOT}/Shaders.cpp"
+    "${INCROOT}/GL/OpenGL.hpp"
+    "${SRCROOT}/GL/OpenGL.cpp"
+    "${INCROOT}/Triangle.hpp"
+    "${SRCROOT}/Triangle.cpp"
     "${SRCROOT}/shaders/v330/positionColor.frag"
     "${SRCROOT}/shaders/v330/positionColor.vert"
 )
