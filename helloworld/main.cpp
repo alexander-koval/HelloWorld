@@ -45,6 +45,7 @@ void init() {
     GL_CHECK(shader.use());
     GL_CHECK(shader.addParameter("VertexPosition", Shader::ATTRIBUTE));
     GL_CHECK(shader.addParameter("TextureMap", Shader::UNIFORM));
+    GL_CHECK(shader.addParameter("MVP", Shader::UNIFORM));
     GL_CHECK(glUniform1i(shader.getParameter("TextureMap", Shader::UNIFORM), 0));
     GL_CHECK(shader.unUse());
 
@@ -108,9 +109,12 @@ void render() {
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(0.7, 0.7, 0.7, 0);
     glm::mat4 mvpView = projection * modelView;
+//    modelView = glm::scale(modelView, glm::vec3(2.0, 2.0, 1.0));
     shader.use();
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
+    GL_CHECK(glUniformMatrix4fv(shader.getParameter("MVP", Shader::UNIFORM), 1, GL_FALSE, glm::value_ptr(mvpView)));
+    GL_CHECK(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0));
     shader.unUse();
+//    modelView = glm::scale(modelView, glm::vec3(0.5, 0.5, 1.0));
 //    triangle->render(mvpView);
 }
 
