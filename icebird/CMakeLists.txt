@@ -27,3 +27,4 @@ endfunction()
 add_definitions(-std=c++11)
 
 add_subdirectory(src/icebird)
+add_subdirectory(extlibs/SOIL)
