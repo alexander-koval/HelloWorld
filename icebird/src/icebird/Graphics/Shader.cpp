@@ -93,8 +93,8 @@ void Shader::unUse(void) {
 }
 
 void Shader::addParameter(const std::string& parameter, ParameterType type) {
-    if (ParameterType::ATTRIBUTE == type) addAttribute(parameter);
-    else if (ParameterType::UNIFORM == type) addUniform(parameter);
+    if (ATTRIBUTE == type) addAttribute(parameter);
+    else if (UNIFORM == type) addUniform(parameter);
 }
 
 void Shader::addAttribute(const std::string &attribute) {
@@ -102,8 +102,9 @@ void Shader::addAttribute(const std::string &attribute) {
 }
 
 GLuint Shader::getParameter(const std::string& parameter, ParameterType type) {
-    if (ParameterType::ATTRIBUTE == type) return this->operator [](parameter);
-    else if (ParameterType::UNIFORM == type) return this->operator ()(parameter);
+    if (ATTRIBUTE == type) return this->operator [](parameter);
+    else if (UNIFORM == type) return this->operator ()(parameter);
+    return 0;
 }
 
 GLuint Shader::operator [](const std::string& attribute) {

@@ -24,7 +24,24 @@ function(add_resources output)
     set(${output} "${result}" PARENT_SCOPE)
 endfunction()
 
-add_definitions(-std=c++11)
+function(add_shaders output path)
+    set(OUTPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/${path}")
+#    file(REMOVE ${OUTPUT_FILE})
+    foreach(INPUT_FILE ${ARGN})
+        file(RELATIVE_PATH SOURCE_FILE ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${INPUT_FILE})
+        add_custom_command(OUTPUT ${OUTPUT_FILE}
+            COMMAND xxd -i ${SOURCE_FILE} >> ${OUTPUT_FILE}
+            DEPENDS ${INPUT_FILE}
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            COMMENT "Embedding shader to file ${OUTPUT_FILE}"
+            VERBATIM
+        )
+        message("OUTPUT: " ${OUTPUT})
+    endforeach()
+    set(${output} ${OUTPUT_FILE} PARENT_SCOPE)
+endfunction()
+
+#add_definitions(-std=c++11)
 
 add_subdirectory(src/icebird)
 add_subdirectory(extlibs/SOIL)

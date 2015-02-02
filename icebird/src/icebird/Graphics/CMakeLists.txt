@@ -30,12 +30,21 @@ if(NOT SFML_OPENGL_ES)
     include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_PATH} ${JPEG_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
 endif()
 
-add_resources(positionColor shaders/v330/positioncolor.frag shaders/v330/positioncolor.vert)
-add_resources(positionTexture shaders/v330/positiontexture.frag shaders/v330/positiontexture.vert)
+message("DIRS: " ${PROJECT_SOURCE_DIR})
 
-message("SHADER " ${positionColor})
+#add_resources(positionColor shaders/v330/positioncolor.frag shaders/v330/positioncolor.vert)
+#add_resources(positionTexture shaders/v330/positiontexture.frag shaders/v330/positiontexture.vert)
 
-add_library(icebird-graphics STATIC ${icebird_graphics_source_files} ${positionColor} ${positionTexture})
+add_shaders(shaders shaders/shaders.cpp
+                shaders/v330/positioncolor.frag
+                shaders/v330/positioncolor.vert
+#                shaders/v330/positiontexture.frag
+#                shaders/v330/positiontexture.vert
+            )
+
+message("SHADER " ${shaders})
+
+add_library(icebird-graphics STATIC ${icebird_graphics_source_files} ${shaders})
 
 target_link_libraries(icebird-graphics
 #    EGL
