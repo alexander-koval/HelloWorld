@@ -6,7 +6,7 @@
 #include <icebird/Graphics/glm/glm.hpp>
 #include <icebird/Graphics/glm/gtc/matrix_transform.hpp>
 #include <icebird/Graphics/glm/gtc/type_ptr.hpp>
-#include <icebird/Graphics/Shaders.hpp>
+#include <icebird/Graphics/shaders/shaders.hpp>
 #include <icebird/Graphics/GL/OpenGL.hpp>
 #include <icebird/Graphics/Triangle.hpp>
 

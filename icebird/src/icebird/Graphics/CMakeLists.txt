@@ -4,12 +4,13 @@ set(SRCROOT ${PROJECT_SOURCE_DIR}/src/icebird/Graphics)
 file(GLOB icebird_graphics_source_files
     "${INCROOT}/Shader.hpp"
     "${SRCROOT}/Shader.cpp"
-    "${INCROOT}/Shaders.hpp"
-    "${SRCROOT}/Shaders.cpp"
+#    "${INCROOT}/Shaders.hpp"
+#    "${SRCROOT}/Shaders.cpp"
     "${INCROOT}/GL/OpenGL.hpp"
     "${SRCROOT}/GL/OpenGL.cpp"
     "${INCROOT}/Triangle.hpp"
     "${SRCROOT}/Triangle.cpp"
+    "${INCROOT}/shaders/shaders.hpp"
     "${SRCROOT}/shaders/v330/positioncolor.frag"
     "${SRCROOT}/shaders/v330/positioncolor.vert"
     "${SRCROOT}/shaders/v330/positiontexture.frag"
@@ -35,11 +36,11 @@ message("DIRS: " ${PROJECT_SOURCE_DIR})
 #add_resources(positionColor shaders/v330/positioncolor.frag shaders/v330/positioncolor.vert)
 #add_resources(positionTexture shaders/v330/positiontexture.frag shaders/v330/positiontexture.vert)
 
-add_shaders(shaders shaders/shaders.cpp
+add_shaders(shaders
                 shaders/v330/positioncolor.frag
                 shaders/v330/positioncolor.vert
-#                shaders/v330/positiontexture.frag
-#                shaders/v330/positiontexture.vert
+                shaders/v330/positiontexture.frag
+                shaders/v330/positiontexture.vert
             )
 
 message("SHADER " ${shaders})
