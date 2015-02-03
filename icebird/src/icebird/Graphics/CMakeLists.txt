@@ -4,8 +4,6 @@ set(SRCROOT ${PROJECT_SOURCE_DIR}/src/icebird/Graphics)
 file(GLOB icebird_graphics_source_files
     "${INCROOT}/Shader.hpp"
     "${SRCROOT}/Shader.cpp"
-#    "${INCROOT}/Shaders.hpp"
-#    "${SRCROOT}/Shaders.cpp"
     "${INCROOT}/GL/OpenGL.hpp"
     "${SRCROOT}/GL/OpenGL.cpp"
     "${INCROOT}/Triangle.hpp"
@@ -31,11 +29,9 @@ if(NOT SFML_OPENGL_ES)
     include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_PATH} ${JPEG_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
 endif()
 
-message("DIRS: " ${PROJECT_SOURCE_DIR})
-
-#add_resources(positionColor shaders/v330/positioncolor.frag shaders/v330/positioncolor.vert)
-#add_resources(positionTexture shaders/v330/positiontexture.frag shaders/v330/positiontexture.vert)
-
+#set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${PROJECT_SOURCE_DIR}/extlibs/SOIL/src")
+#set(LIBSOIL_LIBDIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+#find_package(SOIL REQUIRED)
 add_shaders(shaders
                 shaders/v330/positioncolor.frag
                 shaders/v330/positioncolor.vert
