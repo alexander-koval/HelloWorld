@@ -6,6 +6,6 @@ uniform sampler2D TextureMap;
 
 void main(void)
 {
-    FragColor = texture2D(TextureMap, UV);
+    FragColor = texture(TextureMap, UV);
 }
 

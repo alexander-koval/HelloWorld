@@ -3,7 +3,16 @@ file(GLOB hello_world_source_files
 )
 
 if(APPLE)
-    add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${hello_world_source_files})
+    # Locate all recourses
+    FILE(GLOB COPY_RESOURCES ${PROJECT_SOURCE_DIR}/media/*.png)
+    SET_SOURCE_FILES_PROPERTIES(
+     "${COPY_RESOURCES}"
+     PROPERTIES
+     MACOSX_PACKAGE_LOCATION Resources
+    )
+    message("RESOURCES: " ${COPY_RESOURCES})
+
+    add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${hello_world_source_files} ${COPY_RESOURCES})
     set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "HelloWorld")
     set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "output")
 elseif(WIN32)

@@ -26,8 +26,11 @@ GLuint textureID;
 glm::vec2 vertices[4];
 GLushort indices[6];
 
-
+#ifdef __APPLE__
+const std::string filename = "../Resources/Lenna.png";
+#else
 const std::string filename = "media/Lenna.png";
+#endif
 
 glm::mat4 projection = glm::mat4(1);
 glm::mat4 modelView = glm::mat4(1);
