@@ -41,7 +41,6 @@ function(add_shaders output)
     set(${output} ${result} PARENT_SCOPE)
 endfunction()
 
-#add_definitions(-std=c++11)
-
 add_subdirectory(src/icebird)
-add_subdirectory(extlibs/SOIL)
+add_subdirectory(projects/glfw)
+add_subdirectory(projects/SOIL)

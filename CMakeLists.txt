@@ -25,24 +25,21 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
 include_directories(
     ${PROJECT_SOURCE_DIR}/icebird/include
     ${PROJECT_SOURCE_DIR}/icebird/extlibs/include
-    ${PROJECT_SOURCE_DIR}/glfw
 )
 
 if(APPLE)
-    include_directories( /System/Library/Frameworks )
+    include_directories(/System/Library/Frameworks)
     find_library(COCOA_LIBRARY Cocoa)
-    find_library(GLUT_LIBRARY GLUT )
     find_library(OpenGL_LIBRARY OpenGL )
     MARK_AS_ADVANCED (COCOA_LIBRARY
                       GLFW_LIBRARY
                       OpenGL_LIBRARY)
-    SET(EXTRA_LIBS ${COCOA_LIBRARY} ${GLUT_LIBRARY} ${OpenGL_LIBRARY})
+    SET(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY})
 endif()
 
 link_directories(
     ${PROJECT_BINARY_DIR}/application/libs
 )
 
-add_subdirectory(glfw)
 add_subdirectory(icebird)
 add_subdirectory(helloworld)
