@@ -3,7 +3,18 @@ file(GLOB hello_world_source_files
 )
 
 if(APPLE)
+    set(BUNDLE_NAME ${PROJECT_NAME}.app)
+    set(BUNDLE_PATH "${CMAKE_INSTALL_PREFIX}/${BUNDLE_NAME}")
+    set(BINDIR ${BUNDLE_NAME}/Contents/MacOS)
+    set(LIBDIR ${BINDIR})
+    set(RLIBDIR ${BUNDLE_NAME}/Contents/Frameworks)
+    set(SHAREDIR ${BUNDLE_NAME}/Contents/Resources)
+    set(PLUGINSDIR ${BUNDLE_NAME}/Contents/PlugIns)
+    set(IMPORTSDIR ${BINDIR})
     set(BUNDLE_BINARIES ${PROJECT_NAME})
+
+    add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${hello_world_source_files} ${COPY_RESOURCES})
+
     set_target_properties(${BUNDLE_BINARIES} PROPERTIES
                             MACOSX_BUNDLE_SHORT_VERSION_STRING ${GLFW_VERSION}
                             MACOSX_BUNDLE_LONG_VERSION_STRING ${GLFW_VERSION_FULL})
@@ -18,7 +29,6 @@ if(APPLE)
 
     set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "HelloWorld")
     set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "output")
-    add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${hello_world_source_files} ${COPY_RESOURCES})
 elseif(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${hello_world_source_files})
     add_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "output")
