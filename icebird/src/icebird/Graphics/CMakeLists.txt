@@ -43,19 +43,19 @@ message("SHADER " ${shaders})
 
 add_library(icebird-graphics STATIC ${icebird_graphics_source_files} ${shaders})
 
+if(APPLE)
+elseif(WIN32)
+else()
+set(DESKTOP_LIBS X11 Xxf86vm Xrandr Xi Xinerame Xcursor pthread)
+endif()
+
 target_link_libraries(icebird-graphics
 #    EGL
-#    X11
-#    Xxf86vm
-#    Xrandr
-#    Xi
-#    Xinerama
-#    Xcursor
-#    pthread
 #    glfw
 #    GLU
 #    GL
     SOIL
+    ${DESCTOP_LIBS}
     ${OPENGL_glu_LIBRARY}
     ${GLFW_LIBRARIES}
     ${EXTRA_LIBS}

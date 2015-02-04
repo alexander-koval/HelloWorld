@@ -1,6 +1,6 @@
 #include <icebird/Graphics/Triangle.hpp>
 #include <icebird/Graphics/Shaders.hpp>
-#include <icebird/Graphics/glm/gtc/type_ptr.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 Triangle::Triangle() {
     m_shader.loadFromMemory(positionColor_vert, Shader::VERTEX);

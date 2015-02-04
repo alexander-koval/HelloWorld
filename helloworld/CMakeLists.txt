@@ -32,10 +32,16 @@ if(APPLE)
 elseif(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${hello_world_source_files})
     add_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "output")
+
 else()
     set(BUNDLE_NAME ${PROJECT_NAME})
 #    set(BUNDLE_PATH ${CMAKE_INSTALL_PREFIX})
     add_executable(${PROJECT_NAME} ${hello_world_source_files})
+
+    add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                        ${CMAKE_CURRENT_SOURCE_DIR}/media Resources
+                        WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 endif()
 
 target_link_libraries(${PROJECT_NAME}

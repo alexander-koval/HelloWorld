@@ -3,9 +3,9 @@
 #include <cstdlib>
 #include <SOIL.h>
 #include <icebird/Graphics/Shader.hpp>
-#include <icebird/Graphics/glm/glm.hpp>
-#include <icebird/Graphics/glm/gtc/matrix_transform.hpp>
-#include <icebird/Graphics/glm/gtc/type_ptr.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <icebird/Graphics/shaders/shaders.hpp>
 #include <icebird/Graphics/GL/OpenGL.hpp>
 #include <icebird/Graphics/Triangle.hpp>
@@ -29,7 +29,7 @@ GLushort indices[6];
 #ifdef __APPLE__
 const std::string filename = "../Resources/Lenna.png";
 #else
-const std::string filename = "media/Lenna.png";
+const std::string filename = "Resources/Lenna.png";
 #endif
 
 glm::mat4 projection = glm::mat4(1);

@@ -41,6 +41,9 @@ function(add_shaders output)
     set(${output} ${result} PARENT_SCOPE)
 endfunction()
 
+set(GLFW_BUILD_EXAMPLES OFF)
+
 add_subdirectory(src/icebird)
+add_subdirectory(projects/glm)
 add_subdirectory(projects/glfw)
 add_subdirectory(projects/SOIL)

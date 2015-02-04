@@ -1,7 +1,7 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include <icebird/Graphics/glm/glm.hpp>
+#include <glm/glm.hpp>
 #include <icebird/Graphics/Shader.hpp>
 #include <icebird/Graphics/GL/OpenGL.hpp>
 
