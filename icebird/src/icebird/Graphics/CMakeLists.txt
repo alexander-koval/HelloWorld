@@ -44,6 +44,7 @@ message("SHADER " ${shaders})
 add_library(icebird-graphics STATIC ${icebird_graphics_source_files} ${shaders})
 
 if(APPLE)
+set(DESKTOP_LIBS Cocoa)
 elseif(WIN32)
 else()
 set(DESKTOP_LIBS X11 Xxf86vm Xrandr Xi Xinerame Xcursor pthread)
