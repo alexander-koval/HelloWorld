@@ -7,8 +7,8 @@ Triangle::Triangle() {
     m_shader.loadFromMemory(positionColor_frag, Shader::FRAGMENT);
     GL_CHECK(m_shader.createAndLinkProgram());
     GL_CHECK(m_shader.use());
-    m_shader.addParameter("a_vertex", Shader::ATTRIBUTE);
-    m_shader.addParameter("a_color", Shader::ATTRIBUTE);
+    m_shader.addParameter("VertexPosition", Shader::ATTRIBUTE);
+    m_shader.addParameter("VertexColor", Shader::ATTRIBUTE);
     m_shader.addParameter("MVP", Shader::UNIFORM);
     GL_CHECK(m_shader.unUse());
 
@@ -33,22 +33,25 @@ Triangle::Triangle() {
     GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, m_vboID[0]));
     GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices), &m_vertices[0], GL_STATIC_DRAW));
 
-    GL_CHECK(glEnableVertexAttribArray(m_shader.getParameter("a_vertex", Shader::ATTRIBUTE)));
-    GL_CHECK(glVertexAttribPointer(m_shader.getParameter("a_vertex", Shader::ATTRIBUTE), 3, GL_FLOAT, GL_FALSE, stride, 0));
+    GL_CHECK(glEnableVertexAttribArray(m_shader.getParameter("VertexPosition", Shader::ATTRIBUTE)));
+    GL_CHECK(glVertexAttribPointer(m_shader.getParameter("VertexPosition", Shader::ATTRIBUTE), 3, GL_FLOAT, GL_FALSE, stride, 0));
 
-    GL_CHECK(glEnableVertexAttribArray(m_shader.getParameter("a_color", Shader::ATTRIBUTE)));
-    GL_CHECK(glVertexAttribPointer(m_shader.getParameter("a_color", Shader::ATTRIBUTE), 3, GL_FLOAT, GL_FALSE, stride,
+    GL_CHECK(glEnableVertexAttribArray(m_shader.getParameter("VertexColor", Shader::ATTRIBUTE)));
+    GL_CHECK(glVertexAttribPointer(m_shader.getParameter("VertexColor", Shader::ATTRIBUTE), 3, GL_FLOAT, GL_FALSE, stride,
              (const GLvoid*)offsetof(Vertex, color)));
 
     GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vboID[1]));
     GL_CHECK(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_indices), &m_indices[0], GL_STATIC_DRAW));
 
+    GL_CHECK(glBindVertexArray(0));
 }
 
 void Triangle::render(glm::mat4 mvpView) {
     m_shader.use();
+    GL_CHECK(glBindVertexArray(m_vaoID));
     GL_CHECK(glUniformMatrix4fv(m_shader("MVP"), 1, GL_FALSE, glm::value_ptr(mvpView)));
     GL_CHECK(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0));
+    GL_CHECK(glBindVertexArray(0));
     m_shader.unUse();
 }
 
