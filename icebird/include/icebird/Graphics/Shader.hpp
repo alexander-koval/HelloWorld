@@ -2,57 +2,104 @@
 #define SHADER_H
 
 #include <icebird/Graphics/GL/OpenGL.hpp>
+#include <glm/matrix.hpp>
 #include <string>
 #include <map>
 
-class Shader
-{
+class Shader {
 public:
-    enum Type {
-        VERTEX,
-        GEOMETRY,
-        FRAGMENT
-    };
-
-    enum ParameterType {
-        ATTRIBUTE,
-        UNIFORM
-    };
-
     Shader(void);
 
     ~Shader(void);
 
-    void loadFromFile(const std::string& filename, Type type);
+    void loadFromFile(const std::string& filename, GLenum type);
 
-    void loadFromMemory(const std::string& shader, Type type);
+    void loadFromMemory(const std::string& shader, GLenum type);
 
-    void createAndLinkProgram(void);
+    void link(void);
 
     void use(void);
 
-    void unUse(void);
+    void unuse(void);
 
-    void addParameter(const std::string& parameter, ParameterType type);
+    template<typename Type>
+    void setParameter(const std::string& parameter);
 
-    void addAttribute(const std::string& attribute);
+    template<typename Type>
+    void setParameter(const std::string& parameter, float v1);
 
-    void addUniform(const std::string& uniform);
+    template<typename Type>
+    void setParameter(const std::string& parameter, float v1, float v2);
 
-    GLuint getParameter(const std::string& parameter, ParameterType type);
+    template<typename Type>
+    void setParameter(const std::string& parameter, float v1, float v2, float v3);
 
-    GLuint operator[] (const std::string& attribute);
+    template<typename Type>
+    void setParameter(const std::string& parameter, float v1, float v2, float v3, float v4);
 
-    GLuint operator() (const std::string& uniform);
+    template<typename Type>
+    void setParameter(const std::string& parameter, const glm::mat2& matrix);
 
-    void deleteShaderProgram(void);
+    template<typename Type>
+    void setParameter(const std::string& parameter, const glm::mat3& matrix);
+
+    template<typename Type>
+    void setParameter(const std::string& parameter, const glm::mat4& matrix);
+
+    template<typename ParameterType>
+    GLuint getParameterID(const std::string& parameter);
+
+    const GLuint getProgramID(void);
+
+    GLuint getUniformID(const std::string& uniform) const;
+
+    GLuint getAttributeID(const std::string& attribute) const;
+
+    void relese(void);
+
+    struct Attribute {
+        Attribute(Shader& shader, const char* name);
+
+        GLint attributeID;
+    };
+
+    struct Uniform {
+        Uniform(Shader& shader, const char* name);
+
+        void set(GLint value) const;
+
+        void set(GLfloat value) const;
+
+        void set(GLint value1, GLint value2) const;
+
+        void set(GLfloat value1, GLfloat value2) const;
+
+        void set(GLint value1, GLint value2, GLint value3) const;
+
+        void set(GLfloat value1, GLfloat value2, GLfloat value3) const;
+
+        void set(GLint value1, GLint value2, GLint value3, GLint value4) const;
+
+        void set(GLfloat value1, GLfloat value2, GLfloat value3, GLfloat value4) const;
+
+        void set(const GLfloat* values, int numValues) const;
+
+        void setMatrix2 (const GLfloat* values, GLint count, GLboolean transpose) const;
+
+        void setMatrix3 (const GLfloat* values, GLint count, GLboolean transpose) const;
+
+        void setMatrix4 (const GLfloat* values, GLint count, GLboolean transpose) const;
+
+        GLint uniformID;
+    };
 
 private:
-    GLuint m_program;
-    int m_totalShaders;
-    GLuint m_shaders[3];
-    std::map<std::string, GLuint> m_attributes;
-    std::map<std::string, GLuint> m_uniforms;
+    Uniform& getUniform(const std::string& parameter);
+    Attribute& getAttribute(const std::string& parameter);
+
+    GLuint m_programID;
+    std::map<std::string, Shader::Uniform> m_uniforms;
+    std::map<std::string, Shader::Attribute> m_attributes;
 };
 
 #endif // SHADER_H

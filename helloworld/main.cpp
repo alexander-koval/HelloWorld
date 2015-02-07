@@ -31,13 +31,6 @@ glm::mat4 modelView = glm::mat4(1);
 
 using namespace std;
 
-//template< typename T >
-//std::string toString(const T& value) {
-//    std::istringstream iss;
-//    iss << value;
-//    return iss.str();
-//}
-
 void init() {
     image = new Image();
     triangle = new Triangle();
@@ -69,7 +62,7 @@ int main() {
     }
     glfwMakeContextCurrent(window);
     glfwSetWindowSize(window, WIDTH, HEIGHT);
-    glfwSwapInterval(60);
+//    glfwSwapInterval(60);
 
     glewExperimental = GL_TRUE;
     GLenum err = GL_CHECK(glewInit());
