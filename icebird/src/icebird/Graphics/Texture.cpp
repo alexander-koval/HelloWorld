@@ -1,5 +1,6 @@
 #include <icebird/Graphics/Texture.hpp>
 #include <icebird/Graphics/GL/OpenGL.hpp>
+#include <icebird/Graphics/Image.hpp>
 #include <SOIL.h>
 
 Texture::Texture(void)
@@ -29,13 +30,20 @@ Texture::~Texture(void) {
 }
 
 bool Texture::loadFromFile(const std::string filename, const glm::vec2 &area) {
-    GLuint texture = SOIL_load_OGL_texture(
-                filename.c_str(),
-                SOIL_LOAD_AUTO,
-                SOIL_CREATE_NEW_ID,
-                SOIL_FLAG_MIPMAPS |
-                SOIL_FLAG_INVERT_Y |
-                SOIL_FLAG_NTSC_SAFE_RGB |
-                SOIL_FLAG_COMPRESS_TO_DXT);
+    Image image;
+    return image.loadFromFile(filename) && loadFromImage(image, area);
+}
 
+bool Texture::loadFromMemory(const void *data, std::size_t size, const glm::vec2 &area) {
+    Image image;
+    return image.loadFromMemory(data, size) && loadFromImage(image, area);
+}
+
+bool Texture::loadFromImage(const Image &image, const glm::vec2 &area) {
+    int width = static_cast<int>(image.getSize().x);
+    int height = static_cast<int>(image.getSize().y);
+
+    if ((area.x == 0) || (area.y == 0)) {
+
+    }
 }

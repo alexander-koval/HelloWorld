@@ -11,7 +11,6 @@
 #include <icebird/Graphics/Triangle.hpp>
 #include <icebird/Graphics/Image.hpp>
 #include <icebird/Graphics/Texture.hpp>
-#include <GL/glx.h>
 
 #define STRINGIFY(x) #x
 

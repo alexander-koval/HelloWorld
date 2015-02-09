@@ -4,6 +4,7 @@
 #include <string>
 #include <glm/vec2.hpp>
 
+class Image;
 class Texture {
 public:
     static void bind(const Texture& texture);
@@ -19,6 +20,8 @@ public:
     bool loadFromFile(const std::string filename, const glm::vec2& area = glm::vec2());
 
     bool loadFromMemory(const void* data, std::size_t size, const glm::vec2& area = glm::vec2());
+
+    bool loadFromImage(const Image& image, const glm::vec2& area);
 
     glm::vec2 getSize(void) const;
 
