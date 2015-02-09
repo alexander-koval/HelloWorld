@@ -127,8 +127,8 @@ void Image::flipX(void) {
        std::size_t rowSize = m_size.x * 4;
 
        for (std::size_t y = 0; y < m_size.y; ++y) {
-           std::vector<std::uint8_t>::iterator left = m_pixels.begin() + y * rowSize;
-           std::vector<std::uint8_t>::iterator right = m_pixels.begin() + (y + 1) * rowSize - 4;
+           std::vector<Uint8>::iterator left = m_pixels.begin() + y * rowSize;
+           std::vector<Uint8>::iterator right = m_pixels.begin() + (y + 1) * rowSize - 4;
 
            for (std::size_t x = 0; x < m_size.x / 2; ++x) {
                std::swap_ranges(left, left + 4, right);
@@ -143,8 +143,8 @@ void Image::flipX(void) {
 void Image::flipY(void) {
     if (!m_pixels.empty()) {
         std::size_t rowSize = m_size.x * 4;
-        std::vector<std::uint8_t>::iterator top = m_pixels.begin();
-        std::vector<std::uint8_t>::iterator bottom = m_pixels.end() - rowSize;
+        std::vector<Uint8>::iterator top = m_pixels.begin();
+        std::vector<Uint8>::iterator bottom = m_pixels.end() - rowSize;
 
         for (std::size_t y = 0; y < m_size.y / 2; ++y) {
             std::swap_ranges(top, top + rowSize, bottom);

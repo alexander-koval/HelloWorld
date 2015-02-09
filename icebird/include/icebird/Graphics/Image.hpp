@@ -6,6 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <icebird/Graphics/Shader.hpp>
 #include <icebird/Graphics/GL/OpenGL.hpp>
+#include <icebird/System/Types.hpp>
 
 class Image {
 public:
@@ -39,7 +40,7 @@ private:
     Shader m_shader;
 
     glm::vec2 m_size;
-    std::vector<std::uint8_t> m_pixels;
+    std::vector<Uint8> m_pixels;
 };
 
 #endif // IMAGE_HPP
