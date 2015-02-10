@@ -1,6 +1,7 @@
 #include <icebird/Graphics/Texture.hpp>
 #include <icebird/Graphics/GL/OpenGL.hpp>
 #include <icebird/Graphics/Image.hpp>
+#include <iostream>
 #include <SOIL.h>
 
 Texture::Texture(void)
@@ -25,8 +26,43 @@ Texture::Texture(const Texture &copy)
 
 Texture::~Texture(void) {
     if (m_texture) {
-        GL_CHECK(glDeleteTextures(1, &m_texture));
+        GLuint texture = static_cast<GLuint>(m_texture);
+        GL_CHECK(glDeleteTextures(1, &texture));
     }
+}
+
+bool Texture::create(Uint32 width, Uint32 height) {
+    if ((width == 0) || (height == 0)) {
+        std::cerr << "Failed to create texture, invalid size (" << width << "x" << height << ")" << std::endl;
+        return false;
+    }
+    glm::vec2 actual_size(getValidSize(width), getValidSize(height));
+    Uint32 max_size = getMaximumSize();
+    if ((actual_size.x > max_size) || actual_size.y > max_size) {
+        std::cerr << "Failed to create texture, its internal size is too high "
+                  << "(" /*<< actual_size.x << "x" < actual_size.y << */", "
+                  << "maximum size is " << max_size << "x" << max_size << ")"
+                  << std::endl;
+        return false;
+    }
+    m_size.x = width;
+    m_size.y = height;
+    m_actualSize = actual_size;
+
+    if (!m_texture) {
+        GLuint texture;
+        GL_CHECK(glGenTextures(1, &texture));
+        GL_CHECK(glActiveTexture(GL_TEXTURE0));
+        m_texture = texture;
+    }
+    GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_texture));
+    GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_actualSize.x, m_actualSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL));
+    GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_isRepeated ? GL_REPEAT : GL_CLAMP));
+    GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_isRepeated ? GL_REPEAT : GL_CLAMP));
+    GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
+    GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
+
+    return true;
 }
 
 bool Texture::loadFromFile(const std::string filename, const glm::vec2 &area) {
