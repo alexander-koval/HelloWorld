@@ -51,7 +51,7 @@ private:
 
     glm::vec2 m_size;
     glm::vec2 m_actualSize;
-    Uint32 m_texture;
+    Uint32 m_textureID;
     bool m_isSmooth;
     bool m_isRepeated;
 };

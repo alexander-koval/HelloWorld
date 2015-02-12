@@ -22,6 +22,8 @@ public:
 
     glm::vec2 getSize(void) const;
 
+    const Uint8* getPixels() const;
+
     void flipX(void);
 
     void flipY(void);

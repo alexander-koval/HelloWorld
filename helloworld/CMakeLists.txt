@@ -1,5 +1,7 @@
 file(GLOB hello_world_source_files
     "main.cpp"
+    "Picture.cpp"
+    "Picture.hpp"
 )
 
 if(APPLE)

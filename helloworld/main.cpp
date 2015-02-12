@@ -11,14 +11,16 @@
 #include <icebird/Graphics/Triangle.hpp>
 #include <icebird/Graphics/Image.hpp>
 #include <icebird/Graphics/Texture.hpp>
+#include "Picture.hpp"
 
 #define STRINGIFY(x) #x
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
 
+Picture* picture;
 Triangle* triangle;
-Image* image;
+//Image* image;
 
 #ifdef __APPLE__
 const std::string filename = "../Resources/Lenna.png";
@@ -32,7 +34,8 @@ glm::mat4 modelView = glm::mat4(1);
 using namespace std;
 
 void init() {
-    image = new Image();
+//    image = new Image();
+    picture = new Picture();
     triangle = new Triangle();
 }
 
@@ -40,7 +43,7 @@ void render() {
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(0.7, 0.7, 0.7, 0);
     glm::mat4 mvpView = projection * modelView;
-    image->render(mvpView);
+//    image->render(mvpView);
     triangle->render(mvpView);
 }
 
