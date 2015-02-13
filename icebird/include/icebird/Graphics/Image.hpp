@@ -41,6 +41,7 @@ private:
     GLushort m_indices[6];
     Shader m_shader;
 
+    Int32 m_channels;
     glm::vec2 m_size;
     std::vector<Uint8> m_pixels;
 };

@@ -85,7 +85,8 @@ bool Image::loadFromFile(const std::string& filename) {
     if (image_data && width && height) {
         m_size.x = width;
         m_size.y = height;
-        m_pixels.resize(width * height);
+        m_channels = channels;
+        m_pixels.resize(width * height * channels);
         memcpy(&m_pixels[0], image_data, m_pixels.size());
         SOIL_free_image_data(image_data);
         return true;

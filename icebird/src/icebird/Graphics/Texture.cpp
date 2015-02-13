@@ -63,8 +63,8 @@ bool Texture::create(Uint32 width, Uint32 height) {
     }
     GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
     GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_actualSize.x, m_actualSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL));
-    GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_isRepeated ? GL_REPEAT : GL_CLAMP));
-    GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_isRepeated ? GL_REPEAT : GL_CLAMP));
+    GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
+    GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
 
@@ -94,12 +94,16 @@ bool Texture::loadFromImage(const Image &image, const glm::vec2 &area) {
         }
     } else {
         if (create(area.x, area.y)) {
+            const Uint8* pixels = image.getPixels();
+            GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
+            for (int index = 0; index < area.y; ++index) {
+                GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, index, area.x, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixels));
+                pixels += width;
+            }
+            return true;
+        } else {
 
         }
-        std::cerr << "Failed to create texture, its internal size is too low "
-                  << "(" /*<< actual_size.x << "x" < actual_size.y << */", "
-                  << std::endl;
-        return false;
     }
 }
 
@@ -112,7 +116,8 @@ void Texture::update(const Uint8 *pixels, Uint32 width, Uint32 height, Uint32 x,
     assert(y + height <= m_size.y);
     if (pixels && m_textureID) {
         GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
-        GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels));
+//        GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels));
+        GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels));
     }
 }
 

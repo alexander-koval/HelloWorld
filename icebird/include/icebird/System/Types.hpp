@@ -1,17 +1,19 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
-typedef signed      char Int8;
-typedef unsigned    char Uint8;
+#include <stdint.h>
 
-typedef signed      short Int16;
-typedef unsigned    short Uint16;
+typedef int8_t      Int8;
+typedef uint8_t     Uint8;
 
-typedef signed      int Int32;
-typedef unsigned    int Uint32;
+typedef int16_t     Int16;
+typedef uint16_t    Uint16;
 
-typedef signed      long long Int64;
-typedef unsigned    long long Uint64;
+typedef int32_t     Int32;
+typedef uint32_t    Uint32;
+
+typedef int64_t     Int64;
+typedef uint64_t    Uint64;
 
 #endif // TYPES_HPP
 
