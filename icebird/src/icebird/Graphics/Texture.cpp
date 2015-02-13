@@ -93,6 +93,9 @@ bool Texture::loadFromImage(const Image &image, const glm::vec2 &area) {
             return false;
         }
     } else {
+        if (create(area.x, area.y)) {
+
+        }
         std::cerr << "Failed to create texture, its internal size is too low "
                   << "(" /*<< actual_size.x << "x" < actual_size.y << */", "
                   << std::endl;
