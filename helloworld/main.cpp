@@ -44,8 +44,8 @@ void render() {
     glClearColor(0.7, 0.7, 0.7, 0);
     glm::mat4 mvpView = projection * modelView;
 //    image->render(mvpView);
-    picture->render(mvpView);
     triangle->render(mvpView);
+    picture->render(mvpView);
 }
 
 int main() {

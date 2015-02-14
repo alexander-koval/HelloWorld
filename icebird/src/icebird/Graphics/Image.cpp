@@ -134,17 +134,17 @@ const Uint8* Image::getPixels() const {
 
 void Image::flipX(void) {
     if (!m_pixels.empty()) {
-       std::size_t rowSize = m_size.x * 4;
+       std::size_t rowSize = m_size.x * m_channels;
 
        for (std::size_t y = 0; y < m_size.y; ++y) {
            std::vector<Uint8>::iterator left = m_pixels.begin() + y * rowSize;
-           std::vector<Uint8>::iterator right = m_pixels.begin() + (y + 1) * rowSize - 4;
+           std::vector<Uint8>::iterator right = m_pixels.begin() + (y + 1) * rowSize - m_channels;
 
            for (std::size_t x = 0; x < m_size.x / 2; ++x) {
-               std::swap_ranges(left, left + 4, right);
+               std::swap_ranges(left, left + m_channels, right);
 
-               left += 4;
-               right -= 4;
+               left += m_channels;
+               right -= m_channels;
            }
        }
     }
@@ -152,7 +152,7 @@ void Image::flipX(void) {
 
 void Image::flipY(void) {
     if (!m_pixels.empty()) {
-        std::size_t rowSize = m_size.x * 4;
+        std::size_t rowSize = m_size.x * m_channels;
         std::vector<Uint8>::iterator top = m_pixels.begin();
         std::vector<Uint8>::iterator bottom = m_pixels.end() - rowSize;
 

@@ -47,7 +47,9 @@ public:
     Texture& operator =(const Texture& right);
 
 private:
-    static Uint32 getValidSize(unsigned int size);
+    static Int32 getValidSize(Int32 size);
+    static bool isPowerOfTwo(Int32 size);
+    static Int32 getPowerOfTwo(Int32 size);
 
     glm::vec2 m_size;
     glm::vec2 m_actualSize;

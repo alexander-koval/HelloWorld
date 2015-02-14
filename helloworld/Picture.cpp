@@ -9,7 +9,8 @@ const std::string filename = "Resources/Lenna.png";
 
 Picture::Picture() {
     m_image.loadFromFile(filename);
-    m_texture.loadFromImage(m_image, glm::vec2(0, 0/*1024, 768*/));
+    m_image.flipY();
+    m_texture.loadFromImage(m_image, glm::vec2(/*256, 512*/));
     m_shader.loadFromMemory(positionTexture_vert, GL_VERTEX_SHADER);
     m_shader.loadFromMemory(positionTexture_frag, GL_FRAGMENT_SHADER);
     GL_CHECK(m_shader.link());

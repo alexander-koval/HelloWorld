@@ -68,6 +68,7 @@ bool Texture::create(Uint32 width, Uint32 height) {
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
 
+    GL_CHECK(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
     return true;
 }
 
@@ -94,12 +95,17 @@ bool Texture::loadFromImage(const Image &image, const glm::vec2 &area) {
         }
     } else {
         if (create(area.x, area.y)) {
-            const Uint8* pixels = image.getPixels();
+            const Uint8* pixels = image.getPixels() /*+ 3 * (width * 0)*/;
             GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
-            for (int index = 0; index < area.y; ++index) {
-                GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, index, area.x, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixels));
-                pixels += width;
-            }
+//            for (int index = 0; index < area.y; ++index) {
+            GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                          width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL));
+            GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, area.x, area.y,
+                                     GL_RGB, GL_UNSIGNED_BYTE, pixels));
+
+//                GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, index, area.x, 1, GL_RGB, GL_UNSIGNED_BYTE, pixels));
+//                pixels += 3 * width;
+//            }
             return true;
         } else {
 
@@ -116,8 +122,7 @@ void Texture::update(const Uint8 *pixels, Uint32 width, Uint32 height, Uint32 x,
     assert(y + height <= m_size.y);
     if (pixels && m_textureID) {
         GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
-//        GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels));
-        GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels));
+        GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels));
     }
 }
 
@@ -159,6 +164,23 @@ bool Texture::isRepeated() const {
     return m_isRepeated;
 }
 
-Uint32 Texture::getValidSize(unsigned int size) {
-    return size;
+Int32 Texture::getValidSize(Int32 size) {
+    if (isPowerOfTwo(size)) {
+        return size;
+    }
+    return getPowerOfTwo(size);
+}
+
+bool Texture::isPowerOfTwo(Int32 size) {
+    return (size & (size - 1)) == 0;
+}
+
+Int32 Texture::getPowerOfTwo(Int32 size) {
+    --size;
+    size |= (size >> 1);
+    size |= (size >> 2);
+    size |= (size >> 4);
+    size |= (size >> 8);
+    size |= (size >> 16);
+    return size + 1;
 }
