@@ -7,3 +7,5 @@ set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
 add_subdirectory(Graphics)
 
 add_subdirectory(Window)
+
+add_subdirectory(System)
