@@ -37,7 +37,7 @@ Texture::~Texture(void) {
     }
 }
 
-bool Texture::create(Uint32 width, Uint32 height) {
+bool Texture::initialize(Uint32 width, Uint32 height) {
     if ((width == 0) || (height == 0)) {
         std::cerr << "Failed to create texture, invalid size (" << width << "x" << height << ")" << std::endl;
         return false;
@@ -87,14 +87,14 @@ bool Texture::loadFromImage(const Image &image, const glm::vec2 &area) {
     int height = static_cast<int>(image.getSize().y);
 
     if ((area.x == 0) || (area.y == 0)) {
-        if (create(image.getSize().x, image.getSize().y)) {
+        if (initialize(image.getSize().x, image.getSize().y)) {
             update(image);
             return true;
         } else {
             return false;
         }
     } else {
-        if (create(area.x, area.y)) {
+        if (initialize(area.x, area.y)) {
             const Uint8* pixels = image.getPixels() /*+ 3 * (width * 0)*/;
             GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
 //            for (int index = 0; index < area.y; ++index) {

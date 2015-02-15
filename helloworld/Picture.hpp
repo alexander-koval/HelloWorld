@@ -28,7 +28,6 @@ private:
     GLuint m_vboID[2];
     Vertex m_vertices[4];
     GLushort m_indices[6];
-
 };
 
 #endif // PICTURE_HPP

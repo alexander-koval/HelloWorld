@@ -12,6 +12,8 @@ file(GLOB icebird_graphics_source_files
     "${SRCROOT}/Image.cpp"
     "${INCROOT}/Texture.hpp"
     "${SRCROOT}/Texture.cpp"
+    "${INCROOT}/VBO.hpp"
+    "${SRCROOT}/VBO.cpp"
     "${INCROOT}/shaders/shaders.hpp"
     "${SRCROOT}/shaders/shaders.cpp"
     "${SRCROOT}/shaders/v330/positioncolor.frag"

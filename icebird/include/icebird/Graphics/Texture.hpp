@@ -18,7 +18,7 @@ public:
 
     ~Texture(void);
 
-    bool create(Uint32 width, Uint32 height);
+    bool initialize(Uint32 width, Uint32 height);
 
     bool loadFromFile(const std::string filename, const glm::vec2& area = glm::vec2());
 
