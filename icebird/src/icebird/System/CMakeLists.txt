@@ -3,7 +3,8 @@ set(SRCROOT ${PROJECT_SOURCE_DIR}/src/icebird/System)
 
 file(GLOB icebird_system_source_files
     ${INCROOT}/Math/Vector2.hpp
-    ${SRCROOT}/Math/Vector2.cpp
+    ${INCROOT}/Math/Vector2.inl
+#    ${SRCROOT}/Math/Vector2.cpp
     ${INCROOT}/Math/Mat4.hpp
     ${INCROOT}/Math/Mat4.inl
     ${SRCROOT}/Math/Mat4.cpp
