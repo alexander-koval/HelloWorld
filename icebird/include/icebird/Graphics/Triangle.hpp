@@ -4,13 +4,15 @@
 #include <glm/glm.hpp>
 #include <icebird/Graphics/Shader.hpp>
 #include <icebird/Graphics/GL/OpenGL.hpp>
+#include <icebird/System/Math/Mat4.hpp>
+
 
 class Triangle
 {
 public:
     Triangle();
 
-    void render(glm::mat4 mvpView);
+    void render(Mat4f mvpView);
 
     ~Triangle();
 

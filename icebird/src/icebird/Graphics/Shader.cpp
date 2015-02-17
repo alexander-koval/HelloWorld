@@ -204,9 +204,9 @@ void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const g
 }
 
 template<>
-void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const glm::mat4& matrix) {
+void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const Mat4f& matrix) {
     Uniform& uniform = getUniform(parameter);
-    uniform.setMatrix4(glm::value_ptr(matrix), 1, false);
+    uniform.setMatrix4(matrix.getMatrix(), 1, false);
 }
 
 template<>

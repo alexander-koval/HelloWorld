@@ -4,6 +4,7 @@
 #include <icebird/Graphics/Image.hpp>
 #include <icebird/Graphics/Shader.hpp>
 #include <icebird/Graphics/Texture.hpp>
+#include <icebird/System/Math/Mat4.hpp>
 #include <glm/matrix.hpp>
 
 class Picture
@@ -11,7 +12,7 @@ class Picture
 public:
     Picture();
 
-    void render(glm::mat4 mvpView);
+    void render(Mat4f mvpView);
 
     ~Picture();
 

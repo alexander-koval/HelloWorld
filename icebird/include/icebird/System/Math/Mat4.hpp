@@ -3,6 +3,7 @@
 
 #include <icebird/System/Math/Vector2.hpp>
 #include <cmath>
+#include <cstring>
 
 template <typename T>
 class Mat4 {
@@ -81,10 +82,10 @@ inline Mat4<T>::Mat4(T m00, T m01, T m02, T m03,
                      T m10, T m11, T m12, T m13,
                      T m20, T m21, T m22, T m23,
                      T m30, T m31, T m32, T m33) {
-    m_matrix[0] = m00;    m_matrix[1] = m01;    m_matrix[2] = m02;    m_matrix[3] = m03;
-    m_matrix[4] = m10;    m_matrix[5] = m11;    m_matrix[6] = m12;    m_matrix[7] = m13;
-    m_matrix[8] = m20;    m_matrix[9] = m21;    m_matrix[10] = m22;   m_matrix[11] = m23;
-    m_matrix[12] = m30;   m_matrix[13] = m31;   m_matrix[14] = m32;   m_matrix[15] = m33;
+    m_matrix[0]  = m00;  m_matrix[1]  = m10;  m_matrix[2]  = m20;  m_matrix[3]  = m30;
+    m_matrix[4]  = m01;  m_matrix[5]  = m11;  m_matrix[6]  = m21;  m_matrix[7]  = m31;
+    m_matrix[8]  = m02;  m_matrix[9]  = m12;  m_matrix[10] = m22;  m_matrix[11] = m32;
+    m_matrix[12] = m03;  m_matrix[13] = m13;  m_matrix[14] = m23;  m_matrix[15] = m33;
 }
 
 template <typename T>
@@ -94,7 +95,7 @@ inline Mat4<T>::Mat4(const T *mat) {
 
 template <typename T>
 inline Mat4<T>::Mat4(const Mat4<T> &copy) {
-    memcpy(m_matrix, copy.m_matrix, sizeof(m_matrix));
+    std::memcpy(m_matrix, copy.m_matrix, sizeof(m_matrix));
 }
 
 template <typename T>
@@ -107,15 +108,22 @@ inline Mat4<T>& Mat4<T>::multiply(const Mat4<T> &matrix) {
     const T* a = m_matrix;
     const T* b = matrix.m_matrix;
 
-    *this = Mat4<T>(a[0] * b[0]  + a[4] * b[1]  + a[12] * b[3],
-                    a[0] * b[4]  + a[4] * b[5]  + a[12] * b[7],
-                    a[0] * b[12] + a[4] * b[13] + a[12] * b[15],
-                    a[1] * b[0]  + a[5] * b[1]  + a[13] * b[3],
-                    a[1] * b[4]  + a[5] * b[5]  + a[13] * b[7],
-                    a[1] * b[12] + a[5] * b[13] + a[13] * b[15],
-                    a[3] * b[0]  + a[7] * b[1]  + a[15] * b[3],
-                    a[3] * b[4]  + a[7] * b[5]  + a[15] * b[7],
-                    a[3] * b[12] + a[7] * b[13] + a[15] * b[15]);
+    *this = Mat4<T>(a[0] * b[0]  + a[4] * b[1]  + a[8]  * b[2]  + a[12] * b[3],
+                    a[1] * b[0]  + a[5] * b[1]  + a[9]  * b[2]  + a[13] * b[3],
+                    a[2] * b[0]  + a[6] * b[1]  + a[10] * b[2]  + a[14] * b[3],
+                    a[3] * b[0]  + a[7] * b[1]  + a[11] * b[2]  + a[15] * b[3],
+                    a[0] * b[4]  + a[4] * b[5]  + a[8]  * b[6]  + a[12] * b[7],
+                    a[1] * b[4]  + a[5] * b[5]  + a[9]  * b[6]  + a[13] * b[7],
+                    a[2] * b[4]  + a[6] * b[5]  + a[10] * b[6]  + a[14] * b[7],
+                    a[3] * b[4]  + a[7] * b[5]  + a[11] * b[6]  + a[15] * b[7],
+                    a[0] * b[8]  + a[4] * b[9]  + a[8]  * b[10] + a[12] * b[11],
+                    a[1] * b[8]  + a[5] * b[9]  + a[9]  * b[10] + a[13] * b[11],
+                    a[2] * b[8]  + a[6] * b[9]  + a[10] * b[10] + a[14] * b[11],
+                    a[3] * b[8]  + a[7] * b[9]  + a[11] * b[10] + a[15] * b[11],
+                    a[0] * b[12] + a[4] * b[13] + a[8]  * b[14] + a[12] * b[15],
+                    a[1] * b[12] + a[5] * b[13] + a[9]  * b[14] + a[13] * b[15],
+                    a[2] * b[12] + a[6] * b[13] + a[10] * b[14] + a[14] * b[15],
+                    a[3] * b[12] + a[7] * b[13] + a[11] * b[14] + a[15] * b[15]);
     return *this;
 }
 
@@ -232,5 +240,26 @@ inline Mat4<T> Mat4<T>::getInverse(void) const {
     }
 }
 
+template <typename T>
+const T* Mat4<T>::getMatrix(void) const {
+    return &m_matrix[0];
+}
+
+template <typename T>
+Mat4<T> operator *(const Mat4<T>& left, const Mat4<T>& right) {
+    return Mat4<T>(left).multiply(right);
+}
+
+template <typename T>
+Vector2<T> operator*(const Mat4<T>& left, const Vector2<T>& right) {
+
+}
+
+template <typename T>
+Mat4<T>& operator *=(Mat4<T>& left, const Mat4<T>& right) {
+    return left.multiply(right);
+}
+
+typedef Mat4<float> Mat4f;
 
 #endif // MAT4_HPP

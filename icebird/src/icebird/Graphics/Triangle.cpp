@@ -46,7 +46,7 @@ Triangle::Triangle() {
     GL_CHECK(glBindVertexArray(0));
 }
 
-void Triangle::render(glm::mat4 mvpView) {
+void Triangle::render(Mat4f mvpView) {
     m_shader.use();
     GL_CHECK(glBindVertexArray(m_vaoID));
     m_shader.setParameter<Shader::Uniform>("MVP", mvpView);

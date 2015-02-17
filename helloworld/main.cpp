@@ -11,6 +11,7 @@
 #include <icebird/Graphics/Triangle.hpp>
 #include <icebird/Graphics/Image.hpp>
 #include <icebird/Graphics/Texture.hpp>
+#include <icebird/System/Math/Mat4.hpp>
 #include "Picture.hpp"
 
 #define STRINGIFY(x) #x
@@ -28,9 +29,9 @@ const std::string filename = "../Resources/Lenna.png";
 const std::string filename = "Resources/Lenna.png";
 #endif
 
-glm::mat4 projection = glm::mat4(1);
-glm::mat4 modelView = glm::mat4(1);
-
+Mat4f projection = Mat4f();
+Mat4f modelView = Mat4f();
+float rotation = 1.f;
 using namespace std;
 
 void init() {
@@ -42,7 +43,9 @@ void init() {
 void render() {
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(0.7, 0.7, 0.7, 0);
-    glm::mat4 mvpView = projection * modelView;
+    rotation += 0.1f;
+    modelView = modelView.rotate(rotation);
+    Mat4f mvpView = projection * modelView;
 //    image->render(mvpView);
     triangle->render(mvpView);
     picture->render(mvpView);

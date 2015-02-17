@@ -2,6 +2,7 @@
 #define SHADER_H
 
 #include <icebird/Graphics/GL/OpenGL.hpp>
+#include <icebird/System/Math/Mat4.hpp>
 #include <glm/matrix.hpp>
 #include <string>
 #include <map>
@@ -44,7 +45,7 @@ public:
     void setParameter(const std::string& parameter, const glm::mat3& matrix);
 
     template<typename Type>
-    void setParameter(const std::string& parameter, const glm::mat4& matrix);
+    void setParameter(const std::string& parameter, const Mat4f& matrix);
 
     template<typename ParameterType>
     GLuint getParameterID(const std::string& parameter);
