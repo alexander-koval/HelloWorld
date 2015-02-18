@@ -2,7 +2,7 @@
 #define SHADER_H
 
 #include <icebird/Graphics/GL/OpenGL.hpp>
-#include <icebird/System/Math/Mat4.hpp>
+#include <icebird/Graphics/Geometry/Mat4.hpp>
 #include <glm/matrix.hpp>
 #include <string>
 #include <map>

@@ -11,7 +11,7 @@
 #include <icebird/Graphics/Triangle.hpp>
 #include <icebird/Graphics/Image.hpp>
 #include <icebird/Graphics/Texture.hpp>
-#include <icebird/System/Math/Mat4.hpp>
+#include <icebird/Graphics/Geometry/Mat4.hpp>
 #include "Picture.hpp"
 
 #define STRINGIFY(x) #x
@@ -43,8 +43,8 @@ void init() {
 void render() {
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(0.7, 0.7, 0.7, 0);
-    rotation += 0.1f;
-    modelView = modelView.rotate(rotation);
+//    rotation += 0.1f;
+    modelView.rotate(rotation);
     Mat4f mvpView = projection * modelView;
 //    image->render(mvpView);
     triangle->render(mvpView);
@@ -69,7 +69,7 @@ int main() {
     }
     glfwMakeContextCurrent(window);
     glfwSetWindowSize(window, WIDTH, HEIGHT);
-//    glfwSwapInterval(60);
+//    glfwSwapInterval(1.f / 30.f);
 
     glewExperimental = GL_TRUE;
     GLenum err = GL_CHECK(glewInit());

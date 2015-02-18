@@ -1,7 +1,7 @@
 #ifndef MAT4_HPP
 #define MAT4_HPP
 
-#include <icebird/System/Math/Vector2.hpp>
+#include <icebird/Graphics/Geometry/Vector2.hpp>
 #include <cmath>
 #include <cstring>
 
@@ -108,38 +108,66 @@ inline Mat4<T>& Mat4<T>::multiply(const Mat4<T> &matrix) {
     const T* a = m_matrix;
     const T* b = matrix.m_matrix;
 
-    *this = Mat4<T>(a[0] * b[0]  + a[4] * b[1]  + a[8]  * b[2]  + a[12] * b[3],
-                    a[1] * b[0]  + a[5] * b[1]  + a[9]  * b[2]  + a[13] * b[3],
-                    a[2] * b[0]  + a[6] * b[1]  + a[10] * b[2]  + a[14] * b[3],
-                    a[3] * b[0]  + a[7] * b[1]  + a[11] * b[2]  + a[15] * b[3],
-                    a[0] * b[4]  + a[4] * b[5]  + a[8]  * b[6]  + a[12] * b[7],
-                    a[1] * b[4]  + a[5] * b[5]  + a[9]  * b[6]  + a[13] * b[7],
-                    a[2] * b[4]  + a[6] * b[5]  + a[10] * b[6]  + a[14] * b[7],
-                    a[3] * b[4]  + a[7] * b[5]  + a[11] * b[6]  + a[15] * b[7],
-                    a[0] * b[8]  + a[4] * b[9]  + a[8]  * b[10] + a[12] * b[11],
-                    a[1] * b[8]  + a[5] * b[9]  + a[9]  * b[10] + a[13] * b[11],
-                    a[2] * b[8]  + a[6] * b[9]  + a[10] * b[10] + a[14] * b[11],
-                    a[3] * b[8]  + a[7] * b[9]  + a[11] * b[10] + a[15] * b[11],
-                    a[0] * b[12] + a[4] * b[13] + a[8]  * b[14] + a[12] * b[15],
-                    a[1] * b[12] + a[5] * b[13] + a[9]  * b[14] + a[13] * b[15],
-                    a[2] * b[12] + a[6] * b[13] + a[10] * b[14] + a[14] * b[15],
-                    a[3] * b[12] + a[7] * b[13] + a[11] * b[14] + a[15] * b[15]);
+    T m111 = m_matrix[0]; T m121 = m_matrix[4]; T m131 = m_matrix[8]; T m141 = m_matrix[12];
+    T m112 = m_matrix[1]; T m122 = m_matrix[5]; T m132 = m_matrix[9]; T m142 = m_matrix[13];
+    T m113 = m_matrix[2]; T m123 = m_matrix[6]; T m133 = m_matrix[10]; T m143 = m_matrix[14];
+    T m114 = m_matrix[3]; T m124 = m_matrix[7]; T m134 = m_matrix[11]; T m144 = m_matrix[15];
+    T m211 = matrix.m_matrix[0]; T m221 = matrix.m_matrix[4]; T m231 = matrix.m_matrix[8]; T m241 = matrix.m_matrix[12];
+    T m212 = matrix.m_matrix[1]; T m222 = matrix.m_matrix[5]; T m232 = matrix.m_matrix[9]; T m242 = matrix.m_matrix[13];
+    T m213 = matrix.m_matrix[2]; T m223 = matrix.m_matrix[6]; T m233 = matrix.m_matrix[10]; T m243 = matrix.m_matrix[14];
+    T m214 = matrix.m_matrix[3]; T m224 = matrix.m_matrix[7]; T m234 = matrix.m_matrix[11]; T m244 = matrix.m_matrix[15];
+
+    m_matrix[0] = m111 * m211 + m112 * m221 + m113 * m231 + m114 * m241;
+    m_matrix[1] = m111 * m212 + m112 * m222 + m113 * m232 + m114 * m242;
+    m_matrix[2] = m111 * m213 + m112 * m223 + m113 * m233 + m114 * m243;
+    m_matrix[3] = m111 * m214 + m112 * m224 + m113 * m234 + m114 * m244;
+
+    m_matrix[4] = m121 * m211 + m122 * m221 + m123 * m231 + m124 * m241;
+    m_matrix[5] = m121 * m212 + m122 * m222 + m123 * m232 + m124 * m242;
+    m_matrix[6] = m121 * m213 + m122 * m223 + m123 * m233 + m124 * m243;
+    m_matrix[7] = m121 * m214 + m122 * m224 + m123 * m234 + m124 * m244;
+
+    m_matrix[8] = m131 * m211 + m132 * m221 + m133 * m231 + m134 * m241;
+    m_matrix[9] = m131 * m212 + m132 * m222 + m133 * m232 + m134 * m242;
+    m_matrix[10] = m131 * m213 + m132 * m223 + m133 * m233 + m134 * m243;
+    m_matrix[11] = m131 * m214 + m132 * m224 + m133 * m234 + m134 * m244;
+
+    m_matrix[12] = m141 * m211 + m142 * m221 + m143 * m231 + m144 * m241;
+    m_matrix[13] = m141 * m212 + m142 * m222 + m143 * m232 + m144 * m242;
+    m_matrix[14] = m141 * m213 + m142 * m223 + m143 * m233 + m144 * m243;
+    m_matrix[15] = m141 * m214 + m142 * m224 + m143 * m234 + m144 * m244;
+
     return *this;
 }
 
 template <typename T>
 inline Mat4<T>& Mat4<T>::inverse(void) {
     T det = determinant();
-    if (det != (T)0) {
-        *this = Mat4<T>( (m_matrix[15] * m_matrix[5] - m_matrix[7] * m_matrix[13]) / det,
-                        -(m_matrix[15] * m_matrix[4] - m_matrix[7] * m_matrix[12]) / det,
-                         (m_matrix[13] * m_matrix[4] - m_matrix[5] * m_matrix[12]) / det,
-                        -(m_matrix[15] * m_matrix[1] - m_matrix[3] * m_matrix[13]) / det,
-                         (m_matrix[15] * m_matrix[0] - m_matrix[3] * m_matrix[12]) / det,
-                        -(m_matrix[13] * m_matrix[0] - m_matrix[1] * m_matrix[12]) / det,
-                         (m_matrix[7]  * m_matrix[1] - m_matrix[3] * m_matrix[5])  / det,
-                        -(m_matrix[7]  * m_matrix[0] - m_matrix[3] * m_matrix[4])  / det,
-                         (m_matrix[5]  * m_matrix[0] - m_matrix[1] * m_matrix[4])  / det);
+    bool invertable = std::abs(det) > 0.00000000001;
+    if (invertable) {
+        det = 1 / det;
+
+        T m11 = m_matrix[0]; T m21 = m_matrix[4]; T m31 = m_matrix[8]; T m41 = m_matrix[12];
+        T m12 = m_matrix[1]; T m22 = m_matrix[5]; T m32 = m_matrix[9]; T m42 = m_matrix[13];
+        T m13 = m_matrix[2]; T m23 = m_matrix[6]; T m33 = m_matrix[10]; T m43 = m_matrix[14];
+        T m14 = m_matrix[3]; T m24 = m_matrix[7]; T m34 = m_matrix[11]; T m44 = m_matrix[15];
+
+        m_matrix[0] = det * (m22 * (m33 * m44 - m43 * m34) - m32 * (m23 * m44 - m43 * m24) + m42 * (m23 * m34 - m33 * m24));
+        m_matrix[1] = -det * (m12 * (m33 * m44 - m43 * m34) - m32 * (m13 * m44 - m43 * m14) + m42 * (m13 * m34 - m33 * m14));
+        m_matrix[2] = det * (m12 * (m23 * m44 - m43 * m24) - m22 * (m13 * m44 - m43 * m14) + m42 * (m13 * m24 - m23 * m14));
+        m_matrix[3] = -det * (m12 * (m23 * m34 - m33 * m24) - m22 * (m13 * m34 - m33 * m14) + m32 * (m13 * m24 - m23 * m14));
+        m_matrix[4] = -det * (m21 * (m33 * m44 - m43 * m34) - m31 * (m23 * m44 - m43 * m24) + m41 * (m23 * m34 - m33 * m24));
+        m_matrix[5] = det * (m11 * (m33 * m44 - m43 * m34) - m31 * (m13 * m44 - m43 * m14) + m41 * (m13 * m34 - m33 * m14));
+        m_matrix[6] = -det * (m11 * (m23 * m44 - m43 * m24) - m21 * (m13 * m44 - m43 * m14) + m41 * (m13 * m24 - m23 * m14));
+        m_matrix[7] = det * (m11 * (m23 * m34 - m33 * m24) - m21 * (m13 * m34 - m33 * m14) + m31 * (m13 * m24 - m23 * m14));
+        m_matrix[8] = det * (m21 * (m32 * m44 - m42 * m34) - m31 * (m22 * m44 - m42 * m24) + m41 * (m22 * m34 - m32 * m24));
+        m_matrix[9] = -det * (m11 * (m32 * m44 - m42 * m34) - m31 * (m12 * m44 - m42 * m14) + m41 * (m12 * m34 - m32 * m14));
+        m_matrix[10] = det * (m11 * (m22 * m44 - m42 * m24) - m21 * (m12 * m44 - m42 * m14) + m41 * (m12 * m24 - m22 * m14));
+        m_matrix[11] = -det * (m11 * (m22 * m34 - m32 * m24) - m21 * (m12 * m34 - m32 * m14) + m31 * (m12 * m24 - m22 * m14));
+        m_matrix[12] = -det * (m21 * (m32 * m43 - m42 * m33) - m31 * (m22 * m43 - m42 * m23) + m41 * (m22 * m33 - m32 * m23));
+        m_matrix[13] = det * (m11 * (m32 * m43 - m42 * m33) - m31 * (m12 * m43 - m42 * m13) + m41 * (m12 * m33 - m32 * m13));
+        m_matrix[14] = -det * (m11 * (m22 * m43 - m42 * m23) - m21 * (m12 * m43 - m42 * m13) + m41 * (m12 * m23 - m22 * m13));
+        m_matrix[15] = det * (m11 * (m22 * m33 - m32 * m23) - m21 * (m12 * m33 - m32 * m13) + m31 * (m12 * m23 - m22 * m13));
     }
     return *this;
 }

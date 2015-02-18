@@ -1,4 +1,4 @@
-#include <icebird/System/Math/Vector2.hpp>
+#include <icebird/Graphics/Geometry/Vector2.hpp>
 
 template <typename T>
 inline Vector2<T>::Vector2()

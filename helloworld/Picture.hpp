@@ -4,7 +4,7 @@
 #include <icebird/Graphics/Image.hpp>
 #include <icebird/Graphics/Shader.hpp>
 #include <icebird/Graphics/Texture.hpp>
-#include <icebird/System/Math/Mat4.hpp>
+#include <icebird/Graphics/Geometry/Mat4.hpp>
 #include <glm/matrix.hpp>
 
 class Picture
