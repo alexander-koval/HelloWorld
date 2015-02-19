@@ -32,6 +32,7 @@ const std::string filename = "Resources/Lenna.png";
 Mat4f projection = Mat4f();
 Mat4f modelView = Mat4f();
 float rotation = 1.f;
+float translation = .005f;
 using namespace std;
 
 void init() {
@@ -44,7 +45,9 @@ void render() {
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(0.7, 0.7, 0.7, 0);
 //    rotation += 0.1f;
+//    translation += 0.01f;
     modelView.rotate(rotation);
+    modelView.translate(translation, translation);
     Mat4f mvpView = projection * modelView;
 //    image->render(mvpView);
     triangle->render(mvpView);

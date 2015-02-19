@@ -9,7 +9,8 @@ template <typename T>
 class Mat4 {
 public:
     static const Mat4<T> IDENTITY;
-    Mat4();
+
+    Mat4(void);
 
     Mat4(T m00, T m01, T m02, T m03,
          T m10, T m11, T m12, T m13,
@@ -64,7 +65,7 @@ template <typename T>
 Mat4<T> operator *(const Mat4<T>& left, const Mat4<T>& right);
 
 template <typename T>
-Vector2<T> operator*(const Mat4<T>& left, const Vector2<T>& right);
+Vector2<T> operator *(const Mat4<T>& left, const Vector2<T>& right);
 
 template <typename T>
 Mat4<T>& operator *=(Mat4<T>& left, const Mat4<T>& right);
@@ -179,11 +180,9 @@ inline Mat4<T>& Mat4<T>::negate(void) {
 
 template <typename T>
 inline Mat4<T>& Mat4<T>::translate(T x, T y) {
-    Mat4<T> translation(1, 0, x, 0,
-                        0, 1, y, 0,
-                        0, 0, 1, 0,
-                        0, 0, 0, 1);
-    return multiply(translation);
+    m_matrix[12] += x;
+    m_matrix[13] += y;
+    return *this;
 }
 
 template <typename T>
@@ -193,7 +192,7 @@ inline Mat4<T>& Mat4<T>::translate(const Vector2<T> &offset) {
 
 template <typename T>
 inline Mat4<T>& Mat4<T>::rotate(T angle) {
-    float radian = angle * 3.14592654f / 180.f;
+    float radian = angle * M_PI / 180.f;
     float cos = std::cos(radian);
     float sin = std::sin(radian);
 
@@ -206,7 +205,7 @@ inline Mat4<T>& Mat4<T>::rotate(T angle) {
 
 template <typename T>
 inline Mat4<T>& Mat4<T>::rotate(T angle, T centerX, T centerY) {
-    float rad = angle * 3.141592654f / 180.f;
+    float rad = angle * M_PI / 180.f;
     float cos = std::cos(rad);
     float sin = std::sin(rad);
 

@@ -14,6 +14,8 @@ file(GLOB icebird_graphics_source_files
     "${SRCROOT}/Texture.cpp"
     "${INCROOT}/Geometry/Mat4.hpp"
     "${INCROOT}/Geometry/Mat4.inl"
+    "${INCROOT}/Geometry/Mat3.hpp"
+    "${INCROOT}/Geometry/Mat3.inl"
     "${INCROOT}/Geometry/Vector2.hpp"
     "${INCROOT}/Geometry/Vector2.inl"
     "${INCROOT}/VBO.hpp"
