@@ -5,6 +5,7 @@
 #include <icebird/Graphics/Shader.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/type_ptr.hpp>
 //#include <icebird/Graphics/shaders/shaders.hpp>
 #include <icebird/Graphics/GL/OpenGL.hpp>

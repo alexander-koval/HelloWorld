@@ -49,7 +49,7 @@ else()
 endif()
 
 target_link_libraries(${PROJECT_NAME}
-    icebird-system
+#    icebird-system
     icebird-graphics
     GLEW
     glfw3
