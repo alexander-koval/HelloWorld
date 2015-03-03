@@ -1,32 +1,21 @@
-#ifndef IMAGE_HPP
-#define IMAGE_HPP
+#ifndef PICTURE_HPP
+#define PICTURE_HPP
 
-#include <vector>
-#include <glm/vec2.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <icebird/Graphics/Image.hpp>
+#include <icebird/Graphics/ImageData.hpp>
 #include <icebird/Graphics/Shader.hpp>
-#include <icebird/Graphics/GL/OpenGL.hpp>
-#include <icebird/System/Types.hpp>
+#include <icebird/Graphics/Texture.hpp>
+#include <icebird/Graphics/Geometry/Mat4.hpp>
+#include <glm/matrix.hpp>
 
-class Image {
+class Image
+{
 public:
-    Image(void);
+    Image();
 
-    void render(glm::mat4 mvpView);
+    void render(Mat4f mvpView);
 
-    ~Image(void);
-
-    bool loadFromFile(const std::string& filename);
-
-    bool loadFromMemory(const void* data, std::size_t size);
-
-    glm::vec2 getSize(void) const;
-
-    const Uint8* getPixels() const;
-
-    void flipX(void);
-
-    void flipY(void);
+    ~Image();
 
 private:
     struct Vertex {
@@ -34,16 +23,13 @@ private:
 
     };
 
+    ImageData m_image;
+    Shader m_shader;
+    Texture m_texture;
     GLuint m_vaoID;
     GLuint m_vboID[2];
-    GLuint m_textureID;
     Vertex m_vertices[4];
     GLushort m_indices[6];
-    Shader m_shader;
-
-    Int32 m_channels;
-    glm::vec2 m_size;
-    std::vector<Uint8> m_pixels;
 };
 
-#endif // IMAGE_HPP
+#endif // PICTURE_HPP

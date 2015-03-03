@@ -25,7 +25,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
 include_directories(
     ${PROJECT_SOURCE_DIR}/icebird/include
     ${PROJECT_SOURCE_DIR}/icebird/extlibs/include
-    ${PROJECT_SOURCE_DIR}/icebird/projects/glm
+    ${PROJECT_SOURCE_DIR}/icebird/modules/glm
 )
 
 if(APPLE)

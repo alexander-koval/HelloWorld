@@ -1,9 +1,9 @@
-[submodule "icebird/projects/SOIL"]
-	path = icebird/projects/SOIL
+[submodule "icebird/modules/SOIL"]
+	path = icebird/modules/SOIL
 	url = https://github.com/kbranigan/Simple-OpenGL-Image-Library.git
-[submodule "icebird/projects/glfw"]
-	path = icebird/projects/glfw
+[submodule "icebird/modules/glfw"]
+	path = icebird/modules/glfw
 	url = https://github.com/glfw/glfw.git
-[submodule "icebird/projects/glm"]
-	path = icebird/projects/glm
+[submodule "icebird/modules/glm"]
+	path = icebird/modules/glm
 	url = https://github.com/g-truc/glm.git

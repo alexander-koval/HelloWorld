@@ -73,16 +73,16 @@ bool Texture::initialize(Uint32 width, Uint32 height) {
 }
 
 bool Texture::loadFromFile(const std::string filename, const glm::vec2 &area) {
-    Image image;
+    ImageData image;
     return image.loadFromFile(filename) && loadFromImage(image, area);
 }
 
 bool Texture::loadFromMemory(const void *data, std::size_t size, const glm::vec2 &area) {
-    Image image;
+    ImageData image;
     return image.loadFromMemory(data, size) && loadFromImage(image, area);
 }
 
-bool Texture::loadFromImage(const Image &image, const glm::vec2 &area) {
+bool Texture::loadFromImage(const ImageData &image, const glm::vec2 &area) {
     int width = static_cast<int>(image.getSize().x);
     int height = static_cast<int>(image.getSize().y);
 
@@ -126,11 +126,11 @@ void Texture::update(const Uint8 *pixels, Uint32 width, Uint32 height, Uint32 x,
     }
 }
 
-void Texture::update(const Image &image) {
+void Texture::update(const ImageData &image) {
     update(image.getPixels(), image.getSize().x, image.getSize().y, 0, 0);
 }
 
-void Texture::update(const Image &image, Uint32 x, Uint32 y) {
+void Texture::update(const ImageData &image, Uint32 x, Uint32 y) {
     update(image.getPixels(), image.getSize().x, image.getSize().y, x, y);
 }
 

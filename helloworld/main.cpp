@@ -13,14 +13,14 @@
 #include <icebird/Graphics/Image.hpp>
 #include <icebird/Graphics/Texture.hpp>
 #include <icebird/Graphics/Geometry/Mat4.hpp>
-#include "Picture.hpp"
+#include <icebird/Graphics/Image.hpp>
 
 #define STRINGIFY(x) #x
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
 
-Picture* picture;
+Image* picture;
 Triangle* triangle;
 //Image* image;
 
@@ -38,7 +38,7 @@ using namespace std;
 
 void init() {
 //    image = new Image();
-    picture = new Picture();
+    picture = new Image();
     triangle = new Triangle();
 }
 

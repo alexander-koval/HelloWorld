@@ -5,7 +5,7 @@
 #include <glm/vec2.hpp>
 #include <icebird/System/Types.hpp>
 
-class Image;
+class ImageData;
 class Texture {
 public:
     static void bind(const Texture& texture);
@@ -24,15 +24,15 @@ public:
 
     bool loadFromMemory(const void* data, std::size_t size, const glm::vec2& area = glm::vec2());
 
-    bool loadFromImage(const Image& image, const glm::vec2& area);
+    bool loadFromImage(const ImageData& image, const glm::vec2& area);
 
     void update(const Uint8* pixels);
 
     void update(const Uint8* pixels, Uint32 width, Uint32 height, Uint32 x, Uint32 y);
 
-    void update(const Image& image);
+    void update(const ImageData& image);
 
-    void update(const Image& image, Uint32 x, Uint32 y);
+    void update(const ImageData& image, Uint32 x, Uint32 y);
 
     glm::vec2 getSize(void) const;
 
