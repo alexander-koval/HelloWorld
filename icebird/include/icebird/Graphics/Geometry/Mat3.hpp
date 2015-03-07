@@ -78,8 +78,8 @@ inline Mat3<T>::Mat3(void) {
 
 template <typename T>
 inline Mat3<T>::Mat3(T m00, T m01, T m02,
-              T m10, T m11, T m12,
-              T m20, T m21, T m22) {
+                     T m10, T m11, T m12,
+                     T m20, T m21, T m22) {
     m_matrix[0] = m00; m_matrix[1] = m10; m_matrix[2] = m20;
     m_matrix[3] = m01; m_matrix[4] = m11; m_matrix[5] = m21;
     m_matrix[6] = m02; m_matrix[7] = m12; m_matrix[8] = m22;

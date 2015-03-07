@@ -5,6 +5,7 @@
 #include <icebird/Graphics/Shader.hpp>
 #include <icebird/Graphics/GL/OpenGL.hpp>
 #include <icebird/Graphics/Geometry/Mat4.hpp>
+#include <icebird/Graphics/Vertex.hpp>
 
 
 class Triangle
@@ -17,16 +18,13 @@ public:
     ~Triangle();
 
 private:
-    struct Vertex {
-        glm::vec3 position;
-        glm::vec3 color;
-    };
-
     GLuint m_vaoID;
     GLuint m_vboID[2];
-    Vertex m_vertices[3];
     GLushort m_indices[3];
     Shader m_shader;
+    Vertex2<Vector2F, ColorF> m_vertices[3];
+
+    typedef Vertex2<Vector2F, ColorF> Vertex;
 };
 
 #endif // TRIANGLE_H

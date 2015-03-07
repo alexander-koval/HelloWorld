@@ -44,7 +44,7 @@ void init() {
 
 void render() {
     glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(0.7, 0.7, 0.7, 0);
+    glClearColor(0.7, 0.7, 0.7, 0.0);
 //    rotation += 0.1f;
 //    translation += 0.01f;
     modelView.rotate(rotation);

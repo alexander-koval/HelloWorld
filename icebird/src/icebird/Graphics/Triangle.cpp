@@ -1,5 +1,6 @@
 #include <icebird/Graphics/Triangle.hpp>
 #include <icebird/Graphics/Shaders.hpp>
+#include <icebird/Graphics/Geometry/Vector2.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 Triangle::Triangle() {
@@ -12,13 +13,13 @@ Triangle::Triangle() {
     m_shader.setParameter<Shader::Attribute>("VertexColor");
     GL_CHECK(m_shader.unuse());
 
-    m_vertices[0].color = glm::vec3(1, 0, 0);
-    m_vertices[1].color = glm::vec3(0, 1, 0);
-    m_vertices[2].color = glm::vec3(0, 0, 1);
+    m_vertices[0].value1 = Vector2F(-1.f, -1.f);
+    m_vertices[1].value1 = Vector2F( 0.f,  1.f);
+    m_vertices[2].value1 = Vector2F( 1.f, -1.f);
 
-    m_vertices[0].position = glm::vec3(-1, -1, 0);
-    m_vertices[1].position = glm::vec3( 0,  1, 0);
-    m_vertices[2].position = glm::vec3( 1, -1, 0);
+    m_vertices[0].value2 = ColorF::Red;
+    m_vertices[1].value2 = ColorF::Green;
+    m_vertices[2].value2 = ColorF::Blue;
 
     m_indices[0] = 0;
     m_indices[1] = 1;
@@ -28,6 +29,7 @@ Triangle::Triangle() {
     GL_CHECK(glGenBuffers(1, &m_vboID[0]));
     GL_CHECK(glGenBuffers(1, &m_vboID[1]));
     GLsizei stride = sizeof(Vertex);
+    long unsigned int offset = offsetof(Vertex, value2);
 
     GL_CHECK(glBindVertexArray(m_vaoID));
     GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, m_vboID[0]));
@@ -38,7 +40,7 @@ Triangle::Triangle() {
 
     GL_CHECK(glEnableVertexAttribArray(m_shader.getParameterID<Shader::Attribute>("VertexColor")));
     GL_CHECK(glVertexAttribPointer(m_shader.getParameterID<Shader::Attribute>("VertexColor"), 3, GL_FLOAT, GL_FALSE, stride,
-             (const GLvoid*)offsetof(Vertex, color)));
+             (const GLvoid*)offset));
 
     GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vboID[1]));
     GL_CHECK(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_indices), &m_indices[0], GL_STATIC_DRAW));

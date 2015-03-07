@@ -53,9 +53,9 @@ bool operator !=(const Vector2<T>& left, const Vector2<T>& right);
 
 #include <icebird/Graphics/Geometry/Vector2.inl>
 
-typedef Vector2<int>            Vector2i;
-typedef Vector2<unsigned int>   Vector2u;
-typedef Vector2<float>          Vector2f;
+typedef Vector2<int>            Vector2I;
+typedef Vector2<unsigned int>   Vector2U;
+typedef Vector2<float>          Vector2F;
 
 #endif // VECTOR2_HPP
 
