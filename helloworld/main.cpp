@@ -7,7 +7,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/type_ptr.hpp>
-//#include <icebird/Graphics/shaders/shaders.hpp>
 #include <icebird/Graphics/GL/OpenGL.hpp>
 #include <icebird/Graphics/Triangle.hpp>
 #include <icebird/Graphics/Image.hpp>
@@ -47,8 +46,8 @@ void render() {
     glClearColor(0.7, 0.7, 0.7, 0.0);
 //    rotation += 0.1f;
 //    translation += 0.01f;
-    modelView.rotate(rotation);
-    modelView.translate(translation, translation);
+//    modelView.rotate(rotation);
+//    modelView.translate(transla tion, translation);
     Mat4f mvpView = projection * modelView;
 //    image->render(mvpView);
     triangle->render(mvpView);
@@ -73,24 +72,31 @@ int main() {
     }
     glfwMakeContextCurrent(window);
     glfwSetWindowSize(window, WIDTH, HEIGHT);
-//    glfwSwapInterval(1.f / 30.f);
 
-    glewExperimental = GL_TRUE;
-    GLenum err = GL_CHECK(glewInit());
-    if (GLEW_OK != err) {
-        std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
-    } else {
-        std::cout << "\tUsing glew " << glewGetString(GLEW_VERSION) << std::endl;
+    if (gladLoadGL()) {
         std::cout << "\tVendor: " << glGetString (GL_VENDOR) << std::endl;
         std::cout << "\tRenderer: " << glGetString (GL_RENDERER) << std::endl;
         std::cout << "\tVersion: " << glGetString (GL_VERSION) << std::endl;
         std::cout << "\tGLSL: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
-        std::cout << "\tGLX_EXT_swap_control_tear " << glfwExtensionSupported("GLX_EXT_swap_control_tear") << std::endl;
     }
+//    glfwSwapInterval(1.f / 30.f);
+
+//    glewExperimental = GL_TRUE;
+//    GLenum err = GL_CHECK(glewInit());
+//    if (GLEW_OK != err) {
+//        std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
+//    } else {
+//        std::cout << "\tUsing glew " << glewGetString(GLEW_VERSION) << std::endl;
+//        std::cout << "\tVendor: " << glGetString (GL_VENDOR) << std::endl;
+//        std::cout << "\tRenderer: " << glGetString (GL_RENDERER) << std::endl;
+//        std::cout << "\tVersion: " << glGetString (GL_VERSION) << std::endl;
+//        std::cout << "\tGLSL: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+//        std::cout << "\tGLX_EXT_swap_control_tear " << glfwExtensionSupported("GLX_EXT_swap_control_tear") << std::endl;
+//    }
 
     init();
 
-    while (!glfwWindowShouldClose(window)) { 
+     while (!glfwWindowShouldClose(window)) {
         render();
         glfwPollEvents();
         glfwSwapBuffers(window);

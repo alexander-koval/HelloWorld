@@ -6,6 +6,8 @@ file(GLOB icebird_graphics_source_files
     "${SRCROOT}/Shader.cpp"
     "${INCROOT}/GL/OpenGL.hpp"
     "${SRCROOT}/GL/OpenGL.cpp"
+    "${INCROOT}/GL/glad.h"
+    "${SRCROOT}/GL/glad.c"
     "${INCROOT}/Triangle.hpp"
     "${SRCROOT}/Triangle.cpp"
     "${INCROOT}/ImageData.hpp"
@@ -42,7 +44,7 @@ source_group("" FILES ${icebird_graphics_source_files})
 # find external libraries
 if(NOT SFML_OPENGL_ES)
     find_package(OpenGL REQUIRED)
-    find_package(GLEW REQUIRED)
+#    find_package(GLEW REQUIRED)
     if(SFML_OS_LINUX)
         find_package(X11 REQUIRED)
     endif()
@@ -67,7 +69,7 @@ if(APPLE)
 set(DESKTOP_LIBS Cocoa)
 elseif(WIN32)
 else()
-set(DESKTOP_LIBS X11 Xxf86vm Xrandr Xi Xinerame Xcursor pthread)
+set(DESKTOP_LIBS X11 Xxf86vm Xrandr Xi Xinerama Xcursor pthread dl)
 endif()
 
 target_link_libraries(icebird-graphics
@@ -76,7 +78,7 @@ target_link_libraries(icebird-graphics
 #    GLU
 #    GL
     SOIL
-    ${DESCTOP_LIBS}
+    ${DESKTOP_LIBS}
     ${OPENGL_glu_LIBRARY}
     ${GLFW_LIBRARIES}
     ${EXTRA_LIBS}
