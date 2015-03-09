@@ -23,8 +23,8 @@ inline Vector2<T>::Vector2(const Vector2<U>& vector)
 }
 
 template <typename T>
-inline Vector2<T> operator -(const Vector2<T>& right) {
-    return Vector2<T>(-right.x, -right.y);
+inline Vector2<T> operator -(const Vector2<T>& left) {
+    return Vector2<T>(-left.x, -left.y);
 }
 
 template <typename T>
@@ -87,5 +87,5 @@ inline bool operator ==(const Vector2<T>& left, const Vector2<T>& right) {
 
 template <typename T>
 inline bool operator !=(const Vector2<T>& left, const Vector2<T>& right) {
-    return (left.x != right.x) && (left.y != right.y);
+    return (left.x != right.x) || (left.y != right.y);
 }

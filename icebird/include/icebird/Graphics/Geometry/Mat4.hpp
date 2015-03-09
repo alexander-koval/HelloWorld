@@ -1,7 +1,7 @@
 #ifndef MAT4_HPP
 #define MAT4_HPP
 
-#include <icebird/Graphics/Geometry/Vector2.hpp>
+#include <icebird/Graphics/Geometry/Vector3.hpp>
 #include <cmath>
 #include <cstring>
 
@@ -29,23 +29,23 @@ public:
 
     Mat4& negate(void);
 
-    Mat4& translate(T x, T y);
+    Mat4& translate(T x, T y, T z);
 
-    Mat4& translate(const Vector2<T>& offset);
+    Mat4& translate(const Vector3<T>& offset);
 
     Mat4& rotate(T angle);
 
     Mat4& rotate(T angle, T centerX, T centerY);
 
-    Mat4& rotate(T angle, const Vector2<T>& center);
+    Mat4& rotate(T angle, const Vector3<T>& center);
 
-    Mat4& scale(T scaleX, T scaleY);
+    Mat4& scale(T scaleX, T scaleY, T scaleZ);
 
-    Mat4& scale(T scaleX, T scaleY, T centerX, T centerY);
+    Mat4& scale(T scaleX, T scaleY, T scaleZ, T centerX, T centerY, T centerZ);
 
-    Mat4& scale(const Vector2<T>& factors);
+    Mat4& scale(const Vector3<T>& factors);
 
-    Mat4& scale(const Vector2<T>& factors, const Vector2<T>& center);
+    Mat4& scale(const Vector3<T>& factors, const Vector3<T>& center);
 
     T determinant(void) const;
 
@@ -65,7 +65,7 @@ template <typename T>
 Mat4<T> operator *(const Mat4<T>& left, const Mat4<T>& right);
 
 template <typename T>
-Vector2<T> operator *(const Mat4<T>& left, const Vector2<T>& right);
+Vector3<T> operator *(const Mat4<T>& left, const Vector3<T>& right);
 
 template <typename T>
 Mat4<T>& operator *=(Mat4<T>& left, const Mat4<T>& right);
@@ -179,15 +179,16 @@ inline Mat4<T>& Mat4<T>::negate(void) {
 }
 
 template <typename T>
-inline Mat4<T>& Mat4<T>::translate(T x, T y) {
+inline Mat4<T>& Mat4<T>::translate(T x, T y, T z) {
     m_matrix[12] += x;
     m_matrix[13] += y;
+    m_matrix[14] += z;
     return *this;
 }
 
 template <typename T>
-inline Mat4<T>& Mat4<T>::translate(const Vector2<T> &offset) {
-    return translate(offset.x, offset.y);
+inline Mat4<T>& Mat4<T>::translate(const Vector3<T> &offset) {
+    return translate(offset.x, offset.y, offset.z);
 }
 
 template <typename T>
@@ -210,34 +211,34 @@ inline Mat4<T>& Mat4<T>::rotate(T angle, T centerX, T centerY) {
     float sin = std::sin(rad);
 
     Mat4<T> rotation(cos, -sin, centerX * (1 - cos) + centerY * sin, 0,
-                       sin,  cos, centerY * (1 - cos) - centerX * sin, 0,
-                       0,    0,     1,      0,
-                       0,    0,     0,      1);
+                     sin,  cos, centerY * (1 - cos) - centerX * sin, 0,
+                     0,    0,     1,      0,
+                     0,    0,     0,      1);
     return multiply(rotation);
 }
 
 template <typename T>
-inline Mat4<T>& Mat4<T>::rotate(T angle, const Vector2<T> &center) {
+inline Mat4<T>& Mat4<T>::rotate(T angle, const Vector3<T> &center) {
     return rotate(angle, center.x, center.y);
 }
 
 template <typename T>
-inline Mat4<T>& Mat4<T>::scale(T scaleX, T scaleY) {
+inline Mat4<T>& Mat4<T>::scale(T scaleX, T scaleY, T scaleZ) {
     return *this;
 }
 
 template <typename T>
-inline Mat4<T>& Mat4<T>::scale(T scaleX, T scaleY, T centerX, T centerY) {
+inline Mat4<T>& Mat4<T>::scale(T scaleX, T scaleY, T scaleZ, T centerX, T centerY, T centerZ) {
     return * this;
 }
 
 template <typename T>
-inline Mat4<T>& Mat4<T>::scale(const Vector2<T> &factors) {
+inline Mat4<T>& Mat4<T>::scale(const Vector3<T> &factors) {
     return *this;
 }
 
 template <typename T>
-inline Mat4<T>& Mat4<T>::scale(const Vector2<T> &factors, const Vector2<T> &center) {
+inline Mat4<T>& Mat4<T>::scale(const Vector3<T> &factors, const Vector3<T> &center) {
     return *this;
 }
 
@@ -278,7 +279,7 @@ Mat4<T> operator *(const Mat4<T>& left, const Mat4<T>& right) {
 }
 
 template <typename T>
-Vector2<T> operator*(const Mat4<T>& left, const Vector2<T>& right) {
+Vector3<T> operator*(const Mat4<T>& left, const Vector3<T>& right) {
 
 }
 

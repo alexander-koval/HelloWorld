@@ -73,6 +73,7 @@ int main() {
     glfwMakeContextCurrent(window);
     glfwSetWindowSize(window, WIDTH, HEIGHT);
 
+
     if (gladLoadGL()) {
         std::cout << "\tVendor: " << glGetString (GL_VENDOR) << std::endl;
         std::cout << "\tRenderer: " << glGetString (GL_RENDERER) << std::endl;
