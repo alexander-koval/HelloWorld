@@ -8,6 +8,7 @@ const std::string filename = "Resources/Lenna.png";
 #endif
 
 Image::Image() {
+    m_transform = Transform::Identity;
     m_image.loadFromFile(filename);
 //    m_image.flipY();
     m_texture.loadFromImage(m_image, glm::vec2(/*256, 512*/));

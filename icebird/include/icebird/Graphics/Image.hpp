@@ -7,6 +7,7 @@
 #include <icebird/Graphics/Texture.hpp>
 #include <icebird/Graphics/Geometry/Mat4.hpp>
 #include <icebird/Graphics/Vertex.hpp>
+#include <icebird/Graphics/Transform.hpp>
 #include <glm/matrix.hpp>
 
 class Image
@@ -25,6 +26,7 @@ private:
     GLuint m_vaoID;
     GLuint m_vboID[2];
     GLushort m_indices[6];
+    Transform m_transform;
     Vertex2<Vector2F, Vector2F> m_vertices[4];
 
     typedef Vertex2<Vector2F, Vector2F> Vertex;

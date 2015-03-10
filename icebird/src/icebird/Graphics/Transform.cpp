@@ -60,4 +60,20 @@ Transform& Transform::rotate(float angle, float centerX, float centerY) {
     return *this;
 }
 
+Transform& Transform::scale(float scaleX, float scaleY) {
+    m_matrix.scale(scaleX, scaleY, 0);
+    return *this;
+}
 
+Transform& Transform::scale(float scaleX, float scaleY, float centerX, float centerY) {
+    m_matrix.scale(scaleX, scaleY, 0, centerX, centerY, 0);
+    return *this;
+}
+
+Transform& Transform::scale(const Vector2F &factors) {
+    return scale(factors.x, factors.y);
+}
+
+Transform& Transform::scale(const Vector2F &factors, const Vector2F &center) {
+    return scale(factors.x, factors.y, center.x, center.y);
+}
