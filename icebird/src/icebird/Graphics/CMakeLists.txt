@@ -7,6 +7,7 @@ file(GLOB icebird_graphics_source_files
     "${INCROOT}/GL/OpenGL.hpp"
     "${SRCROOT}/GL/OpenGL.cpp"
     "${INCROOT}/GL/glad.h"
+    "${INCROOT}/GL/KHR/khrplatform.h"
     "${SRCROOT}/GL/glad.c"
     "${INCROOT}/Triangle.hpp"
     "${SRCROOT}/Triangle.cpp"
@@ -70,7 +71,8 @@ message("SHADER " ${shaders})
 add_library(icebird-graphics STATIC ${icebird_graphics_source_files} ${shaders})
 
 if(APPLE)
-set(DESKTOP_LIBS Cocoa)
+find_library(COCOA_LIBRARY Cocoa)
+set(DESKTOP_LIBS ${COCOA_LIBRARY})
 elseif(WIN32)
 else()
 set(DESKTOP_LIBS X11 Xxf86vm Xrandr Xi Xinerama Xcursor pthread dl)

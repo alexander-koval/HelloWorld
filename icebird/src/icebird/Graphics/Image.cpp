@@ -9,7 +9,7 @@ const std::string filename = "Resources/Lenna.png";
 
 Image::Image() {
     m_image.loadFromFile(filename);
-    m_image.flipY();
+//    m_image.flipY();
     m_texture.loadFromImage(m_image, glm::vec2(/*256, 512*/));
     m_shader.loadFromMemory(positionTexture_vert, GL_VERTEX_SHADER);
     m_shader.loadFromMemory(positionTexture_frag, GL_FRAGMENT_SHADER);
@@ -27,10 +27,15 @@ Image::Image() {
     m_vertices[2].value1 = Vector2F(1.0f, 1.0f);
     m_vertices[3].value1 = Vector2F(0.0f, 1.0f);
 
-    m_vertices[0].value2 = Vector2F(0.0f, 0.0f);
-    m_vertices[1].value2 = Vector2F(1.0f, 0.0f);
-    m_vertices[2].value2 = Vector2F(1.0f, 1.0f);
-    m_vertices[3].value2 = Vector2F(0.0f, 1.0f);
+//    m_vertices[0].value2 = Vector2F(0.0f, 0.0f);
+//    m_vertices[1].value2 = Vector2F(1.0f, 0.0f);
+//    m_vertices[2].value2 = Vector2F(1.0f, 1.0f);
+//    m_vertices[3].value2 = Vector2F(0.0f, 1.0f);
+
+    m_vertices[0].value2 = Vector2F(0.0f, 1.0f);
+    m_vertices[1].value2 = Vector2F(1.0f, 1.0f);
+    m_vertices[2].value2 = Vector2F(1.0f, 0.0f);
+    m_vertices[3].value2 = Vector2F(0.0f, 0.0f);
 
     GLushort* id = &m_indices[0];
     id[0] = 0; id[1] = 1; id[2] = 2;
