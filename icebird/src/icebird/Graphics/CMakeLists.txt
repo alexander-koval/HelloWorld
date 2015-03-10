@@ -32,6 +32,8 @@ file(GLOB icebird_graphics_source_files
     "${INCROOT}/Geometry/Vector3.inl"
     "${INCROOT}/Transform.hpp"
     "${SRCROOT}/Transform.cpp"
+    "${INCROOT}/Transformable.hpp"
+    "${SRCROOT}/Transformable.cpp"
     "${INCROOT}/VBO.hpp"
     "${SRCROOT}/VBO.cpp"
     "${INCROOT}/shaders/shaders.hpp"
