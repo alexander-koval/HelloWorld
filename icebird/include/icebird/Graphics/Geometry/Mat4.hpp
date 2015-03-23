@@ -57,6 +57,10 @@ public:
 
     const T* getMatrix(void) const;
 
+    T& operator [](int index) const;
+
+    T& operator [](int index);
+
 private:
     T m_matrix[16];
 };
@@ -252,25 +256,48 @@ inline T Mat4<T>::determinant() const {
 
 template <typename T>
 inline Mat4<T> Mat4<T>::getInverse(void) const {
+    Mat4<T> matrix = Mat4<T>();
     T det = determinant();
-    if (det != (T)0) {
-        return Mat4<T>( (m_matrix[15] * m_matrix[5] - m_matrix[7] * m_matrix[13]) / det,
-                       -(m_matrix[15] * m_matrix[4] - m_matrix[7] * m_matrix[12]) / det,
-                        (m_matrix[13] * m_matrix[4] - m_matrix[5] * m_matrix[12]) / det,
-                       -(m_matrix[15] * m_matrix[1] - m_matrix[3] * m_matrix[13]) / det,
-                        (m_matrix[15] * m_matrix[0] - m_matrix[3] * m_matrix[12]) / det,
-                       -(m_matrix[13] * m_matrix[0] - m_matrix[1] * m_matrix[12]) / det,
-                        (m_matrix[7]  * m_matrix[1] - m_matrix[3] * m_matrix[5])  / det,
-                       -(m_matrix[7]  * m_matrix[0] - m_matrix[3] * m_matrix[4])  / det,
-                        (m_matrix[5]  * m_matrix[0] - m_matrix[1] * m_matrix[4])  / det);
-    } else {
-        return Mat4<T>();
+    bool invertable = std::abs(det) > 0.00000000001;
+    if (invertable) {
+        det = 1 / det;
+        T m11 = m_matrix[0]; T m21 = m_matrix[4]; T m31 = m_matrix[8]; T m41 = m_matrix[12];
+        T m12 = m_matrix[1]; T m22 = m_matrix[5]; T m32 = m_matrix[9]; T m42 = m_matrix[13];
+        T m13 = m_matrix[2]; T m23 = m_matrix[6]; T m33 = m_matrix[10]; T m43 = m_matrix[14];
+        T m14 = m_matrix[3]; T m24 = m_matrix[7]; T m34 = m_matrix[11]; T m44 = m_matrix[15];
+        matrix[0] = det * (m22 * (m33 * m44 - m43 * m34) - m32 * (m23 * m44 - m43 * m24) + m42 * (m23 * m34 - m33 * m24));
+        matrix[1] = -det * (m12 * (m33 * m44 - m43 * m34) - m32 * (m13 * m44 - m43 * m14) + m42 * (m13 * m34 - m33 * m14));
+        matrix[2] = det * (m12 * (m23 * m44 - m43 * m24) - m22 * (m13 * m44 - m43 * m14) + m42 * (m13 * m24 - m23 * m14));
+        matrix[3] = -det * (m12 * (m23 * m34 - m33 * m24) - m22 * (m13 * m34 - m33 * m14) + m32 * (m13 * m24 - m23 * m14));
+        matrix[4] = -det * (m21 * (m33 * m44 - m43 * m34) - m31 * (m23 * m44 - m43 * m24) + m41 * (m23 * m34 - m33 * m24));
+        matrix[5] = det * (m11 * (m33 * m44 - m43 * m34) - m31 * (m13 * m44 - m43 * m14) + m41 * (m13 * m34 - m33 * m14));
+        matrix[6] = -det * (m11 * (m23 * m44 - m43 * m24) - m21 * (m13 * m44 - m43 * m14) + m41 * (m13 * m24 - m23 * m14));
+        matrix[7] = det * (m11 * (m23 * m34 - m33 * m24) - m21 * (m13 * m34 - m33 * m14) + m31 * (m13 * m24 - m23 * m14));
+        matrix[8] = det * (m21 * (m32 * m44 - m42 * m34) - m31 * (m22 * m44 - m42 * m24) + m41 * (m22 * m34 - m32 * m24));
+        matrix[9] = -det * (m11 * (m32 * m44 - m42 * m34) - m31 * (m12 * m44 - m42 * m14) + m41 * (m12 * m34 - m32 * m14));
+        matrix[10] = det * (m11 * (m22 * m44 - m42 * m24) - m21 * (m12 * m44 - m42 * m14) + m41 * (m12 * m24 - m22 * m14));
+        matrix[11] = -det * (m11 * (m22 * m34 - m32 * m24) - m21 * (m12 * m34 - m32 * m14) + m31 * (m12 * m24 - m22 * m14));
+        matrix[12] = -det * (m21 * (m32 * m43 - m42 * m33) - m31 * (m22 * m43 - m42 * m23) + m41 * (m22 * m33 - m32 * m23));
+        matrix[13] = det * (m11 * (m32 * m43 - m42 * m33) - m31 * (m12 * m43 - m42 * m13) + m41 * (m12 * m33 - m32 * m13));
+        matrix[14] = -det * (m11 * (m22 * m43 - m42 * m23) - m21 * (m12 * m43 - m42 * m13) + m41 * (m12 * m23 - m22 * m13));
+        matrix[15] = det * (m11 * (m22 * m33 - m32 * m23) - m21 * (m12 * m33 - m32 * m13) + m31 * (m12 * m23 - m22 * m13));
     }
+    return matrix;
 }
 
 template <typename T>
 const T* Mat4<T>::getMatrix(void) const {
     return &m_matrix[0];
+}
+
+template <typename T>
+T& Mat4<T>::operator [](int index) const {
+    return m_matrix[index];
+}
+
+template <typename T>
+T& Mat4<T>::operator [](int index) {
+    return m_matrix[index];
 }
 
 template <typename T>

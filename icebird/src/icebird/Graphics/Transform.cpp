@@ -17,13 +17,18 @@ Transform::Transform(float m00, float m01, float m02,
                m20, m21, 0, m21) {
 }
 
+Transform::Transform(Mat4<float> matrix)
+    : m_matrix(matrix) {
+
+}
+
 const float* Transform::getMatrix(void) const {
     return m_matrix.getMatrix();
 }
 
 Transform Transform::getInverse(void) const {
-//    Mat4<float> matrix = m_matrix.getInverse();
-    Transform transform = Transform();
+    Mat4<float> matrix = m_matrix.getInverse();
+    Transform transform = Transform(matrix);
     return transform;
 }
 
