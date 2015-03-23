@@ -30,6 +30,7 @@ file(GLOB icebird_graphics_source_files
     "${INCROOT}/Geometry/Vector2.inl"
     "${INCROOT}/Geometry/Vector3.hpp"
     "${INCROOT}/Geometry/Vector3.inl"
+    "${INCROOT}/Drawable.hpp"
     "${INCROOT}/Transform.hpp"
     "${SRCROOT}/Transform.cpp"
     "${INCROOT}/Transformable.hpp"
