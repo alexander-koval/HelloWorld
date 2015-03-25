@@ -9,5 +9,10 @@ extern std::string positionColor_vert;
 extern std::string positionTexture_frag;
 extern std::string positionTexture_vert;
 
+extern std::string luma_glsl;
+extern std::string dither2x2_glsl;
+extern std::string dither4x4_glsl;
+extern std::string dither8x8_glsl;
+
 #endif // SHADERS_HPP
 

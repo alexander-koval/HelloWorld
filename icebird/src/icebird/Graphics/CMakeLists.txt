@@ -43,6 +43,11 @@ file(GLOB icebird_graphics_source_files
     "${SRCROOT}/shaders/v330/positioncolor.vert"
     "${SRCROOT}/shaders/v330/positiontexture.frag"
     "${SRCROOT}/shaders/v330/positiontexture.vert"
+    "${SRCROOT}/shaders/luma/luma.glsl"
+    "${SRCROOT}/shaders/dither/2x2.glsl"
+    "${SRCROOT}/shaders/dither/4x4.glsl"
+    "${SRCROOT}/shaders/dither/8x8.glsl"
+    "${SRCROOT}/shaders/hsv2rgb/hsv2rgb.glsl"
 )
 
 #include_directories(${INCROOT})
@@ -67,6 +72,11 @@ add_shaders(shaders
                 shaders/v330/positioncolor.vert
                 shaders/v330/positiontexture.frag
                 shaders/v330/positiontexture.vert
+                shaders/luma/luma.glsl
+                shaders/dither/2x2.glsl
+                shaders/dither/4x4.glsl
+                shaders/dither/8x8.glsl
+                shaders/hsv2rgb/hsv2rgb.glsl
             )
 
 message("SHADER " ${shaders})

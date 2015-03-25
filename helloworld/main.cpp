@@ -46,8 +46,8 @@ void render() {
     glClearColor(0.7, 0.7, 0.7, 0.0);
 //    rotation += 0.1f;
 //    translation += 0.01f;
-    modelView.rotate(rotation);
-    modelView.translate(translation, translation, 0);
+//    modelView.rotate(rotation);
+//    modelView.translate(translation, translation, 0);
     Mat4f mvpView = projection * modelView;
 //    image->render(mvpView);
     triangle->render(mvpView);
