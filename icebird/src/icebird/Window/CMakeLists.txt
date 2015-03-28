@@ -4,9 +4,9 @@ set(SRCROOT ${PROJECT_SOURCE_DIR}/src/icebird/Window)
 file(GLOB icebird_window_source_files
 ${INCROOT}/Window.hpp
 ${SRCROOT}/Window.cpp
+${INCROOT}/VideoMode.hpp
+${SRCROOT}/VideoMode.cpp
 )
-
-#include_directories(${INCROOT})
 
 source_group("" FILES ${icebird_window_source_files})
 
