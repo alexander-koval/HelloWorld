@@ -2,21 +2,21 @@
 #include <cstdio>
 #include <cstdlib>
 #include <SOIL.h>
-#include <Grafit/Graphics/Shader.hpp>
+#include <GraFit/Graphics/Shader.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <Grafit/Graphics/GL/OpenGL.hpp>
-#include <Grafit/Graphics/Triangle.hpp>
-#include <Grafit/Graphics/Image.hpp>
-#include <Grafit/Graphics/Texture.hpp>
-#include <Grafit/Graphics/Geometry/Mat4.hpp>
-#include <Grafit/Graphics/Image.hpp>
-#include <Grafit/Window/Window.hpp>
-#include <Grafit/Window/VideoMode.hpp>
-#include <Grafit/System/Clock.hpp>
-#include <Grafit/System/String.hpp>
+#include <GraFit/Graphics/GL/OpenGL.hpp>
+#include <GraFit/Graphics/Triangle.hpp>
+#include <GraFit/Graphics/Image.hpp>
+#include <GraFit/Graphics/Texture.hpp>
+#include <GraFit/Graphics/Geometry/Mat4.hpp>
+#include <GraFit/Graphics/Image.hpp>
+#include <GraFit/Window/Window.hpp>
+#include <GraFit/Window/VideoMode.hpp>
+#include <GraFit/System/Clock.hpp>
+#include <GraFit/System/String.hpp>
 
 #define STRINGIFY(x) #x
 

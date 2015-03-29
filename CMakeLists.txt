@@ -23,9 +23,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
 )
 
 include_directories(
-    ${PROJECT_SOURCE_DIR}/icebird/include
-    ${PROJECT_SOURCE_DIR}/icebird/extlibs/include
-    ${PROJECT_SOURCE_DIR}/icebird/modules/glm
+    ${PROJECT_SOURCE_DIR}/Grafit/include
+    ${PROJECT_SOURCE_DIR}/Grafit/extlibs/include
+    ${PROJECT_SOURCE_DIR}/Grafit/modules/glm
 )
 
 if(APPLE)
@@ -42,5 +42,5 @@ link_directories(
     ${PROJECT_BINARY_DIR}/application/libs
 )
 
-add_subdirectory(icebird)
+add_subdirectory(Grafit)
 add_subdirectory(helloworld)
