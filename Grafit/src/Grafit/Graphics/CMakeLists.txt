@@ -4,8 +4,8 @@ set(SRCROOT ${PROJECT_SOURCE_DIR}/src/Grafit/Graphics)
 file(GLOB Grafit_graphics_source_files
     "${INCROOT}/Shader.hpp"
     "${SRCROOT}/Shader.cpp"
-    "${INCROOT}/GL/OpenGL.hpp"
-    "${SRCROOT}/GL/OpenGL.cpp"
+    "${INCROOT}/OpenGL.hpp"
+    "${SRCROOT}/OpenGL.cpp"
     "${INCROOT}/GL/glad.h"
     "${INCROOT}/GL/KHR/khrplatform.h"
     "${SRCROOT}/GL/glad.c"

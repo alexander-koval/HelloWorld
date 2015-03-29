@@ -1,5 +1,5 @@
 #include <Grafit/Graphics/Texture.hpp>
-#include <Grafit/Graphics/GL/OpenGL.hpp>
+#include <Grafit/Graphics/OpenGL.hpp>
 #include <Grafit/Graphics/Image.hpp>
 #include <iostream>
 #include <SOIL.h>

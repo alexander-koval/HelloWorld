@@ -1,7 +1,7 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <Grafit/Graphics/GL/OpenGL.hpp>
+#include <Grafit/Graphics/OpenGL.hpp>
 #include <Grafit/Graphics/Geometry/Mat4.hpp>
 #include <glm/matrix.hpp>
 #include <string>

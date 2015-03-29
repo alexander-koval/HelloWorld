@@ -1,4 +1,4 @@
-#include <Grafit/Graphics/GL/OpenGL.hpp>
+#include <Grafit/Graphics/OpenGL.hpp>
 //#include <GL/glew.h>
 #include <string>
 #include <iostream>

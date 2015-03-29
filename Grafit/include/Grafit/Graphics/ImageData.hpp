@@ -5,7 +5,7 @@
 #include <glm/vec2.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <Grafit/Graphics/Shader.hpp>
-#include <Grafit/Graphics/GL/OpenGL.hpp>
+#include <Grafit/Graphics/OpenGL.hpp>
 #include <Grafit/System/Types.hpp>
 
 class ImageData {

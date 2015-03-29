@@ -8,5 +8,6 @@
 
 void glCheckError(const char* file, unsigned int line);
 
+
 #endif // OPENGL_HPP
 

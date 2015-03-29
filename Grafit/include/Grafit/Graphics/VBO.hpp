@@ -2,7 +2,7 @@
 #define VBO
 
 #include <Grafit/System/Types.hpp>
-#include <Grafit/Graphics/GL/OpenGL.hpp>
+#include <Grafit/Graphics/OpenGL.hpp>
 
 class VertexBuffer {
 public:

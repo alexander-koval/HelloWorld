@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <Grafit/Graphics/Shader.hpp>
-#include <Grafit/Graphics/GL/OpenGL.hpp>
+#include <Grafit/Graphics/OpenGL.hpp>
 #include <Grafit/Graphics/Geometry/Mat4.hpp>
 #include <Grafit/Graphics/Vertex.hpp>
 
