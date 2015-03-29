@@ -50,10 +50,11 @@ void Window::create(VideoMode mode, const std::string &title, Uint32 style, cons
     if (style & Style::Fullscreen) {
         if (fullscreenWindow) {
             std::cerr << "Creating two fullscreen windows is not allowed, switching to windowed mode" << std::endl;
-            style &= ~Style::Fullscreen;
+            m_window = glfwCreateWindow(mode.width, mode.height, title.c_str(), NULL, NULL);
+        } else {
+            GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+            m_window = glfwCreateWindow(mode.width, mode.height, title.c_str(), monitor, NULL);
         }
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        m_window = glfwCreateWindow(mode.width, mode.height, title.c_str(), monitor, NULL);
     } else {
         if (!mode.isValid()) {
             std::cerr << "The requested video mode is not available, switching to a valid mode" << std::endl;

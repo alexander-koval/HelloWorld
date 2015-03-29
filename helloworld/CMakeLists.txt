@@ -47,9 +47,9 @@ else()
 endif()
 
 target_link_libraries(${PROJECT_NAME}
-    Grafit-system
-    Grafit-graphics
-    Grafit-window
+    grafit-system
+    grafit-graphics
+    grafit-window
 #    GLEW
     glfw3
     ${GLFW_LIBRARIES}

@@ -1,7 +1,7 @@
 set(INCROOT ${PROJECT_SOURCE_DIR}/include/Grafit/Graphics)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/Grafit/Graphics)
 
-file(GLOB Grafit_graphics_source_files
+file(GLOB grafit_graphics_source_files
     "${INCROOT}/Shader.hpp"
     "${SRCROOT}/Shader.cpp"
     "${INCROOT}/OpenGL.hpp"
@@ -52,7 +52,7 @@ file(GLOB Grafit_graphics_source_files
 
 #include_directories(${INCROOT})
 
-source_group("" FILES ${Grafit_graphics_source_files})
+source_group("" FILES ${grafit_graphics_source_files})
 
 # find external libraries
 if(NOT SFML_OPENGL_ES)
@@ -81,7 +81,7 @@ add_shaders(shaders
 
 message("SHADER " ${shaders})
 
-add_library(Grafit-graphics STATIC ${Grafit_graphics_source_files} ${shaders})
+add_library(grafit-graphics STATIC ${grafit_graphics_source_files} ${shaders})
 
 if(APPLE)
 find_library(COCOA_LIBRARY Cocoa)
@@ -91,7 +91,7 @@ else()
 set(DESKTOP_LIBS X11 Xxf86vm Xrandr Xi Xinerama Xcursor pthread dl)
 endif()
 
-target_link_libraries(Grafit-graphics
+target_link_libraries(grafit-graphics
 #    EGL
 #    glfw
 #    GLU

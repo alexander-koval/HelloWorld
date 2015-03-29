@@ -1,7 +1,7 @@
 set(INCROOT ${PROJECT_SOURCE_DIR}/include/Grafit/System)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/Grafit/System)
 
-file(GLOB Grafit_system_source_files
+file(GLOB grafit_system_source_files
     "${INCROOT}/Clock.hpp"
     "${SRCROOT}/Clock.cpp"
     "${INCROOT}/InputStream.hpp"
@@ -29,9 +29,9 @@ file(GLOB Grafit_system_source_files
     "${INCROOT}/Utf.inl"
 )
 
-set(Grafit_system_platform_source_files)
+set(grafit_system_platform_source_files)
 if(WIN32)
-file(GLOB Grafit_system_platform_source_files
+file(GLOB grafit_system_platform_source_files
     "${SRCROOT}/Win32/ClockImpl.hpp"
     "${SRCROOT}/Win32/ClockImpl.cpp"
     "${SRCROOT}/Win32/MutexImpl.hpp"
@@ -43,9 +43,9 @@ file(GLOB Grafit_system_platform_source_files
     "${SRCROOT}/Win32/ThreadLocalImpl.hpp"
     "${SRCROOT}/Win32/ThreadLocalImpl.cpp"
 )
-source_group("Win32" FILES ${Grafit_system_platform_source_files})
+source_group("Win32" FILES ${grafit_system_platform_source_files})
 else()
-file(GLOB Grafit_system_platform_source_files
+file(GLOB grafit_system_platform_source_files
     "${SRCROOT}/Unix/ClockImpl.hpp"
     "${SRCROOT}/Unix/ClockImpl.cpp"
     "${SRCROOT}/Unix/MutexImpl.hpp"
@@ -57,10 +57,10 @@ file(GLOB Grafit_system_platform_source_files
     "${SRCROOT}/Unix/ThreadLocalImpl.hpp"
     "${SRCROOT}/Unix/ThreadLocalImpl.cpp"
 )
-source_group("Unix" FILES ${Grafit_system_platform_source_files})
+source_group("Unix" FILES ${grafit_system_platform_source_files})
 endif()
 
-source_group("System" FILES ${Grafit_system_source_files})
+source_group("System" FILES ${grafit_system_source_files})
 
-add_library(Grafit-system STATIC ${Grafit_system_source_files}
-                                 ${Grafit_system_platform_source_files})
+add_library(grafit-system STATIC ${grafit_system_source_files}
+                                 ${grafit_system_platform_source_files})

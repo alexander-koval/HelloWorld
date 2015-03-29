@@ -1,18 +1,18 @@
 set(INCROOT ${PROJECT_SOURCE_DIR}/include/Grafit/Window)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/Grafit/Window)
 
-file(GLOB Grafit_window_source_files
+file(GLOB grafit_window_source_files
 ${INCROOT}/Window.hpp
 ${SRCROOT}/Window.cpp
 ${INCROOT}/VideoMode.hpp
 ${SRCROOT}/VideoMode.cpp
 )
 
-source_group("" FILES ${Grafit_window_source_files})
+source_group("" FILES ${grafit_window_source_files})
 
-add_library(Grafit-window STATIC ${Grafit_window_source_files})
+add_library(grafit-window STATIC ${grafit_window_source_files})
 
-target_link_libraries(Grafit-window
+target_link_libraries(grafit-window
 #    X11
 #    Xxf86vm
 #    Xrandr
