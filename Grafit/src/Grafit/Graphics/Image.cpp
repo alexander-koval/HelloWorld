@@ -6,6 +6,8 @@ const std::string filename = "../Resources/Lenna.png";
 #else
 const std::string filename = "Resources/Lenna.png";
 #endif
+
+namespace gf {
 Image::Image() {
     m_transform = Transform::Identity;
     m_image.loadFromFile(filename);
@@ -79,3 +81,4 @@ Image::~Image() {
 
 }
 
+}

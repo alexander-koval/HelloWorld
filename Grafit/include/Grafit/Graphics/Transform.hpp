@@ -4,6 +4,8 @@
 #include <Grafit/Graphics/Geometry/Mat4.hpp>
 #include <Grafit/Graphics/Geometry/Vector2.hpp>
 
+namespace gf {
+
 class Transform {
 public:
     static const Transform Identity;
@@ -46,5 +48,6 @@ private:
     Mat4<float> m_matrix;
 };
 
+}
 #endif // TRANSFORM_HPP
 

@@ -1,7 +1,8 @@
 #include <Grafit/Graphics/Transform.hpp>
 
-const Transform Transform::Identity;
+namespace gf {
 
+const Transform Transform::Identity;
 
 Transform::Transform(void)
     : m_matrix() {
@@ -81,4 +82,6 @@ Transform& Transform::scale(const Vector2F &factors) {
 
 Transform& Transform::scale(const Vector2F &factors, const Vector2F &center) {
     return scale(factors.x, factors.y, center.x, center.y);
+}
+
 }

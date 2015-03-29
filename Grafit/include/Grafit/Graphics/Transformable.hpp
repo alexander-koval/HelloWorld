@@ -3,6 +3,7 @@
 
 #include <Grafit/Graphics/Transform.hpp>
 
+namespace gf {
 
 class Transformable {
 public:
@@ -57,4 +58,5 @@ private:
     mutable bool      m_inverseTransformNeedUpdate;
 };
 
+}
 #endif // TRANSFORMABLE_HPP

@@ -10,6 +10,7 @@ const std::string filename = "../Resources/Lenna.png";
 const std::string filename = "Resources/Lenna.png";
 #endif
 
+namespace gf {
 ImageData::ImageData(void) {
 //    int channels = 0;
 //    int texture_width = 0;
@@ -165,4 +166,4 @@ void ImageData::flipY(void) {
     }
 }
 
-
+}

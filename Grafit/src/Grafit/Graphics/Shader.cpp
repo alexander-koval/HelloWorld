@@ -4,6 +4,8 @@
 #include <fstream>
 #include <cassert>
 
+namespace gf {
+
 Shader::Shader(void)
 : m_programID(0) {
     m_attributes.clear();
@@ -242,4 +244,6 @@ Shader::Attribute& Shader::getAttribute(const std::string &parameter) {
     Attribute attribute = Attribute(*this, parameter.c_str());
     m_attributes.insert(std::make_pair(parameter, attribute));
     return getAttribute(parameter);
+}
+
 }

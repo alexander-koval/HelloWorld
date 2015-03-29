@@ -4,6 +4,8 @@
 #include <Grafit/Graphics/Color.hpp>
 #include <Grafit/Graphics/Geometry/Vector2.hpp>
 
+namespace gf {
+
 template <typename T1, typename T2>
 class Vertex2 {
 public:
@@ -42,5 +44,6 @@ public:
 
 #include <Grafit/Graphics/Vertex.inl>
 
+}
 #endif // VERTEX_HPP
 

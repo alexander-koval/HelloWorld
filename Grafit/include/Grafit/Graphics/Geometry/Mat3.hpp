@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstring>
 
+namespace gf {
 template <typename T>
 class Mat3 {
 public:
@@ -60,6 +61,8 @@ private:
     T m_matrix[9];
 };
 
+}
+using gf::Mat3;
 template <typename T>
 Mat3<T> operator *(const Mat3<T>& left, const Mat3<T>& right);
 

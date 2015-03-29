@@ -1,5 +1,5 @@
-#ifndef IMAGE_HPP
-#define IMAGE_HPP
+#ifndef IMAGEDATA_HPP
+#define IMAGEDATA_HPP
 
 #include <vector>
 #include <glm/vec2.hpp>
@@ -8,6 +8,7 @@
 #include <Grafit/Graphics/OpenGL.hpp>
 #include <Grafit/System/Types.hpp>
 
+namespace gf {
 class ImageData {
 public:
     ImageData(void);
@@ -47,5 +48,5 @@ private:
     glm::vec2 m_size;
     std::vector<Uint8> m_pixels;
 };
-
-#endif // IMAGE_HPP
+}
+#endif // IMAGEDATA_HPP

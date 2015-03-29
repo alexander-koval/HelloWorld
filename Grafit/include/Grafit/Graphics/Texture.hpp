@@ -5,6 +5,7 @@
 #include <glm/vec2.hpp>
 #include <Grafit/System/Types.hpp>
 
+namespace gf {
 class ImageData;
 class Texture {
 public:
@@ -57,6 +58,6 @@ private:
     bool m_isSmooth;
     bool m_isRepeated;
 };
-
+}
 #endif // TEXTURE_HPP
 

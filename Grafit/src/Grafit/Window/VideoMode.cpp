@@ -3,6 +3,8 @@
 #include <functional>
 #include <GLFW/glfw3.h>
 
+namespace gf {
+
 VideoMode VideoMode::getDesktopMode(void) {
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
@@ -97,4 +99,6 @@ bool operator <=(const VideoMode& left, const VideoMode& right) {
 
 bool operator >=(const VideoMode& left, const VideoMode& right) {
     return !(left < right);
+}
+
 }

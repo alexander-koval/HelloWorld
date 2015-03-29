@@ -3,6 +3,9 @@
 #include <string>
 #include <iostream>
 
+namespace gf {
+namespace priv {
+
 void glCheckError(const char* file, unsigned int line) {
     // Get the last error
     GLenum errorCode = glGetError();
@@ -57,4 +60,7 @@ void glCheckError(const char* file, unsigned int line) {
               << error << ", " << description
               << std::endl;
     }
+}
+
+}
 }

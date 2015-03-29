@@ -1,6 +1,8 @@
 #include <Grafit/Graphics/Transformable.hpp>
 #include <cmath>
 
+namespace gf {
+
 Transformable::Transformable() :
 m_origin                    (0, 0),
 m_position                  (0, 0),
@@ -142,4 +144,6 @@ const Transform& Transformable::getInverseTransform() const {
     }
 
     return m_inverseTransform;
+}
+
 }

@@ -3,6 +3,7 @@
 
 #include <vector>
 
+namespace gf {
 class VideoMode {
 public:
     static VideoMode getDesktopMode(void);
@@ -25,7 +26,8 @@ public:
     unsigned int greenBits;
     unsigned int blueBits;
 };
-
+}
+using gf::VideoMode;
 bool operator <(const VideoMode& left, const VideoMode& right);
 
 bool operator >(const VideoMode& left, const VideoMode& right);

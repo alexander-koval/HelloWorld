@@ -7,6 +7,8 @@
 #include <string>
 #include <map>
 
+namespace gf {
+
 class Shader {
 public:
     Shader(void);
@@ -102,5 +104,7 @@ private:
     std::map<std::string, Shader::Uniform> m_uniforms;
     std::map<std::string, Shader::Attribute> m_attributes;
 };
+
+}
 
 #endif // SHADER_H

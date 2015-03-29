@@ -1,6 +1,8 @@
 #include <Grafit/Graphics/Color.hpp>
 #include <algorithm>
 
+namespace gf {
+
 template <>
 const Color<Uint8> Color<Uint8>::Black((Uint8)0, (Uint8)0, (Uint8)0, (Uint8)255);
 template <>
@@ -57,6 +59,7 @@ Color<Uint8>::Color(const Color<float>& color)
     , a(color.a * 255) {
 
 }
+}
 
 template <>
 Color<Uint8> operator +(const Color<Uint8>& left, const Color<Uint8>& right) {
@@ -82,6 +85,8 @@ Color<Uint8> operator *(const Color<Uint8>& left, const Color<Uint8>& right) {
                         Uint8(int(left.a) * right.a / 255));
 }
 
+namespace gf {
+
 template <>
 Color<float>::Color(void)
     : r(0.0f)
@@ -99,6 +104,7 @@ Color<float>::Color(const Color<Uint8>& color)
     , b(color.b / 255.f)
     , a(color.a / 255.f) {
 
+}
 }
 
 template <>

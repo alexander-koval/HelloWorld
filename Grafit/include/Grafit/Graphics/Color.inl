@@ -1,6 +1,8 @@
 #include <Grafit/Graphics/Color.hpp>
 #include <algorithm>
 
+namespace gf {
+
 template <typename T>
 Color<T>::Color(T red, T green, T blue, T alpha)
     : r(red)
@@ -36,4 +38,5 @@ Color<T>& operator -=(Color<T>& left, const Color<T>& right) {
 template <typename T>
 Color<T>& operator *=(Color<T>& left, const Color<T>& right) {
     return left = left * right;
+}
 }

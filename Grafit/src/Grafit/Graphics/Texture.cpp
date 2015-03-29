@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SOIL.h>
 
+namespace gf {
 Uint32 Texture::getMaximumSize(void) {
     GLint size;
     GL_CHECK(glGetIntegerv(GL_MAX_TEXTURE_SIZE, &size));
@@ -183,4 +184,5 @@ Int32 Texture::getPowerOfTwo(Int32 size) {
     size |= (size >> 8);
     size |= (size >> 16);
     return size + 1;
+}
 }

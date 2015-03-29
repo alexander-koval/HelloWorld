@@ -3,8 +3,9 @@
 #include <Grafit/Graphics/Geometry/Vector2.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+namespace gf {
 Triangle::Triangle() {
-    m_shader.loadFromMemory(positionColor_vert, GL_VERTEX_SHADER);
+    m_shader.loadFromMemory(gf::positionColor_vert, GL_VERTEX_SHADER);
     m_shader.loadFromMemory(positionColor_frag, GL_FRAGMENT_SHADER);
     GL_CHECK(m_shader.link());
     GL_CHECK(m_shader.use());
@@ -62,3 +63,4 @@ Triangle::~Triangle() {
 
 }
 
+}

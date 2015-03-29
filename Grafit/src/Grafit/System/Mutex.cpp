@@ -27,34 +27,26 @@
 ////////////////////////////////////////////////////////////
 #include <Grafit/System/Mutex.hpp>
 
-#if defined(SFML_SYSTEM_WINDOWS)
+#if defined(SYSTEM_WINDOWS)
     #include <Grafit/System/Win32/MutexImpl.hpp>
 #else
     #include <Grafit/System/Unix/MutexImpl.hpp>
 #endif
 
-Mutex::Mutex()
-{
+namespace gf {
+Mutex::Mutex() {
     m_mutexImpl = new priv::MutexImpl;
 }
 
-
-////////////////////////////////////////////////////////////
-Mutex::~Mutex()
-{
+Mutex::~Mutex() {
     delete m_mutexImpl;
 }
 
-
-////////////////////////////////////////////////////////////
-void Mutex::lock()
-{
+void Mutex::lock() {
     m_mutexImpl->lock();
 }
 
-
-////////////////////////////////////////////////////////////
-void Mutex::unlock()
-{
+void Mutex::unlock() {
     m_mutexImpl->unlock();
+}
 }

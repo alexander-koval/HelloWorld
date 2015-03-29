@@ -3,6 +3,8 @@
 
 #include <Grafit/System/Types.hpp>
 
+namespace gf {
+
 template <typename T>
 class  Color {
 public:
@@ -29,6 +31,9 @@ public:
     T a;
 };
 
+}
+
+using gf::Color;
 template <typename T>
 bool operator ==(const Color<T>& left, const Color<T>& right);
 

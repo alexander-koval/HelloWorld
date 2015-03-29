@@ -23,8 +23,8 @@
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
 
-Image* picture;
-Triangle* triangle;
+gf::Image* picture;
+gf::Triangle* triangle;
 //Image* image;
 
 #ifdef __APPLE__
@@ -48,8 +48,8 @@ using namespace std;
 
 void init() {
 //    image = new Image();
-    picture = new Image();
-    triangle = new Triangle();
+    picture = new gf::Image();
+    triangle = new gf::Triangle();
 }
 
 void render() {
@@ -106,7 +106,7 @@ int main() {
     }
     window->setVerticalSyncEnabled(true);
     init();
-    Clock clock;
+    gf::Clock clock;
     Time lastTime = Time::Zero;
     while (window->isOpen()) {
         Time dt = clock.restart();

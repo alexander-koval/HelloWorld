@@ -7,6 +7,7 @@
 #include <Grafit/Graphics/Geometry/Mat4.hpp>
 #include <Grafit/Graphics/Vertex.hpp>
 
+namespace gf {
 
 class Triangle
 {
@@ -27,4 +28,5 @@ private:
     typedef Vertex2<Vector2F, ColorF> Vertex;
 };
 
+}
 #endif // TRIANGLE_H

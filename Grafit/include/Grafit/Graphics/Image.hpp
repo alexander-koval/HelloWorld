@@ -1,5 +1,5 @@
-#ifndef PICTURE_HPP
-#define PICTURE_HPP
+#ifndef IMAGE_HPP
+#define IMAGE_HPP
 
 #include <Grafit/Graphics/Image.hpp>
 #include <Grafit/Graphics/ImageData.hpp>
@@ -10,8 +10,8 @@
 #include <Grafit/Graphics/Transform.hpp>
 #include <glm/matrix.hpp>
 
-class Image
-{
+namespace gf {
+class Image {
 public:
     Image();
 
@@ -31,5 +31,5 @@ private:
 
     typedef Vertex2<Vector2F, Vector2F> Vertex;
 };
-
-#endif // PICTURE_HPP
+}
+#endif // IMAGE_HPP

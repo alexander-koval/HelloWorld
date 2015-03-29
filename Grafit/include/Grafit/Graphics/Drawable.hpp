@@ -1,7 +1,7 @@
 #ifndef DRAWABLE_HPP
 #define DRAWABLE_HPP
 
-
+namespace gf {
 class Drawable {
 public:
 
@@ -13,6 +13,6 @@ protected:
 
     virtual void draw(RenderTarget& target, RenderStates states) const = 0;
 };
-
+}
 
 #endif // DRAWABLE_HPP

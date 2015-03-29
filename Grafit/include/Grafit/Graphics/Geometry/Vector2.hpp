@@ -1,6 +1,8 @@
 #ifndef VECTOR2_HPP
 #define VECTOR2_HPP
 
+
+namespace gf {
 template <typename T>
 class Vector2 {
 public:
@@ -14,7 +16,8 @@ public:
     T x;
     T y;
 };
-
+}
+using gf::Vector2;
 template <typename T>
 Vector2<T> operator -(const Vector2<T>& right);
 

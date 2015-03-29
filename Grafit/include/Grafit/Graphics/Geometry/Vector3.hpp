@@ -1,6 +1,7 @@
 #ifndef VECTOR3_HPP
 #define VECTOR3_HPP
 
+namespace gf {
 template <typename T>
 class Vector3 {
 public:
@@ -15,7 +16,8 @@ public:
     T y;
     T z;
 };
-
+}
+using gf::Vector3;
 template <typename T>
 Vector3<T> operator -(const Vector3<T>& left);
 

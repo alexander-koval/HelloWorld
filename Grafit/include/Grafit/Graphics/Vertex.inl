@@ -1,3 +1,9 @@
+#include <Grafit/Graphics/Vertex.hpp>
+
+using gf::Vertex2;
+using gf::Vertex3;
+using gf::Vertex4;
+
 template <typename T1, typename T2>
 Vertex2<T1, T2>::Vertex2(void)
     : value1()
