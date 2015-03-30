@@ -27,7 +27,7 @@
 ////////////////////////////////////////////////////////////
 #include <Grafit/System/Mutex.hpp>
 
-#if defined(SYSTEM_WINDOWS)
+#if defined(GRAFIT_SYSTEM_WINDOWS)
     #include <Grafit/System/Win32/MutexImpl.hpp>
 #else
     #include <Grafit/System/Unix/MutexImpl.hpp>

@@ -33,9 +33,12 @@
     #include <Grafit/System/Unix/SleepImpl.hpp>
 #endif
 
+namespace gf {
 
 void sleep(Time duration)
 {
     if (duration >= Time::Zero)
         priv::sleepImpl(duration);
+}
+
 }

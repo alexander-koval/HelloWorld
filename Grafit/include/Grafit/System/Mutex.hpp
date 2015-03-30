@@ -3,11 +3,11 @@
 #include <Grafit/System/Types.hpp>
 #include <Grafit/System/NonCopyable.hpp>
 
-namespace gf {
 namespace priv {
     class MutexImpl;
 }
 
+namespace gf {
 class Mutex : NonCopyable {
 public:
 

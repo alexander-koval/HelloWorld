@@ -24,6 +24,7 @@
 
 
 ////////////////////////////////////////////////////////////
+
 template <typename T>
 String String::fromUtf8(T begin, T end)
 {

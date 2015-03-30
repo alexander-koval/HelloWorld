@@ -38,6 +38,7 @@ namespace priv
     struct ThreadFunc;
 }
 
+
 class Thread : NonCopyable {
 public:
 
@@ -183,7 +184,6 @@ private:
 };
 
 #include <Grafit/System/Thread.inl>
-
 
 #endif
 

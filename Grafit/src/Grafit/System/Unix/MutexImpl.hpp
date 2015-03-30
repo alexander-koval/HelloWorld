@@ -4,7 +4,6 @@
 #include <Grafit/System/NonCopyable.hpp>
 #include <pthread.h>
 
-namespace gf {
 namespace priv {
 
 class MutexImpl : NonCopyable {
@@ -24,5 +23,4 @@ private:
 
 } // namespace priv
 
-}
 #endif // MUTEXIMPL_HPP

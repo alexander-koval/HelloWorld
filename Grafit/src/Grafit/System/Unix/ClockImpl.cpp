@@ -26,7 +26,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <Grafit/System/Unix/ClockImpl.hpp>
-#if defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
+#if defined(GRAFIT_SYSTEM_MACOS) || defined(GRAFIT_SYSTEM_IOS)
     #include <mach/mach_time.h>
 #else
     #include <time.h>
@@ -37,14 +37,14 @@ namespace priv {
 
 Time ClockImpl::getCurrentTime()
 {
-#if defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
+#if defined(GRAFIT_SYSTEM_MACOS) || defined(GRAFIT_SYSTEM_IOS)
 
     // Mac OS X specific implementation (it doesn't support clock_gettime)
     static mach_timebase_info_data_t frequency = {0, 0};
     if (frequency.denom == 0)
         mach_timebase_info(&frequency);
     Uint64 nanoseconds = mach_absolute_time() * frequency.numer / frequency.denom;
-    return sf::microseconds(nanoseconds / 1000);
+    return microseconds(nanoseconds / 1000);
 
 #else
 

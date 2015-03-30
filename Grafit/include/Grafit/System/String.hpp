@@ -22,13 +22,14 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_STRING_HPP
-#define SFML_STRING_HPP
+#ifndef STRING_HPP
+#define STRING_HPP
 
 #include <Grafit/System/Utf.hpp>
 #include <locale>
 #include <string>
 
+namespace gf {
 
 class String {
 public:
@@ -600,8 +601,8 @@ String operator +(const String& left, const String& right);
 
 #include <Grafit/System/String.inl>
 
-
-#endif // SFML_STRING_HPP
+}
+#endif // STRING_HPP
 
 
 ////////////////////////////////////////////////////////////

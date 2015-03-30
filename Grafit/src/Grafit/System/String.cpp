@@ -30,6 +30,7 @@
 #include <iterator>
 #include <cstring>
 
+namespace gf {
 
 const std::size_t String::InvalidPos = std::basic_string<Uint32>::npos;
 
@@ -392,4 +393,5 @@ String operator +(const String& left, const String& right)
     string += right;
 
     return string;
+}
 }

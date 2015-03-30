@@ -27,8 +27,7 @@
 ////////////////////////////////////////////////////////////
 #include <Grafit/System/Thread.hpp>
 
-
-#if defined(SFML_SYSTEM_WINDOWS)
+#if defined(GRAFIT_SYSTEM_WINDOWS)
     #include <Grafit/System/Win32/ThreadImpl.hpp>
 #else
     #include <Grafit/System/Unix/ThreadImpl.hpp>
