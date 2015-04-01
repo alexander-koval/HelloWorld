@@ -15,9 +15,17 @@ if(APPLE)
 
     # Locate all recourses
     file(GLOB COPY_RESOURCES ${PROJECT_SOURCE_DIR}/media/*.png)
+    file(GLOB COPY_RLIBS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/*.a)
+    add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${hello_world_source_files} ${COPY_RESOURCES} ${COPY_RLIBS})
 
-    add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${hello_world_source_files} ${COPY_RESOURCES})
-
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E make_directory
+                        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${RLIBDIR})
+    foreach(library ${COPY_RLIBS})
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                            COMMAND ${CMAKE_COMMAND} -E copy
+                            ${library} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${RLIBDIR})
+    endforeach()
     set_source_files_properties(
         "${COPY_RESOURCES}"
         PROPERTIES
@@ -31,6 +39,7 @@ if(APPLE)
 
     set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "HelloWorld")
     set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "output")
+
 elseif(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${hello_world_source_files})
     add_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "output")
@@ -44,13 +53,13 @@ else()
                         COMMAND ${CMAKE_COMMAND} -E copy_directory
                         ${CMAKE_CURRENT_SOURCE_DIR}/media Resources
                         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
 endif()
 
 target_link_libraries(${PROJECT_NAME}
     grafit-system
     grafit-graphics
     grafit-window
-#    GLEW
     glfw3
     ${GLFW_LIBRARIES}
     ${EXTRA_LIBS}

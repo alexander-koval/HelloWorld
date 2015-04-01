@@ -31,12 +31,15 @@ include_directories(
 if(APPLE)
     include_directories(/System/Library/Frameworks)
     find_library(COCOA_LIBRARY Cocoa)
-    find_library(OpenGL_LIBRARY OpenGL )
+    find_library(OpenGL_LIBRARY OpenGL)
     MARK_AS_ADVANCED (COCOA_LIBRARY
                       GLFW_LIBRARY
                       OpenGL_LIBRARY)
     SET(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY})
 endif()
+
+set(GRAFIT_ENABLE_CXX_11 ON)
+set(CMAKE_CXX_FLAGS "-std=c++11")
 
 link_directories(
     ${PROJECT_BINARY_DIR}/application/libs
