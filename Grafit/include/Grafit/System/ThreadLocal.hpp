@@ -79,11 +79,11 @@ private:
 
 
 ////////////////////////////////////////////////////////////
-/// \class sf::ThreadLocal
+/// \class gf::ThreadLocal
 /// \ingroup system
 ///
 /// This class manipulates void* parameters and thus is not
 /// appropriate for strongly-typed variables. You should rather
-/// use the sf::ThreadLocalPtr template class.
+/// use the gf::ThreadLocalPtr template class.
 ///
 ////////////////////////////////////////////////////////////

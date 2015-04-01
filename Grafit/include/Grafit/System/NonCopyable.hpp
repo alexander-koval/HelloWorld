@@ -71,24 +71,24 @@ private:
 
 
 ////////////////////////////////////////////////////////////
-/// \class sf::NonCopyable
+/// \class gf::NonCopyable
 /// \ingroup system
 ///
 /// This class makes its instances non-copyable, by explicitly
 /// disabling its copy constructor and its assignment operator.
 ///
 /// To create a non-copyable class, simply inherit from
-/// sf::NonCopyable.
+/// gf::NonCopyable.
 ///
 /// The type of inheritance (public or private) doesn't matter,
 /// the copy constructor and assignment operator are declared private
-/// in sf::NonCopyable so they will end up being inaccessible in both
+/// in gf::NonCopyable so they will end up being inaccessible in both
 /// cases. Thus you can use a shorter syntax for inheriting from it
 /// (see below).
 ///
 /// Usage example:
 /// \code
-/// class MyNonCopyableClass : sf::NonCopyable
+/// class MyNonCopyableClass : gf::NonCopyable
 /// {
 ///     ...
 /// };
@@ -97,7 +97,7 @@ private:
 /// Deciding whether the instances of a class can be copied
 /// or not is a very important design choice. You are strongly
 /// encouraged to think about it before writing a class,
-/// and to use sf::NonCopyable when necessary to prevent
+/// and to use gf::NonCopyable when necessary to prevent
 /// many potential future errors when using it. This is also
 /// a very important indication to users of your class.
 ///

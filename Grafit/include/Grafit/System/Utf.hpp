@@ -201,7 +201,7 @@ public:
     ///
     /// This functions does nothing more than a direct copy;
     /// it is defined only to provide the same interface as other
-    /// specializations of the sf::Utf<> template, and allow
+    /// specializations of the gf::Utf<> template, and allow
     /// generic code to be written on top of it.
     ///
     /// \param begin  Iterator pointing to the beginning of the input sequence
@@ -421,7 +421,7 @@ public:
     ///
     /// This functions does nothing more than a direct copy;
     /// it is defined only to provide the same interface as other
-    /// specializations of the sf::Utf<> template, and allow
+    /// specializations of the gf::Utf<> template, and allow
     /// generic code to be written on top of it.
     ///
     /// \param begin  Iterator pointing to the beginning of the input sequence
@@ -642,7 +642,7 @@ public:
     ///
     /// This functions does nothing more than a direct copy;
     /// it is defined only to provide the same interface as other
-    /// specializations of the sf::Utf<> template, and allow
+    /// specializations of the gf::Utf<> template, and allow
     /// generic code to be written on top of it.
     ///
     /// \param begin  Iterator pointing to the beginning of the input sequence
@@ -659,7 +659,7 @@ public:
     /// \brief Decode a single ANSI character to UTF-32
     ///
     /// This function does not exist in other specializations
-    /// of sf::Utf<>, it is defined for convenience (it is used by
+    /// of gf::Utf<>, it is defined for convenience (it is used by
     /// several other conversion functions).
     ///
     /// \param input  Input ANSI character
@@ -675,7 +675,7 @@ public:
     /// \brief Decode a single wide character to UTF-32
     ///
     /// This function does not exist in other specializations
-    /// of sf::Utf<>, it is defined for convenience (it is used by
+    /// of gf::Utf<>, it is defined for convenience (it is used by
     /// several other conversion functions).
     ///
     /// \param input Input wide character
@@ -690,7 +690,7 @@ public:
     /// \brief Encode a single UTF-32 character to ANSI
     ///
     /// This function does not exist in other specializations
-    /// of sf::Utf<>, it is defined for convenience (it is used by
+    /// of gf::Utf<>, it is defined for convenience (it is used by
     /// several other conversion functions).
     ///
     /// \param codepoint   Iterator pointing to the beginning of the input sequence
@@ -708,7 +708,7 @@ public:
     /// \brief Encode a single UTF-32 character to wide
     ///
     /// This function does not exist in other specializations
-    /// of sf::Utf<>, it is defined for convenience (it is used by
+    /// of gf::Utf<>, it is defined for convenience (it is used by
     /// several other conversion functions).
     ///
     /// \param codepoint   Iterator pointing to the beginning of the input sequence
@@ -735,22 +735,22 @@ typedef Utf<32> Utf32;
 
 
 ////////////////////////////////////////////////////////////
-/// \class sf::Utf
+/// \class gf::Utf
 /// \ingroup system
 ///
 /// Utility class providing generic functions for UTF conversions.
 ///
-/// sf::Utf is a low-level, generic interface for counting, iterating,
+/// gf::Utf is a low-level, generic interface for counting, iterating,
 /// encoding and decoding Unicode characters and strings. It is able
 /// to handle ANSI, wide, latin-1, UTF-8, UTF-16 and UTF-32 encodings.
 ///
-/// sf::Utf<X> functions are all static, these classes are not meant to
+/// gf::Utf<X> functions are all static, these classes are not meant to
 /// be instantiated. All the functions are template, so that you
 /// can use any character / string type for a given encoding.
 ///
 /// It has 3 specializations:
-/// \li sf::Utf<8> (typedef'd to sf::Utf8)
-/// \li sf::Utf<16> (typedef'd to sf::Utf16)
-/// \li sf::Utf<32> (typedef'd to sf::Utf32)
+/// \li gf::Utf<8> (typedef'd to gf::Utf8)
+/// \li gf::Utf<16> (typedef'd to gf::Utf16)
+/// \li gf::Utf<32> (typedef'd to gf::Utf32)
 ///
 ////////////////////////////////////////////////////////////

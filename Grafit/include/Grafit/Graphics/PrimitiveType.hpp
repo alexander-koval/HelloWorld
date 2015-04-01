@@ -22,23 +22,29 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_SLEEPIMPLUNIX_HPP
-#define SFML_SLEEPIMPLUNIX_HPP
+#ifndef SFML_PRIMITIVETYPE_HPP
+#define SFML_PRIMITIVETYPE_HPP
 
+namespace gf {
 ////////////////////////////////////////////////////////////
-// Headers
-////////////////////////////////////////////////////////////
-#include <Grafit/System/Time.hpp>
-
-namespace priv {
-////////////////////////////////////////////////////////////
-/// \brief Unix implementation of gf::Sleep
+/// \ingroup graphics
+/// \brief Types of primitives that a gf::VertexArray can render
 ///
-/// \param time Time to sleep
+/// Points and lines have no area, therefore their thickness
+/// will always be 1 pixel, regardless the current transform
+/// and view.
 ///
 ////////////////////////////////////////////////////////////
-void sleepImpl(Time time);
+enum PrimitiveType {
+    Points,         ///< List of individual points
+    Lines,          ///< List of individual lines
+    LinesStrip,     ///< List of connected lines, a point uses the previous point to form a line
+    Triangles,      ///< List of individual triangles
+    TrianglesStrip, ///< List of connected triangles, a point uses the two previous points to form a triangle
+    TrianglesFan,   ///< List of connected triangles, a point uses the common center and the previous point to form a triangle
+};
 
-} // namespace priv
+} // namespace sf
 
-#endif // SFML_SLEEPIMPLUNIX_HPP
+
+#endif // SFML_PRIMITIVETYPE_HPP

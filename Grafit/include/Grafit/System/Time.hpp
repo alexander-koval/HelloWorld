@@ -87,7 +87,7 @@ private:
     /// \brief Construct from a number of microseconds
     ///
     /// This function is internal. To construct time values,
-    /// use sf::seconds, sf::milliseconds or sf::microseconds instead.
+    /// use gf::seconds, gf::milliseconds or gf::microseconds instead.
     ///
     /// \param microseconds Number of microseconds
     ///
@@ -433,10 +433,10 @@ Time& operator %=(Time& left, Time right);
 
 
 ////////////////////////////////////////////////////////////
-/// \class sf::Time
+/// \class gf::Time
 /// \ingroup system
 ///
-/// sf::Time encapsulates a time value in a flexible way.
+/// gf::Time encapsulates a time value in a flexible way.
 /// It allows to define a time value either as a number of
 /// seconds, milliseconds or microseconds. It also works the
 /// other way round: you can read a time value as either
@@ -455,25 +455,25 @@ Time& operator %=(Time& left, Time right);
 ///
 /// Usage example:
 /// \code
-/// sf::Time t1 = sf::seconds(0.1f);
+/// gf::Time t1 = gf::seconds(0.1f);
 /// Int32 milli = t1.asMilliseconds(); // 100
 ///
-/// sf::Time t2 = sf::milliseconds(30);
+/// gf::Time t2 = gf::milliseconds(30);
 /// Int64 micro = t2.asMicroseconds(); // 30000
 ///
-/// sf::Time t3 = sf::microseconds(-800000);
+/// gf::Time t3 = gf::microseconds(-800000);
 /// float sec = t3.asSeconds(); // -0.8
 /// \endcode
 ///
 /// \code
-/// void update(sf::Time elapsed)
+/// void update(gf::Time elapsed)
 /// {
 ///    position += speed * elapsed.asSeconds();
 /// }
 ///
-/// update(sf::milliseconds(100));
+/// update(gf::milliseconds(100));
 /// \endcode
 ///
-/// \see sf::Clock
+/// \see gf::Clock
 ///
 ////////////////////////////////////////////////////////////

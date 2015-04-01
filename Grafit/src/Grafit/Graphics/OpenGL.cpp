@@ -3,7 +3,6 @@
 #include <string>
 #include <iostream>
 
-namespace gf {
 namespace priv {
 
 void glCheckError(const char* file, unsigned int line) {
@@ -62,5 +61,4 @@ void glCheckError(const char* file, unsigned int line) {
     }
 }
 
-}
 }

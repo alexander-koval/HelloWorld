@@ -9,7 +9,7 @@ public:
 
 protected:
 
-//    friend class RenderTarget;
+    friend class RenderTarget;
 
     virtual void draw(RenderTarget& target, RenderStates states) const = 0;
 };
