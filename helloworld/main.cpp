@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdio>
+#include <sstream>
 #include <cstdlib>
 #include <SOIL.h>
 #include <Grafit/Graphics/Shader.hpp>
@@ -70,9 +71,9 @@ void updateStatistics(Time dt) {
     statsTime += dt;
     statsFPS += 1;
     if (statsTime >= seconds(1.0f)) {
-        char tmp[128];
-        sprintf(tmp, "opengl @ fps: %.2f", statsFPS);
-        window->setTitle(tmp);
+        std::ostringstream os;
+        os << statsFPS;
+        window->setTitle(os.str());
         statsTime -= seconds(1.0f);
         statsFPS = 0;
     }
