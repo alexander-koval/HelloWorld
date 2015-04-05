@@ -53,14 +53,14 @@ void Window::create(VideoMode mode, const std::string &title, Uint32 style, cons
             m_window = glfwCreateWindow(mode.width, mode.height, title.c_str(), NULL, NULL);
         } else {
             GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+            if (!mode.isValid()) {
+                std::cerr << "The requested video mode is not available, switching to a valid mode" << std::endl;
+                mode = VideoMode::getFullScreenModes()[0];
+            }
+            fullscreenWindow = this;
             m_window = glfwCreateWindow(mode.width, mode.height, title.c_str(), monitor, NULL);
         }
     } else {
-        if (!mode.isValid()) {
-            std::cerr << "The requested video mode is not available, switching to a valid mode" << std::endl;
-            mode = VideoMode::getFullScreenModes()[0];
-        }
-        fullscreenWindow = this;
         m_window = glfwCreateWindow(mode.width, mode.height, title.c_str(), NULL, NULL);
     }
     initialize();

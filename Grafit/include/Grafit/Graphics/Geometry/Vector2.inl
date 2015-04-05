@@ -89,13 +89,13 @@ inline gf::Vector2<T> gf::Vector2<T>::project(const gf::Vector2<T> other) const 
 
 template <typename T>
 inline gf::Vector2<T> gf::Vector2<T>::rotate(float angle) const {
-    return gf::Vector2<T>(x * std::cosf(angle) - y * std::sinf(angle),
-                      x * std::sinf(angle) + y * std::cosf(angle));
+    return gf::Vector2<T>(x * std::cos(angle) - y * std::sin(angle),
+                      x * std::sin(angle) + y * std::cos(angle));
 }
 
 template <typename T>
 inline gf::Vector2<T> gf::Vector2<T>::rotate(float angle, Vector2<T> origin) const {
-    return origin + (*this - origin).rotate(Vector2<T>(std::cosf(angle), std::sinf(angle)));
+    return origin + (*this - origin).rotate(Vector2<T>(std::cos(angle), std::sin(angle)));
 }
 
 template <typename T>
