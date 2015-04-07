@@ -111,6 +111,38 @@ Shader::Attribute::Attribute(Shader &shader, const char *name)
     GL_CHECK(assert(attributeID >= 0));
 }
 
+void Shader::Attribute::set(GLint value) const {
+
+}
+
+void Shader::Attribute::set(GLfloat value) const {
+
+}
+
+void Shader::Attribute::set(GLint value1, GLint value2) const {
+
+}
+
+void Shader::Attribute::set(GLfloat value1, GLfloat value2) const {
+
+}
+
+void Shader::Attribute::set(GLint value1, GLint value2, GLint value3) const {
+
+}
+
+void Shader::Attribute::set(GLfloat value1, GLfloat value2, GLfloat value3) const {
+
+}
+
+void Shader::Attribute::set(GLint value1, GLint value2, GLint value3, GLint value4) const {
+
+}
+
+void Shader::Attribute::set(GLfloat value1, GLfloat value2, GLfloat value3, GLfloat value4) const {
+
+}
+
 Shader::Uniform::Uniform(Shader &shader, const char *name)
     : uniformID(glGetUniformLocation(shader.getProgramID(), name)) {
     GL_CHECK(assert(uniformID >= 0));

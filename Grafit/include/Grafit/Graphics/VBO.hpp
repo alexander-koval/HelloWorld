@@ -10,7 +10,7 @@ public:
 
     ~VertexBuffer(void);
 
-    bool initialize(Int32 sizePerVertex, Int32 numVertices, GLenum usage = GL_STATIC_DRAW);
+    bool create(Int32 sizePerVertex, Int32 numVertices, GLenum usage = GL_STATIC_DRAW);
 
     Int32 getSizePerVertex(void) const;
 
@@ -35,7 +35,7 @@ public:
 
     ~IndexBuffer(void);
 
-    bool initialize(Int32 sizePerIndex, Int32 numIndices, GLenum usage = GL_STATIC_DRAW);
+    bool create(Int32 sizePerIndex, Int32 numIndices, GLenum usage = GL_STATIC_DRAW);
 
     Int32 getSizePerIndex(void) const;
 

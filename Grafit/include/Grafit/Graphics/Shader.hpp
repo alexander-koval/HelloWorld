@@ -63,6 +63,24 @@ public:
     struct Attribute {
         Attribute(Shader& shader, const char* name);
 
+        void set(GLint value) const;
+
+        void set(GLfloat value) const;
+
+        void set(GLint value1, GLint value2) const;
+
+        void set(GLfloat value1, GLfloat value2) const;
+
+        void set(GLint value1, GLint value2, GLint value3) const;
+
+        void set(GLfloat value1, GLfloat value2, GLfloat value3) const;
+
+        void set(GLint value1, GLint value2, GLint value3, GLint value4) const;
+
+        void set(GLfloat value1, GLfloat value2, GLfloat value3, GLfloat value4) const;
+
+        void set(const GLfloat* values, int numValues) const;
+
         GLint attributeID;
     };
 

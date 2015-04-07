@@ -4,6 +4,15 @@ cmake_minimum_required(VERSION 2.8)
 set(HelloWorld_VERSION_MAJOR 0)
 set(HelloWorld_VERSION_MINOR 1)
 
+option(DEBUG_MODE "Debug or Release?" ON)
+
+if(DEBUG_MODE)
+    add_definitions(-DDEBUG_MODE)
+    set(CMAKE_BUILD_TYPE Debug)
+else(DEBUG_MODE)
+    set(CMAKE_BUILD_TYPE Release)
+endif(DEBUG_MODE)
+
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
     ${PROJECT_BINARY_DIR}/application/libs
     CACHE PATH

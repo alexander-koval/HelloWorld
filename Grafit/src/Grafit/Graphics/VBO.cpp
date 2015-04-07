@@ -16,7 +16,7 @@ VertexBuffer::~VertexBuffer(void) {
     }
 }
 
-bool VertexBuffer::initialize(Int32 sizePerVertex, Int32 numVertices, GLenum usage/* = GL_STATIC_DRAW*/) {
+bool VertexBuffer::create(Int32 sizePerVertex, Int32 numVertices, GLenum usage/* = GL_STATIC_DRAW*/) {
     if (0 == sizePerVertex || 0 == numVertices) {
         return false;
     }
@@ -56,7 +56,7 @@ bool VertexBuffer::update(const void *vertices, Int32 count, Int32 begin) {
     GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, m_vbo));
     GL_CHECK(glBufferSubData(GL_ARRAY_BUFFER, begin * m_sizePerVertex, count * m_sizePerVertex, vertices));
 
-    GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
+//    GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
     return true;
 }
 
@@ -83,7 +83,7 @@ IndexBuffer::~IndexBuffer(void) {
     }
 }
 
-bool IndexBuffer::initialize(Int32 sizePerIndex, Int32 numIndices, GLenum usage/* = GL_STATIC_DRAW*/) {
+bool IndexBuffer::create(Int32 sizePerIndex, Int32 numIndices, GLenum usage/* = GL_STATIC_DRAW*/) {
     if (numIndices <= 0) {
         return false;
     }
@@ -124,7 +124,7 @@ bool IndexBuffer::update(const void *indices, Int32 count, Int32 begin) {
     GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vbo));
     GL_CHECK(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, begin * getSizePerIndex(), count * getSizePerIndex(), indices));
 
-    GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+//    GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
     return true;
 }
 
