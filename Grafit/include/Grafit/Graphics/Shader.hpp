@@ -9,6 +9,8 @@
 
 namespace gf {
 
+class VertexBuffer;
+
 class Shader {
 public:
     Shader(void);
@@ -27,6 +29,9 @@ public:
 
     template<typename Type>
     void setParameter(const std::string& parameter);
+
+    template<typename Type>
+    void setParameter(const std::string& parameter, int v1);
 
     template<typename Type>
     void setParameter(const std::string& parameter, float v1);
@@ -49,6 +54,14 @@ public:
     template<typename Type>
     void setParameter(const std::string& parameter, const Mat4f& matrix);
 
+    template<typename Type>
+    void setParameter(const std::string& parameter,
+                      const VertexBuffer& buffer,
+                      GLint size,
+                      GLenum type,
+                      GLboolean normalize,
+                      const GLvoid* offset);
+
     template<typename ParameterType>
     GLuint getParameterID(const std::string& parameter);
 
@@ -63,29 +76,9 @@ public:
     struct Attribute {
         Attribute(Shader& shader, const char* name);
 
-        void set(GLint value) const;
-
-        void set(GLfloat value) const;
-
-        void set(GLint value1, GLint value2) const;
-
-        void set(GLfloat value1, GLfloat value2) const;
-
-        void set(GLint value1, GLint value2, GLint value3) const;
-
-        void set(GLfloat value1, GLfloat value2, GLfloat value3) const;
-
-        void set(GLint value1, GLint value2, GLint value3, GLint value4) const;
-
-        void set(GLfloat value1, GLfloat value2, GLfloat value3, GLfloat value4) const;
-
-        void set(const GLfloat* values, int numValues) const;
+        void set(const VertexBuffer& buffer, GLint size, GLenum type, GLboolean normalize, const GLvoid* offset) const;
 
         GLuint attributeID;
-        GLint size;
-        GLenum type;
-        GLboolean normalize;
-        GLint offset;
     };
 
     struct Uniform {

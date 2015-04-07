@@ -1,6 +1,8 @@
 #include <Grafit/Graphics/VBO.hpp>
 #include <iostream>
 
+namespace gf {
+
 VertexBuffer::VertexBuffer(void)
     : m_usage(GL_STATIC_DRAW)
     , m_numVertices(0)
@@ -134,4 +136,6 @@ Int32 IndexBuffer::getSize(void) const {
 
 GLuint IndexBuffer::getVBO(void) const {
     return m_vbo;
+}
+
 }

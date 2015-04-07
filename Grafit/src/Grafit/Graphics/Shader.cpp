@@ -1,4 +1,5 @@
 #include <Grafit/Graphics/Shader.hpp>
+#include <Grafit/Graphics/VBO.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <fstream>
@@ -111,36 +112,10 @@ Shader::Attribute::Attribute(Shader &shader, const char *name)
     GL_CHECK(assert(attributeID >= 0));
 }
 
-void Shader::Attribute::set(GLint value) const {
-
-}
-
-void Shader::Attribute::set(GLfloat value) const {
-
-}
-
-void Shader::Attribute::set(GLint value1, GLint value2) const {
-
-}
-
-void Shader::Attribute::set(GLfloat value1, GLfloat value2) const {
-
-}
-
-void Shader::Attribute::set(GLint value1, GLint value2, GLint value3) const {
-
-}
-
-void Shader::Attribute::set(GLfloat value1, GLfloat value2, GLfloat value3) const {
-
-}
-
-void Shader::Attribute::set(GLint value1, GLint value2, GLint value3, GLint value4) const {
-
-}
-
-void Shader::Attribute::set(GLfloat value1, GLfloat value2, GLfloat value3, GLfloat value4) const {
-
+void Shader::Attribute::set(const VertexBuffer& buffer, GLint size, GLenum type, GLboolean normalize, const GLvoid* offset) const {
+    GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, buffer.getVBO()));
+    GL_CHECK(glEnableVertexAttribArray(attributeID);
+    GL_CHECK(glVertexAttribPointer(attributeID, size, type, normalize, buffer.getSizePerVertex(), (const GLvoid*)offset)));
 }
 
 Shader::Uniform::Uniform(Shader &shader, const char *name)
@@ -202,6 +177,12 @@ void Shader::setParameter<Shader::Uniform>(const std::string& parameter) {
 }
 
 template<>
+void Shader::setParameter<Shader::Uniform>(const std::string& parameter, int v1) {
+    Uniform& uniform = getUniform(parameter);
+    uniform.set(v1);
+}
+
+template<>
 void Shader::setParameter<Shader::Uniform>(const std::string& parameter, float v1) {
     Uniform& uniform = getUniform(parameter);
     uniform.set(v1);
@@ -246,6 +227,17 @@ void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const M
 template<>
 void Shader::setParameter<Shader::Attribute>(const std::string &parameter) {
     getAttribute(parameter);
+}
+
+template<>
+void Shader::setParameter<Shader::Attribute>(const std::string& parameter,
+                                             const VertexBuffer& buffer,
+                                             GLint size,
+                                             GLenum type,
+                                             GLboolean normalize,
+                                             const GLvoid* offset) {
+    Attribute& attribute = getAttribute(parameter);
+    attribute.set(buffer, size, type, normalize, offset);
 }
 
 template<>

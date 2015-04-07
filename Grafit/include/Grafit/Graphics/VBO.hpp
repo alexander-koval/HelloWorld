@@ -4,6 +4,8 @@
 #include <Grafit/System/Types.hpp>
 #include <Grafit/Graphics/OpenGL.hpp>
 
+namespace gf {
+
 class VertexBuffer {
 public:
     VertexBuffer(void);
@@ -54,5 +56,6 @@ protected:
     Int32 m_sizePerIndex;
 };
 
+}
 #endif // VBO
 
