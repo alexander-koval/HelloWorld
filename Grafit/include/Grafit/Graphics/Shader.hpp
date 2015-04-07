@@ -81,7 +81,11 @@ public:
 
         void set(const GLfloat* values, int numValues) const;
 
-        GLint attributeID;
+        GLuint attributeID;
+        GLint size;
+        GLenum type;
+        GLboolean normalize;
+        GLint offset;
     };
 
     struct Uniform {

@@ -22,6 +22,8 @@ file(GLOB grafit_graphics_source_files
     "${SRCROOT}/Color.cpp"
     "${INCROOT}/Vertex.hpp"
     "${INCROOT}/Vertex.inl"
+    "${INCROOT}/VertexArray.hpp"
+    "${SRCROOT}/VertexArray.cpp"
     "${INCROOT}/Geometry/Rect.hpp"
     "${INCROOT}/Geometry/Rect.inl"
     "${INCROOT}/Geometry/Mat4.hpp"

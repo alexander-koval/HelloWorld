@@ -1,7 +1,6 @@
 #ifndef IMAGE_HPP
 #define IMAGE_HPP
 
-#include <Grafit/Graphics/Image.hpp>
 #include <Grafit/Graphics/ImageData.hpp>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Texture.hpp>
