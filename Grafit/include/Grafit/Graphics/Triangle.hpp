@@ -21,12 +21,10 @@ public:
     ~Triangle();
 
 private:
-//    GLuint m_vaoID;
-//    GLuint m_vboID[2];
-    GLushort m_indices[3];
     Shader m_shader;
     VertexArray m_vertexArray;
     Vertex2<Vector2F, ColorF> m_vertices[3];
+    GLushort m_indices[3];
 
     typedef Vertex2<Vector2F, ColorF> Vertex;
 };

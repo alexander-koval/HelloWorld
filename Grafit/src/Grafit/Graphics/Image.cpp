@@ -19,11 +19,10 @@ Image::Image() {
     m_shader.loadFromMemory(positionTexture_frag, GL_FRAGMENT_SHADER);
     GL_CHECK(m_shader.link());
     GL_CHECK(m_shader.use());
-    GL_CHECK(m_shader.setParameter<Shader::Attribute>("VertexPosition"));
-    GL_CHECK(m_shader.setParameter<Shader::Attribute>("VertexTexCoord"));
-    GL_CHECK(m_shader.setParameter<Shader::Uniform>("TextureMap"));
     GL_CHECK(m_shader.setParameter<Shader::Uniform>("MVP"));
     GL_CHECK(m_shader.setParameter<Shader::Uniform>("TextureMap", 0));
+    GL_CHECK(m_shader.setParameter<Shader::Attribute>("VertexPosition"));
+    GL_CHECK(m_shader.setParameter<Shader::Attribute>("VertexTexCoord"));
     GL_CHECK(m_shader.unuse());
 
     m_vertices[0].value1 = Vector2F(0.0f, 0.0f);
@@ -61,7 +60,8 @@ Image::Image() {
 void Image::render(Mat4f mvpView) {
     m_shader.use();
     m_vertexArray.use();
-    mvpView = mvpView * Mat4f(getTransform().getInverse().getMatrix());
+    rotate(1);
+    mvpView = mvpView * getTransform().getMatrix();
     m_shader.setParameter<Shader::Uniform>("MVP", mvpView);
     GL_CHECK(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0));
     m_vertexArray.unuse();

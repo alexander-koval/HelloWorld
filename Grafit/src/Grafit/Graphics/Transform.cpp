@@ -15,16 +15,16 @@ Transform::Transform(float m00, float m01, float m02,
     : m_matrix(m00, m01, 0, m02,
                m10, m11, 0, m12,
                  0,   0, 1,   0,
-               m20, m21, 0, m21) {
+               m20, m21, 0, m22) {
 }
 
-Transform::Transform(Mat4<float> matrix)
+Transform::Transform(Mat4f matrix)
     : m_matrix(matrix) {
 
 }
 
-const float* Transform::getMatrix(void) const {
-    return m_matrix.getMatrix();
+const Mat4f& Transform::getMatrix(void) const {
+    return m_matrix;
 }
 
 Transform Transform::getInverse(void) const {
