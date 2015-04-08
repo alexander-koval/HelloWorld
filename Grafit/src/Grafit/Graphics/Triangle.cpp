@@ -26,36 +26,26 @@ Triangle::Triangle() {
     m_indices[1] = 1;
     m_indices[2] = 2;
 
-    GL_CHECK(glGenVertexArrays(1, &m_vaoID));
-    GL_CHECK(glGenBuffers(1, &m_vboID[0]));
-    GL_CHECK(glGenBuffers(1, &m_vboID[1]));
-    GLsizei stride = sizeof(Vertex);
-    long unsigned int offset = offsetof(Vertex, value2);
+    m_vertexArray.initialize();
+    m_vertexArray.create<VertexBuffer>(sizeof(Vertex), 3);
+    m_vertexArray.create<IndexBuffer>(sizeof(GLushort), 3);
 
-    GL_CHECK(glBindVertexArray(m_vaoID));
-    GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, m_vboID[0]));
-    GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices), &m_vertices[0], GL_STATIC_DRAW));
-
-    GL_CHECK(glEnableVertexAttribArray(m_shader.getParameterID<Shader::Uniform>("VertexPosition")));
-    GL_CHECK(glVertexAttribPointer(m_shader.getParameterID<Shader::Attribute>("VertexPosition"), 3, GL_FLOAT, GL_FALSE, stride, 0));
-
-    GL_CHECK(glEnableVertexAttribArray(m_shader.getParameterID<Shader::Attribute>("VertexColor")));
-    GL_CHECK(glVertexAttribPointer(m_shader.getParameterID<Shader::Attribute>("VertexColor"), 3, GL_FLOAT, GL_FALSE, stride,
-             (const GLvoid*)offset));
-
-    GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vboID[1]));
-    GL_CHECK(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_indices), &m_indices[0], GL_STATIC_DRAW));
-
-    GL_CHECK(glBindVertexArray(0));
+    m_vertexArray.use();
+    m_vertexArray.update<VertexBuffer>(&m_vertices[0], 3, 0);
+    m_vertexArray.update<IndexBuffer>(&m_indices[0], 3, 0);
+    m_shader.setParameter<Shader::Attribute>("VertexPosition", m_vertexArray.getVertexBuffer(), 2, GL_FLOAT, GL_FALSE, 0);
+    m_shader.setParameter<Shader::Attribute>("VertexColor", m_vertexArray.getVertexBuffer(), 3, GL_FLOAT, GL_FALSE,
+                                             (const GLvoid*)offsetof(Vertex, value2));
+    m_vertexArray.unuse();
 }
 
 void Triangle::render(Mat4f mvpView) {
     m_shader.use();
-    GL_CHECK(glBindVertexArray(m_vaoID));
+    mvpView = mvpView * Mat4f(getTransform().getInverse().getMatrix());
     m_shader.setParameter<Shader::Uniform>("MVP", mvpView);
-//    GL_CHECK(glUniformMatrix4fv(m_shader.getUniformID("MVP"), 1, GL_FALSE, glm::value_ptr(mvpView)));
+    m_vertexArray.use();
     GL_CHECK(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0));
-    GL_CHECK(glBindVertexArray(0));
+    m_vertexArray.unuse();
     m_shader.unuse();
 }
 

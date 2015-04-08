@@ -1,6 +1,7 @@
 #ifndef IMAGE_HPP
 #define IMAGE_HPP
 
+#include <Grafit/Graphics/Transformable.hpp>
 #include <Grafit/Graphics/ImageData.hpp>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Texture.hpp>
@@ -12,7 +13,7 @@
 #include <glm/matrix.hpp>
 
 namespace gf {
-class Image {
+class Image : public Transformable {
 public:
     Image();
 

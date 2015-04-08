@@ -61,10 +61,11 @@ Image::Image() {
 void Image::render(Mat4f mvpView) {
     m_shader.use();
     m_vertexArray.use();
+    mvpView = mvpView * Mat4f(getTransform().getInverse().getMatrix());
     m_shader.setParameter<Shader::Uniform>("MVP", mvpView);
     GL_CHECK(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0));
-    m_shader.unuse();
     m_vertexArray.unuse();
+    m_shader.unuse();
 }
 
 Image::~Image() {

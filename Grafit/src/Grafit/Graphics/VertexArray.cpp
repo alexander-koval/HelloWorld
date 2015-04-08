@@ -33,22 +33,22 @@ void VertexArray::initialize(void) {
 
 template<>
 bool VertexArray::create<VertexBuffer>(Int32 sizePerVertex, Int32 count, GLenum usage /*= GL_STATIC_DRAW*/) {
-    m_vertexBuffer.create(sizePerVertex, count, usage);
+    return m_vertexBuffer.create(sizePerVertex, count, usage);
 }
 
 template<>
 bool VertexArray::create<IndexBuffer>(Int32 sizePerVertex, Int32 count, GLenum usage /*= GL_STATIC_DRAW*/) {
-    m_indexBuffer.create(sizePerVertex, count, usage);
+    return m_indexBuffer.create(sizePerVertex, count, usage);
 }
 
 template<>
 bool VertexArray::update<VertexBuffer>(const void *data, Int32 count, Int32 begin) {
-    m_vertexBuffer.update(data, count, begin);
+    return m_vertexBuffer.update(data, count, begin);
 }
 
 template<>
 bool VertexArray::update<IndexBuffer>(const void *data, Int32 count, Int32 begin) {
-    m_indexBuffer.update(data, count, begin);
+   return m_indexBuffer.update(data, count, begin);
 }
 
 
