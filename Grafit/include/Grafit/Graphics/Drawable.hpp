@@ -1,7 +1,10 @@
 #ifndef DRAWABLE_HPP
 #define DRAWABLE_HPP
 
+#include <Grafit/Graphics/RenderStates.hpp>
+
 namespace gf {
+class RenderTarget;
 class Drawable {
 public:
 

@@ -2,6 +2,7 @@
 #define IMAGE_HPP
 
 #include <Grafit/Graphics/Transformable.hpp>
+#include <Grafit/Graphics/Drawable.hpp>
 #include <Grafit/Graphics/ImageData.hpp>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Texture.hpp>
@@ -10,19 +11,21 @@
 #include <Grafit/Graphics/Transform.hpp>
 #include <Grafit/Graphics/VBO.hpp>
 #include <Grafit/Graphics/VertexArray.hpp>
-#include <glm/matrix.hpp>
 
 namespace gf {
-class Image : public Transformable {
+class Bitmap : public Drawable, public Transformable {
 public:
-    Image();
+    Bitmap();
 
     void render(Mat4f mvpView);
 
-    ~Image();
+    ~Bitmap();
+
+protected:
+    virtual void draw(RenderTarget &target, RenderStates states) const;
 
 private:
-    ImageData m_image;
+    BitmapData m_image;
     Shader m_shader;
     Texture m_texture;
     GLushort m_indices[6];

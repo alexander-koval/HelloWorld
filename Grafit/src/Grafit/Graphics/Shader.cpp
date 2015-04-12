@@ -1,11 +1,32 @@
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/VBO.hpp>
+#include <Grafit/Graphics/Texture.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <fstream>
 #include <cassert>
 
+namespace {
+GLint getMaxTextureUnits(void) {
+    GLint max_units = 0;
+    GL_CHECK(glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &max_units));
+    return max_units;
+}
+}
+
 namespace gf {
+
+void Shader::bind(const Shader *shader) {
+    if (shader && shader->m_programID) {
+        GL_CHECK(glUseProgram(shader->m_programID));
+        shader->bindTextures();
+        if (shader->m_textureID != -1) {
+            GL_CHECK(glUniform1i(shader->m_textureID, 0));
+        }
+    } else {
+        GL_CHECK(glUseProgram(0));
+    }
+}
 
 Shader::Shader(void)
 : m_programID(0) {
@@ -86,6 +107,18 @@ void Shader::unuse(void) {
     GL_CHECK(glUseProgram(0));
 }
 
+void Shader::bindTextures(void) const {
+    std::map<const Uniform*, const Texture*>::const_iterator it = m_textures.begin();
+    for (std::size_t i = 0; i < m_textures.size(); ++i) {
+        GLint index = static_cast<GLsizei>(i + 1);
+        const Uniform* uniform = it->first;
+        uniform->set(index);
+        GL_CHECK(glActiveTexture(GL_TEXTURE0 + index));
+        Texture::bind(*it->second);
+        ++it;
+    }
+}
+
 const GLuint Shader::getProgramID(void) {
     if (m_programID == 0) {
         m_programID = glCreateProgram();
@@ -93,14 +126,14 @@ const GLuint Shader::getProgramID(void) {
     return m_programID;
 }
 
-GLuint Shader::getAttributeID(const std::string &attribute) const {
+GLuint Shader::getAttributeID(const std::string &attribute) {
     std::map<std::string, Shader::Attribute>::const_iterator it = m_attributes.find(attribute);
     if (it != m_attributes.end())
         return it->second.attributeID;
     return 0;
 }
 
-GLuint Shader::getUniformID(const std::string &uniform) const {
+GLuint Shader::getUniformID(const std::string &uniform) {
     std::map<std::string, Shader::Uniform>::const_iterator it = m_uniforms.find(uniform);
     if (it != m_uniforms.end())
         return it->second.uniformID;
@@ -222,6 +255,24 @@ template<>
 void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const Mat4f& matrix) {
     Uniform& uniform = getUniform(parameter);
     uniform.setMatrix4(matrix.getMatrix(), 1, false);
+}
+
+template<>
+void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const Texture& texture) {
+    Uniform& uniform = getUniform(parameter);
+    if (uniform.uniformID != -1) {
+        std::map<const Uniform*, const Texture*>::iterator it = m_textures.find(&uniform);
+        if (it != m_textures.end()) {
+            it->second = &texture;
+        } else {
+            GLint max_units = getMaxTextureUnits();
+            if (m_textures.size() + 1 >= static_cast<std::size_t>(max_units)) {
+                std::cerr << "Impossible to use texture \"" << parameter << "\" for shader: all avalilable texture units are used" << std::endl;
+                return;
+            }
+            m_textures[&uniform] = &texture;
+        }
+    }
 }
 
 template<>

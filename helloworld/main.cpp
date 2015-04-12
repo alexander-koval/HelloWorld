@@ -3,6 +3,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <SOIL.h>
+#include <stb.h>
 #include <Grafit/Graphics/Shader.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -24,7 +25,8 @@
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
 
-gf::Image* picture;
+gf::Bitmap* picture;
+gf::Bitmap* picture2;
 gf::Triangle* triangle;
 //Image* image;
 
@@ -49,7 +51,10 @@ using namespace std;
 
 void init() {
 //    image = new Image();
-    picture = new gf::Image();
+    picture = new gf::Bitmap();
+    picture->setPosition(-1, -1);
+    picture2 = new gf::Bitmap();
+    picture2->setPosition(0, 0);
     triangle = new gf::Triangle();
 }
 
@@ -64,6 +69,7 @@ void render() {
 //    image->render(mvpView);
     triangle->render(mvpView);
     picture->render(mvpView);
+    picture2->render(mvpView);
     window->display();
 }
 

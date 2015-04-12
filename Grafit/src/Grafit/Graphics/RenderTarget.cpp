@@ -1,47 +1,16 @@
-////////////////////////////////////////////////////////////
-//
-// SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2014 Laurent Gomila (laurent.gom@gmail.com)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////
-// Headers
-////////////////////////////////////////////////////////////
 #include <Grafit/Graphics/RenderTarget.hpp>
 #include <Grafit/Graphics/Drawable.hpp>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Texture.hpp>
-//#include <Grafit/Graphics/VertexArray.hpp>
+#include <Grafit/Graphics/VertexArray.hpp>
 //#include <Grafit/Graphics/GLCheck.hpp>
 //#include <Grafit/System/Err.hpp>
 #include <iostream>
 
 
-namespace
-{
-    // Convert an gf::BlendMode::Factor constant to the corresponding OpenGL constant.
-    Uint32 factorToGlConstant(gf::BlendMode::Factor blendFactor)
-    {
-        switch (blendFactor)
-        {
+namespace {
+    Uint32 factorToGlConstant(gf::BlendMode::Factor blendFactor) {
+        switch (blendFactor) {
             default:
             case gf::BlendMode::Zero:             return GL_ZERO;
             case gf::BlendMode::One:              return GL_ONE;
@@ -56,12 +25,8 @@ namespace
         }
     }
 
-
-    // Convert an gf::BlendMode::BlendEquation constant to the corresponding OpenGL constant.
-    Uint32 equationToGlConstant(gf::BlendMode::Equation blendEquation)
-    {
-        switch (blendEquation)
-        {
+    Uint32 equationToGlConstant(gf::BlendMode::Equation blendEquation) {
+        switch (blendEquation) {
             default:
             case gf::BlendMode::Add:             return GL_FUNC_ADD;
             case gf::BlendMode::Subtract:        return GL_FUNC_SUBTRACT;
@@ -70,30 +35,20 @@ namespace
 }
 
 
-namespace gf
-{
-////////////////////////////////////////////////////////////
+namespace gf {
+
 RenderTarget::RenderTarget() :
 m_defaultView(),
 m_view       (),
-m_cache      ()
-{
+m_cache      () {
     m_cache.glStatesSet = false;
 }
 
-
-////////////////////////////////////////////////////////////
-RenderTarget::~RenderTarget()
-{
+RenderTarget::~RenderTarget() {
 }
 
-
-////////////////////////////////////////////////////////////
-void RenderTarget::clear(const Color<Uint8>& color)
-{
-    if (activate(true))
-    {
-        // Unbind texture to fix RenderTexture preventing clear
+void RenderTarget::clear(const Color<Uint8>& color) {
+    if (activate(true)) {
         applyTexture(NULL);
 
         GL_CHECK(glClearColor(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f));
@@ -101,32 +56,21 @@ void RenderTarget::clear(const Color<Uint8>& color)
     }
 }
 
-
-////////////////////////////////////////////////////////////
-void RenderTarget::setView(const View& view)
-{
+void RenderTarget::setView(const View& view) {
     m_view = view;
     m_cache.viewChanged = true;
 }
 
 
-////////////////////////////////////////////////////////////
-const View& RenderTarget::getView() const
-{
+const View& RenderTarget::getView() const {
     return m_view;
 }
 
-
-////////////////////////////////////////////////////////////
-const View& RenderTarget::getDefaultView() const
-{
+const View& RenderTarget::getDefaultView() const {
     return m_defaultView;
 }
 
-
-////////////////////////////////////////////////////////////
-IntRect RenderTarget::getViewport(const View& view) const
-{
+IntRect RenderTarget::getViewport(const View& view) const {
     float width  = static_cast<float>(getSize().x);
     float height = static_cast<float>(getSize().y);
     const FloatRect& viewport = view.getViewport();
@@ -138,16 +82,11 @@ IntRect RenderTarget::getViewport(const View& view) const
 }
 
 
-////////////////////////////////////////////////////////////
-Vector2F RenderTarget::mapPixelToCoords(const Vector2I& point) const
-{
+Vector2F RenderTarget::mapPixelToCoords(const Vector2I& point) const {
     return mapPixelToCoords(point, getView());
 }
 
-
-////////////////////////////////////////////////////////////
-Vector2F RenderTarget::mapPixelToCoords(const Vector2I& point, const View& view) const
-{
+Vector2F RenderTarget::mapPixelToCoords(const Vector2I& point, const View& view) const {
     // First, convert from viewport coordinates to homogeneous coordinates
     Vector2F normalized;
     IntRect viewport = getViewport(view);
@@ -158,17 +97,11 @@ Vector2F RenderTarget::mapPixelToCoords(const Vector2I& point, const View& view)
     return view.getInverseTransform().transformPoint(normalized);
 }
 
-
-////////////////////////////////////////////////////////////
-Vector2I RenderTarget::mapCoordsToPixel(const Vector2F& point) const
-{
+Vector2I RenderTarget::mapCoordsToPixel(const Vector2F& point) const {
     return mapCoordsToPixel(point, getView());
 }
 
-
-////////////////////////////////////////////////////////////
-Vector2I RenderTarget::mapCoordsToPixel(const Vector2F& point, const View& view) const
-{
+Vector2I RenderTarget::mapCoordsToPixel(const Vector2F& point, const View& view) const {
     // First, transform the point by the view matrix
     Vector2F normalized = view.getTransform().transformPoint(point);
 
@@ -183,16 +116,28 @@ Vector2I RenderTarget::mapCoordsToPixel(const Vector2F& point, const View& view)
 
 
 ////////////////////////////////////////////////////////////
-void RenderTarget::draw(const Drawable& drawable, const RenderStates& states)
-{
+void RenderTarget::draw(const Drawable& drawable, const RenderStates& states) {
     drawable.draw(*this, states);
 }
 
+void RenderTarget::draw(const VertexArray& vertices, const RenderStates& states) {
+    if (activate(true)) {
+        const Shader* shader = states.shader;
+        const Texture* texture = states.texture;
+        Transform transform = states.transform;
+        applyShader(shader);
+        vertices.use();
+        GL_CHECK(glDrawElements(GL_TRIANGLES,
+                                vertices.getIndexBuffer().getNumIndices(),
+                                GL_UNSIGNED_SHORT, 0));
+        vertices.unuse();
+        applyShader(NULL);
+    }
+}
 
 ////////////////////////////////////////////////////////////
 void RenderTarget::draw(const Vertex2<Vector2F, Vector2F>* vertices, unsigned int vertexCount,
-                        PrimitiveType type, const RenderStates& states)
-{
+                        PrimitiveType type, const RenderStates& states) {
     // Nothing to draw?
 //    if (!vertices || (vertexCount == 0))
 //        return;
@@ -288,29 +233,19 @@ void RenderTarget::draw(const Vertex2<Vector2F, Vector2F>* vertices, unsigned in
 //    }
 }
 
-
-////////////////////////////////////////////////////////////
-void RenderTarget::pushGLStates()
-{
-}
-
-
-////////////////////////////////////////////////////////////
-void RenderTarget::popGLStates()
-{
-}
-
-
-////////////////////////////////////////////////////////////
-void RenderTarget::resetGLStates()
-{
+void RenderTarget::pushGLStates() {
 
 }
 
+void RenderTarget::popGLStates() {
 
-////////////////////////////////////////////////////////////
-void RenderTarget::initialize()
-{
+}
+
+void RenderTarget::resetGLStates() {
+
+}
+
+void RenderTarget::initialize() {
     // Setup the default and current views
     m_defaultView.reset(FloatRect(0, 0, static_cast<float>(getSize().x), static_cast<float>(getSize().y)));
     m_view = m_defaultView;
@@ -319,10 +254,7 @@ void RenderTarget::initialize()
     m_cache.glStatesSet = false;
 }
 
-
-////////////////////////////////////////////////////////////
-void RenderTarget::applyCurrentView()
-{
+void RenderTarget::applyCurrentView() {
     // Set the viewport
     IntRect viewport = getViewport(m_view);
     int top = getSize().y - (viewport.top + viewport.height);
@@ -338,100 +270,46 @@ void RenderTarget::applyCurrentView()
     m_cache.viewChanged = false;
 }
 
-
-////////////////////////////////////////////////////////////
-void RenderTarget::applyBlendMode(const BlendMode& mode)
-{
+void RenderTarget::applyBlendMode(const BlendMode& mode) {
     // Apply the blend mode, falling back to the non-separate versions if necessary
-    if (GL_EXT_blend_func_separate)
-    {
+    if (GL_EXT_blend_func_separate) {
         GL_CHECK(glBlendFuncSeparate(
             factorToGlConstant(mode.colorSrcFactor), factorToGlConstant(mode.colorDstFactor),
             factorToGlConstant(mode.alphaSrcFactor), factorToGlConstant(mode.alphaDstFactor)));
     }
-    else
-    {
+    else {
         GL_CHECK(glBlendFunc(
             factorToGlConstant(mode.colorSrcFactor),
             factorToGlConstant(mode.colorDstFactor)));
     }
 
-    if (GL_EXT_blend_equation_separate)
-    {
+    if (GL_EXT_blend_equation_separate) {
         GL_CHECK(glBlendEquationSeparate(
             equationToGlConstant(mode.colorEquation),
             equationToGlConstant(mode.alphaEquation)));
     }
-    else
-    {
+    else {
         GL_CHECK(glBlendEquation(equationToGlConstant(mode.colorEquation)));
     }
 
     m_cache.lastBlendMode = mode;
 }
 
-
-////////////////////////////////////////////////////////////
-void RenderTarget::applyTransform(const Transform& transform)
-{
+void RenderTarget::applyTransform(const Transform& transform) {
     // No need to call glMatrixMode(GL_MODELVIEW), it is always the
     // current mode (for optimization purpose, since it's the most used)
 //    glCheck(glLoadMatrixf(transform.getMatrix()));
 }
 
-
-////////////////////////////////////////////////////////////
-void RenderTarget::applyTexture(const Texture* texture)
-{
-//    Texture::bind(texture, Texture::Pixels);
+void RenderTarget::applyTexture(const Texture* texture) {
+//    Texture::bind(texture/*, Texture::Pixels*/);
 
 //    m_cache.lastTextureId = texture ? texture->m_cacheId : 0;
 }
 
-
-////////////////////////////////////////////////////////////
-void RenderTarget::applyShader(const Shader* shader)
-{
+void RenderTarget::applyShader(const Shader* shader) {
 //    Shader::use();
-//    Shader::bind(shader);
+    Shader::bind(shader);
 }
 
-} // namespace sf
-
-
-////////////////////////////////////////////////////////////
-// Render states caching strategies
-//
-// * View
-//   If SetView was called since last draw, the projection
-//   matrix is updated. We don't need more, the view doesn't
-//   change frequently.
-//
-// * Transform
-//   The transform matrix is usually expensive because each
-//   entity will most likely use a different transform. This can
-//   lead, in worst case, to changing it every 4 vertices.
-//   To avoid that, when the vertex count is low enough, we
-//   pre-transform them and therefore use an identity transform
-//   to render them.
-//
-// * Blending mode
-//   Since it overloads the == operator, we can easily check
-//   whether any of the 6 blending components changed and,
-//   thus, whether we need to update the blend mode.
-//
-// * Texture
-//   Storing the pointer or OpenGL ID of the last used texture
-//   is not enough; if the gf::Texture instance is destroyed,
-//   both the pointer and the OpenGL ID might be recycled in
-//   a new texture instance. We need to use our own unique
-//   identifier system to ensure consistent caching.
-//
-// * Shader
-//   Shaders are very hard to optimize, because they have
-//   parameters that can be hard (if not impossible) to track,
-//   like matrices or textures. The only optimization that we
-//   do is that we avoid setting a null shader if there was
-//   already none for the previous draw.
-//
-////////////////////////////////////////////////////////////
+}

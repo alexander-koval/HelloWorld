@@ -3,16 +3,23 @@
 
 #include <Grafit/Graphics/OpenGL.hpp>
 #include <Grafit/Graphics/Geometry/Mat4.hpp>
+#include <Grafit/Graphics/Geometry/Vector2.hpp>
+#include <Grafit/Graphics/Geometry/Vector3.hpp>
+#include <Grafit/Graphics/Color.hpp>
 #include <glm/matrix.hpp>
 #include <string>
 #include <map>
 
 namespace gf {
 
+class Texture;
 class VertexBuffer;
+
 
 class Shader {
 public:
+    static void bind(const Shader* shader);
+
     Shader(void);
 
     ~Shader(void);
@@ -26,6 +33,8 @@ public:
     void use(void);
 
     void unuse(void);
+
+    void bindTextures(void) const;
 
     template<typename Type>
     void setParameter(const std::string& parameter);
@@ -46,6 +55,15 @@ public:
     void setParameter(const std::string& parameter, float v1, float v2, float v3, float v4);
 
     template<typename Type>
+    void setParameter(const std::string& parameter, const Vector2F& vector);
+
+    template<typename Type>
+    void setParameter(const std::string& parameter, const Vector3F& vector);
+
+    template<typename Type>
+    void setParameter(const std::string& parameter, const ColorF& color);
+
+    template<typename Type>
     void setParameter(const std::string& parameter, const glm::mat2& matrix);
 
     template<typename Type>
@@ -53,6 +71,9 @@ public:
 
     template<typename Type>
     void setParameter(const std::string& parameter, const Mat4f& matrix);
+
+    template<typename Type>
+    void setParameter(const std::string& parameter, const Texture& texture);
 
     template<typename Type>
     void setParameter(const std::string& parameter,
@@ -67,9 +88,9 @@ public:
 
     const GLuint getProgramID(void);
 
-    GLuint getUniformID(const std::string& uniform) const;
+    GLuint getUniformID(const std::string& uniform);
 
-    GLuint getAttributeID(const std::string& attribute) const;
+    GLuint getAttributeID(const std::string& attribute);
 
     void relese(void);
 
@@ -102,11 +123,11 @@ public:
 
         void set(const GLfloat* values, int numValues) const;
 
-        void setMatrix2 (const GLfloat* values, GLint count, GLboolean transpose) const;
+        void setMatrix2(const GLfloat* values, GLint count, GLboolean transpose) const;
 
-        void setMatrix3 (const GLfloat* values, GLint count, GLboolean transpose) const;
+        void setMatrix3(const GLfloat* values, GLint count, GLboolean transpose) const;
 
-        void setMatrix4 (const GLfloat* values, GLint count, GLboolean transpose) const;
+        void setMatrix4(const GLfloat* values, GLint count, GLboolean transpose) const;
 
         GLint uniformID;
     };
@@ -116,6 +137,8 @@ private:
     Attribute& getAttribute(const std::string& parameter);
 
     GLuint m_programID;
+    GLuint m_textureID;
+    std::map<const Shader::Uniform*, const Texture*> m_textures;
     std::map<std::string, Shader::Uniform> m_uniforms;
     std::map<std::string, Shader::Attribute> m_attributes;
 };

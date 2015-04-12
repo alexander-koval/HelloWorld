@@ -1,4 +1,5 @@
 #include <Grafit/Graphics/Image.hpp>
+#include <Grafit/Graphics/RenderTarget.hpp>
 #include <Grafit/Graphics/shaders/shaders.hpp>
 
 #ifdef __APPLE__
@@ -8,11 +9,11 @@ const std::string filename = "Resources/Lenna.png";
 #endif
 
 namespace gf {
-Image::Image() {
+Bitmap::Bitmap() {
     m_transform = Transform::Identity;
     m_image.loadFromFile(filename);
 //    m_image.flipY();
-    m_texture.loadFromImage(m_image, glm::vec2(/*256, 512*/));
+    m_texture.loadFromImage(m_image, IntRect(0, 0, 512, 512));
 //    m_shader.loadFromMemory(luma_glsl, GL_FRAGMENT_SHADER);
 //    m_shader.loadFromMemory(dither2x2_glsl, GL_FRAGMENT_SHADER);
     m_shader.loadFromMemory(positionTexture_vert, GL_VERTEX_SHADER);
@@ -57,10 +58,9 @@ Image::Image() {
     m_vertexArray.unuse();
 }
 
-void Image::render(Mat4f mvpView) {
+void Bitmap::render(Mat4f mvpView) {
     m_shader.use();
     m_vertexArray.use();
-    rotate(1);
     mvpView = mvpView * getTransform().getMatrix();
     m_shader.setParameter<Shader::Uniform>("MVP", mvpView);
     GL_CHECK(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0));
@@ -68,7 +68,21 @@ void Image::render(Mat4f mvpView) {
     m_shader.unuse();
 }
 
-Image::~Image() {
+void Bitmap::draw(RenderTarget &target, RenderStates states) const {
+    states.shader = &m_shader;
+    states.texture = &m_texture;
+    states.transform = getTransform();
+    target.draw(m_vertices, 4, PrimitiveType::Triangles, states);
+//    m_shader.use();
+//    m_vertexArray.use();
+//    mvpView = mvpView * getTransform().getMatrix();
+//    m_shader.setParameter<Shader::Uniform>("MVP", mvpView);
+//    GL_CHECK(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0));
+//    m_vertexArray.unuse();
+//    m_shader.unuse();
+}
+
+Bitmap::~Bitmap() {
 
 }
 

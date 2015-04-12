@@ -45,6 +45,7 @@ void Triangle::render(Mat4f mvpView) {
     mvpView = mvpView * getTransform().getMatrix();
     m_shader.setParameter<Shader::Uniform>("MVP", mvpView);
     m_vertexArray.use();
+//    GL_CHECK(glDrawArrays(GL_TRIANGLES, 0, 3));
     GL_CHECK(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0));
     m_vertexArray.unuse();
     m_shader.unuse();

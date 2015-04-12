@@ -54,5 +54,11 @@ bool operator ==(const Vector3<T>& left, const Vector3<T>& right);
 template <typename T>
 bool operator !=(const Vector3<T>& left, const Vector3<T>& right);
 
+
+typedef Vector3<int>   Vector3I;
+typedef Vector3<float> Vector3F;
+
+#include <Grafit/Graphics/Geometry/Vector3.inl>
+
 #endif // VECTOR3_HPP
 

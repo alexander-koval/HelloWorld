@@ -35,6 +35,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/Grafit/include
     ${PROJECT_SOURCE_DIR}/Grafit/extlibs/include
     ${PROJECT_SOURCE_DIR}/Grafit/modules/glm
+    ${PROJECT_SOURCE_DIR}/Grafit/modules/stb
 )
 
 if(APPLE)

@@ -9,13 +9,13 @@
 #include <Grafit/System/Types.hpp>
 
 namespace gf {
-class ImageData {
+class BitmapData {
 public:
-    ImageData(void);
+    BitmapData(void);
 
     void render(glm::mat4 mvpView);
 
-    ~ImageData(void);
+    ~BitmapData(void);
 
     bool loadFromFile(const std::string& filename);
 

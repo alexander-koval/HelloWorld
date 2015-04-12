@@ -7,3 +7,6 @@
 [submodule "Grafit/modules/glm"]
 	path = Grafit/modules/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "Grafit/modules/stb"]
+	path = Grafit/modules/stb
+	url = https://github.com/nothings/stb.git
