@@ -3,10 +3,8 @@
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Texture.hpp>
 #include <Grafit/Graphics/VertexArray.hpp>
-//#include <Grafit/Graphics/GLCheck.hpp>
-//#include <Grafit/System/Err.hpp>
 #include <iostream>
-
+#include <stack>
 
 namespace {
     Uint32 factorToGlConstant(gf::BlendMode::Factor blendFactor) {
@@ -120,7 +118,7 @@ void RenderTarget::draw(const Drawable& drawable, const RenderStates& states) {
     drawable.draw(*this, states);
 }
 
-void RenderTarget::draw(const VertexArray& vertices, const RenderStates& states) {
+void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const RenderStates& states) {
     if (activate(true)) {
         const Shader* shader = states.shader;
         const Texture* texture = states.texture;
@@ -242,7 +240,18 @@ void RenderTarget::popGLStates() {
 }
 
 void RenderTarget::resetGLStates() {
-
+    while (!m_modelViewStack.empty()) {
+        m_modelViewStack.pop();
+    }
+    while (!m_projectionStack.empty()) {
+        m_projectionStack.pop();
+    }
+    while (!m_textureStack.empty()) {
+        m_textureStack.pop();
+    }
+    m_modelViewStack.push(Mat4f::IDENTITY);
+    m_projectionStack.push(Mat4f::IDENTITY);
+    m_textureStack.push(Mat4f::IDENTITY);
 }
 
 void RenderTarget::initialize() {

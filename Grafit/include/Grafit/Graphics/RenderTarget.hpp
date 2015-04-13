@@ -10,11 +10,18 @@
 #include <Grafit/Graphics/PrimitiveType.hpp>
 #include <Grafit/Graphics/Vertex.hpp>
 #include <Grafit/System/NonCopyable.hpp>
+#include <stack>
 
 
 namespace gf {
 class Drawable;
 class VertexArray;
+
+enum MatrixMode {
+    MODELVIEW,
+    PROJECTION,
+    TEXTURE
+};
 
 class RenderTarget : NonCopyable {
 public:
@@ -41,7 +48,7 @@ public:
 
     void draw(const Drawable& drawable, const RenderStates& states = RenderStates::Default);
 
-    void draw(const VertexArray& vertices, const RenderStates& states = RenderStates::Default);
+    void draw(const VertexArray& vertices, PrimitiveType type, const RenderStates& states = RenderStates::Default);
 
     void draw(const Vertex2<Vector2F, Vector2F>* vertices, unsigned int vertexCount,
               PrimitiveType type, const RenderStates& states = RenderStates::Default);
@@ -84,6 +91,10 @@ private:
     View        m_defaultView; ///< Default view
     View        m_view;        ///< Current view
     StatesCache m_cache;       ///< Render states cache
+
+    std::stack<Mat4f> m_modelViewStack;
+    std::stack<Mat4f> m_projectionStack;
+    std::stack<Mat4f> m_textureStack;
 };
 
 }

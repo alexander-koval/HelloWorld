@@ -259,7 +259,7 @@ inline T Mat4<T>::determinant() const {
 
 template <typename T>
 inline Mat4<T> Mat4<T>::getInverse(void) const {
-    Mat4<T> matrix = Mat4<T>();
+    Mat4<T> matrix = Mat4<T>::IDENTITY;
     T det = determinant();
     bool invertable = std::abs(det) > 0.00000000001;
     if (invertable) {
@@ -317,6 +317,8 @@ template <typename T>
 Mat4<T>& operator *=(Mat4<T>& left, const Mat4<T>& right) {
     return left.multiply(right);
 }
+
+#include <Grafit/Graphics/Geometry/Mat4.inl>
 
 typedef Mat4<float> Mat4f;
 
