@@ -1,4 +1,4 @@
-#include <Grafit/Graphics/Image.hpp>
+#include <Grafit/Graphics/Bitmap.hpp>
 #include <Grafit/Graphics/shaders/shaders.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <stb_image.h>
@@ -30,6 +30,7 @@ BitmapData::~BitmapData(void) {
 }
 
 bool BitmapData::loadFromFile(const std::string& filename) {
+
     m_pixels.clear();
     int width, height, channels;
     unsigned char* image_data = stbi_load(filename.c_str(), &width, &height, &channels, STBI_default);

@@ -5,6 +5,7 @@
 #include <Grafit/System/Types.hpp>
 #include <Grafit/Window/VideoMode.hpp>
 #include <Grafit/Graphics/Geometry/Vector2.hpp>
+#include <Grafit/Graphics/RenderTarget.hpp>
 
 class GLFWwindow;
 
@@ -39,7 +40,7 @@ struct ContextSettings {
     unsigned int minorVersion;
 };
 
-class Window {
+class Window : public RenderTarget {
 public:
     Window(void);
 
@@ -59,7 +60,7 @@ public:
 
     void setPosition(const Vector2I& position);
 
-    Vector2U getSize(void) const;
+    virtual Vector2U getSize(void) const;
 
     double getDotsPerInch(void) const;
 
@@ -91,6 +92,10 @@ public:
 
 private:
     void initialize(void);
+
+    virtual bool activate(bool active) {
+        setActive(active);
+    }
 
     GLFWwindow* m_window;
     GLFWwindow* m_previous;

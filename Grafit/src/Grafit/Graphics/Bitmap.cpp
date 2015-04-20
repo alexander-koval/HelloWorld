@@ -1,4 +1,4 @@
-#include <Grafit/Graphics/Image.hpp>
+#include <Grafit/Graphics/Bitmap.hpp>
 #include <Grafit/Graphics/RenderTarget.hpp>
 #include <Grafit/Graphics/shaders/shaders.hpp>
 
@@ -68,11 +68,12 @@ void Bitmap::render(Mat4f mvpView) {
     m_shader.unuse();
 }
 
-void Bitmap::draw(RenderTarget &target, RenderStates states) const {
+void Bitmap::draw(RenderTarget &target, RenderStates states) {
     states.shader = &m_shader;
     states.texture = &m_texture;
     states.transform = getTransform();
-    target.draw(m_vertices, 4, PrimitiveType::Triangles, states);
+    target.draw(m_vertexArray, PrimitiveType::Triangles, states);
+//    target.draw(m_vertices, 4, PrimitiveType::Triangles, states);
 //    m_shader.use();
 //    m_vertexArray.use();
 //    mvpView = mvpView * getTransform().getMatrix();

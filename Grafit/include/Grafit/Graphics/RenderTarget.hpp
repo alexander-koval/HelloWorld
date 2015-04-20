@@ -46,7 +46,7 @@ public:
 
     Vector2I mapCoordsToPixel(const Vector2F& point, const View& view) const;
 
-    void draw(const Drawable& drawable, const RenderStates& states = RenderStates::Default);
+    void draw(Drawable& drawable, const RenderStates& states = RenderStates::Default);
 
     void draw(const VertexArray& vertices, PrimitiveType type, const RenderStates& states = RenderStates::Default);
 
@@ -54,6 +54,10 @@ public:
               PrimitiveType type, const RenderStates& states = RenderStates::Default);
 
     virtual Vector2U getSize() const = 0;
+
+    void pushMatrix(MatrixMode mode);
+
+    void popMatrix(MatrixMode mode);
 
     void pushGLStates();
 

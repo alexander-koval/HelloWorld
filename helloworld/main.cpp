@@ -1,26 +1,12 @@
 #include <iostream>
-#include <cstdio>
 #include <sstream>
-#include <cstdlib>
-#include <SOIL.h>
 #include <stb.h>
 #include <Grafit/Graphics/Shader.hpp>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/matrix_inverse.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <Grafit/Graphics/OpenGL.hpp>
 #include <Grafit/Graphics/Triangle.hpp>
-#include <Grafit/Graphics/Image.hpp>
-#include <Grafit/Graphics/Texture.hpp>
-#include <Grafit/Graphics/Geometry/Mat4.hpp>
-#include <Grafit/Graphics/Image.hpp>
+#include <Grafit/Graphics/Bitmap.hpp>
 #include <Grafit/Window/Window.hpp>
-#include <Grafit/Window/VideoMode.hpp>
 #include <Grafit/System/Clock.hpp>
 #include <Grafit/System/String.hpp>
-
-#define STRINGIFY(x) #x
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
@@ -68,8 +54,10 @@ void render() {
     Mat4f mvpView = projection * modelView;
 //    image->render(mvpView);
     triangle->render(mvpView);
-    picture->render(mvpView);
-    picture2->render(mvpView);
+//    picture->render(mvpView);
+//    picture2->render(mvpView);
+    window->draw(*picture);
+    window->draw(*picture2);
     window->display();
 }
 
@@ -103,7 +91,7 @@ void updateFPS() {
 
 int main() {
     window = new gf::Window(VideoMode(1024, 768), "Hello World", gf::Style::Default);
-
+    window->setView(window->getDefaultView());
     if (gladLoadGL()) {
         std::cout << "\tVendor: " << glGetString (GL_VENDOR) << std::endl;
         std::cout << "\tRenderer: " << glGetString (GL_RENDERER) << std::endl;

@@ -11,10 +11,10 @@ file(GLOB grafit_graphics_source_files
     "${SRCROOT}/GL/glad.c"
     "${INCROOT}/Triangle.hpp"
     "${SRCROOT}/Triangle.cpp"
-    "${INCROOT}/ImageData.hpp"
-    "${SRCROOT}/ImageData.cpp"
-    "${INCROOT}/Image.hpp"
-    "${SRCROOT}/Image.cpp"
+    "${INCROOT}/BitmapData.hpp"
+    "${SRCROOT}/BitmapData.cpp"
+    "${INCROOT}/Bitmap.hpp"
+    "${SRCROOT}/Bitmap.cpp"
     "${INCROOT}/Texture.hpp"
     "${SRCROOT}/Texture.cpp"
     "${INCROOT}/Color.hpp"
@@ -109,7 +109,7 @@ target_link_libraries(grafit-graphics
 #    glfw
 #    GLU
 #    GL
-    SOIL
+#    SOIL
     ${DESKTOP_LIBS}
     ${OPENGL_glu_LIBRARY}
     ${GLFW_LIBRARIES}

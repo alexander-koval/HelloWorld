@@ -19,17 +19,17 @@ public:
 
     RenderStates(const Texture* theTexture);
 
-    RenderStates(const Shader* theShader);
+    RenderStates(Shader* theShader);
 
     RenderStates(const BlendMode& theBlendMode, const Transform& theTransform,
-                 const Texture* theTexture, const Shader* theShader);
+                 const Texture* theTexture, Shader* theShader);
 
     static const RenderStates Default; ///< Special instance holding the default render states
 
     BlendMode      blendMode; ///< Blending mode
     Transform      transform; ///< Transform
     const Texture* texture;   ///< Texture
-    const Shader*  shader;    ///< Shader
+    Shader*  shader;    ///< Shader
 };
 
 }

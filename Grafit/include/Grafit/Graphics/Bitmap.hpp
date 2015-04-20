@@ -3,7 +3,7 @@
 
 #include <Grafit/Graphics/Transformable.hpp>
 #include <Grafit/Graphics/Drawable.hpp>
-#include <Grafit/Graphics/ImageData.hpp>
+#include "BitmapData.hpp"
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Texture.hpp>
 #include <Grafit/Graphics/Geometry/Mat4.hpp>
@@ -22,7 +22,7 @@ public:
     ~Bitmap();
 
 protected:
-    virtual void draw(RenderTarget &target, RenderStates states) const;
+    virtual void draw(RenderTarget &target, RenderStates states);
 
 private:
     BitmapData m_image;

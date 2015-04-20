@@ -137,7 +137,7 @@ private:
     Attribute& getAttribute(const std::string& parameter);
 
     GLuint m_programID;
-    GLuint m_textureID;
+//    GLuint m_textureID;
     std::map<const Shader::Uniform*, const Texture*> m_textures;
     std::map<std::string, Shader::Uniform> m_uniforms;
     std::map<std::string, Shader::Attribute> m_attributes;

@@ -217,9 +217,15 @@ const Transform& View::getTransform() const
         m_transform = Transform( a * cosine, a * sine,   a * tx + c,
                                 -b * sine,   b * cosine, b * ty + d,
                                  0.f,        0.f,        1.f);
+
+//        m_transform = Transform( a * cosine, -b * sine   , 0.f,
+//                                 a * sine  ,  b * cosine , 0.f,
+//                                 a * tx + c,  b  * ty + d, 1.f);
+
         m_transformUpdated = true;
     }
 
+    return Transform::Identity;
     return m_transform;
 }
 

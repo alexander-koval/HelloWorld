@@ -171,6 +171,7 @@ void Window::display(void) {
 }
 
 void Window::initialize(void) {
+    RenderTarget::initialize();
     setVisible(true);
     setVerticalSyncEnabled(false);
     setActive();

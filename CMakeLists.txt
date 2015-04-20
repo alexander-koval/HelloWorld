@@ -38,6 +38,8 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/Grafit/modules/stb
 )
 
+message("DIRS: " ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+
 if(APPLE)
     include_directories(/System/Library/Frameworks)
     find_library(COCOA_LIBRARY Cocoa)
@@ -49,7 +51,7 @@ if(APPLE)
 endif()
 
 set(GRAFIT_ENABLE_CXX_11 ON)
-set(CMAKE_CXX_FLAGS "-std=c++11")
+set(CMAKE_CXX_FLAGS "-std=c++11 -DSTB_IMAGE_IMPLEMENTATION")
 
 link_directories(
     ${PROJECT_BINARY_DIR}/application/libs

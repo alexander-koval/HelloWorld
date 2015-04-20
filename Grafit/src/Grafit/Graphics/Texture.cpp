@@ -1,6 +1,6 @@
 #include <Grafit/Graphics/Texture.hpp>
 #include <Grafit/Graphics/OpenGL.hpp>
-#include <Grafit/Graphics/Image.hpp>
+#include <Grafit/Graphics/Bitmap.hpp>
 #include <iostream>
 
 namespace gf {
@@ -66,10 +66,10 @@ bool Texture::create(Uint32 width, Uint32 height) {
     if (!m_textureID) {
         GLuint texture;
         GL_CHECK(glGenTextures(1, &texture));
-//        GL_CHECK(glActiveTexture(GL_TEXTURE0));
+        GL_CHECK(glActiveTexture(GL_TEXTURE0));
         m_textureID = texture;
     }
-//    GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
+    GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
     GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_actualSize.x, m_actualSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
