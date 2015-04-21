@@ -38,8 +38,10 @@ using namespace std;
 void init() {
 //    image = new Image();
     picture = new gf::Bitmap();
+//    picture->setOrigin(0.5, 0.5);
     picture->setPosition(-1, -1);
     picture2 = new gf::Bitmap();
+//    picture2->setOrigin(0.5, 0.5);
     picture2->setPosition(0, 0);
     triangle = new gf::Triangle();
 }
@@ -54,6 +56,7 @@ void render() {
     Mat4f mvpView = projection * modelView;
 //    image->render(mvpView);
     triangle->render(mvpView);
+//    picture->setScale(picture->getScale().x + 0.01f, picture->getScale().y + 0.01f);
 //    picture->render(mvpView);
 //    picture2->render(mvpView);
     window->draw(*picture);

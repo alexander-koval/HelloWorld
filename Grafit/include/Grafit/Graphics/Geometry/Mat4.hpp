@@ -231,21 +231,32 @@ inline Mat4<T>& Mat4<T>::rotate(T angle, const Vector3<T> &center) {
 
 template <typename T>
 inline Mat4<T>& Mat4<T>::scale(T scaleX, T scaleY, T scaleZ) {
+    m_matrix[0]  = scaleX;
+    m_matrix[5]  = scaleY;
+    m_matrix[10] = scaleZ;
     return *this;
 }
 
 template <typename T>
 inline Mat4<T>& Mat4<T>::scale(T scaleX, T scaleY, T scaleZ, T centerX, T centerY, T centerZ) {
+    m_matrix[0]  = scaleX;
+    m_matrix[5]  = scaleY;
+    m_matrix[10] = scaleZ;
+    m_matrix[12] = centerX * (1 - scaleX);
+    m_matrix[13] = centerY * (1 - scaleY);
+    m_matrix[14] = centerZ * (1 - scaleZ);
     return * this;
 }
 
 template <typename T>
 inline Mat4<T>& Mat4<T>::scale(const Vector3<T> &factors) {
+    scale(factors.x, factors.y, factors.z);
     return *this;
 }
 
 template <typename T>
 inline Mat4<T>& Mat4<T>::scale(const Vector3<T> &factors, const Vector3<T> &center) {
+    scale(factors.x, factors.y, factors.z, center.x, center.y, center.z);
     return *this;
 }
 

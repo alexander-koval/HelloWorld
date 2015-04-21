@@ -3,6 +3,7 @@
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Texture.hpp>
 #include <Grafit/Graphics/VertexArray.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <cassert>
 #include <stack>
@@ -311,7 +312,7 @@ void RenderTarget::applyCurrentView() {
     int top = getSize().y - (viewport.top + viewport.height);
     GL_CHECK(glViewport(viewport.left, top, viewport.width, viewport.height));
 
-    m_modelViewStack.push(m_view.getTransform().getMatrix());
+    m_projectionStack.push(m_view.getTransform().getMatrix());
 
     m_cache.viewChanged = false;
 }
@@ -344,7 +345,7 @@ void RenderTarget::applyBlendMode(const BlendMode& mode) {
 void RenderTarget::applyTransform(const Transform& transform) {
     // No need to call glMatrixMode(GL_MODELVIEW), it is always the
     // current mode (for optimization purpose, since it's the most used)
-    m_textureStack.push(transform.getMatrix());
+    m_modelViewStack.push(transform.getMatrix());
 }
 
 void RenderTarget::applyTexture(const Texture* texture) {

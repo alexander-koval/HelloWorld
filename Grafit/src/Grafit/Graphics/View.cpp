@@ -214,18 +214,33 @@ const Transform& View::getTransform() const
         float d = -b * m_center.y;
 
         // Rebuild the projection matrix
-        m_transform = Transform( a * cosine, a * sine,   a * tx + c,
-                                -b * sine,   b * cosine, b * ty + d,
-                                 0.f,        0.f,        1.f);
+//        m_transform = Transform( a * cosine, a * sine,   a * tx + c,
+//                                -b * sine,   b * cosine, b * ty + d,
+//                                 0.f,        0.f,        1.f);
 
 //        m_transform = Transform( a * cosine, -b * sine   , 0.f,
 //                                 a * sine  ,  b * cosine , 0.f,
 //                                 a * tx + c,  b  * ty + d, 1.f);
 
+//        Mat4f matrix = Mat4f( a * cosine,  a * sine  ,  0, a * tx + c,
+//                             -b * sine  ,  b * cosine,  0, b * ty + d,
+//                              0         ,  0         ,  1, 0,
+//                              0,           0         ,  0, 1);
+//        m_transform = Transform(matrix);
+
+//        m_transform = Transform(matrix);
+//        m_transform = Transform(2.f / m_size.x, 0           , 0,
+//                                0.f           , 2 / m_size.y, 0,
+//                                -m_size.x / m_size.x, -m_size.y / m_size.y, 1);
+//        m_transform = Transform::Identity;
+
+        m_transform = Transform::Identity;
+//        m_transform.rotate(angle);
+        m_transform = m_transform.translate(a * tx + c, b * ty + d);
         m_transformUpdated = true;
     }
-
-    return Transform::Identity;
+//    m_transform.scale(0.5, 0.5);
+//    return Transform::Identity;
     return m_transform;
 }
 
