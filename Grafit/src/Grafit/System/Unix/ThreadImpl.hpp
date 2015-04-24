@@ -22,8 +22,8 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_THREADIMPL_HPP
-#define SFML_THREADIMPL_HPP
+#ifndef THREADIMPL_HPP
+#define THREADIMPL_HPP
 
 #include <Grafit/System/NonCopyable.hpp>
 #include <pthread.h>
@@ -77,4 +77,4 @@ private:
 
 } // namespace priv
 
-#endif // SFML_THREADIMPL_HPP
+#endif // THREADIMPL_HPP

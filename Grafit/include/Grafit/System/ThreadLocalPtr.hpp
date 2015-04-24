@@ -22,8 +22,8 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_THREADLOCALPTR_HPP
-#define SFML_THREADLOCALPTR_HPP
+#ifndef THREADLOCALPTR_HPP
+#define THREADLOCALPTR_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -107,7 +107,7 @@ public:
 #include <SFML/System/ThreadLocalPtr.inl>
 
 
-#endif // SFML_THREADLOCALPTR_HPP
+#endif // THREADLOCALPTR_HPP
 
 
 ////////////////////////////////////////////////////////////

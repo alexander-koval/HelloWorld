@@ -1,6 +1,8 @@
 #ifndef INPUTSTREAM_HPP
 #define INPUTSTREAM_HPP
 
+#include <Grafit/System/Types.hpp>
+
 namespace gf {
 class InputStream {
 public:

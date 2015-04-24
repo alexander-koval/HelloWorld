@@ -1,6 +1,6 @@
 #include <Grafit/System/Clock.hpp>
 
-#if defined(SFML_SYSTEM_WINDOWS)
+#if defined(SYSTEM_WINDOWS)
     #include <Grafit/System/Win32/ClockImpl.hpp>
 #else
     #include <Grafit/System/Unix/ClockImpl.hpp>

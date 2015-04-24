@@ -58,7 +58,7 @@ void ThreadImpl::terminate()
 {
     if (m_isActive)
     {
-        #ifndef SFML_SYSTEM_ANDROID
+        #ifndef SYSTEM_ANDROID
             pthread_cancel(m_thread);
         #else
             // See http://stackoverflow.com/questions/4610086/pthread-cancel-al
@@ -74,7 +74,7 @@ void* ThreadImpl::entryPoint(void* userData)
     // The Thread instance is stored in the user data
     Thread* owner = static_cast<Thread*>(userData);
 
-    #ifndef SFML_SYSTEM_ANDROID
+    #ifndef SYSTEM_ANDROID
         // Tell the thread to handle cancel requests immediately
         pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
     #endif

@@ -22,8 +22,8 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_THREADLOCALIMPL_HPP
-#define SFML_THREADLOCALIMPL_HPP
+#ifndef THREADLOCALIMPL_HPP
+#define THREADLOCALIMPL_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -75,4 +75,4 @@ private:
 
 } // namespace priv
 
-#endif // SFML_THREADLOCALIMPL_HPP
+#endif // THREADLOCALIMPL_HPP

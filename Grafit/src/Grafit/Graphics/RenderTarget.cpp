@@ -152,7 +152,7 @@ void RenderTarget::draw(const Vertex2<Vector2F, Vector2F>* vertices, unsigned in
 //        return;
 
 //    // GL_QUADS is unavailable on OpenGL ES
-//    #ifdef SFML_OPENGL_ES
+//    #ifdef OPENGL_ES
 //        if (type == Quads)
 //        {
 //            err() << "gf::Quads primitive type is not supported on OpenGL ES platforms, drawing skipped" << std::endl;
