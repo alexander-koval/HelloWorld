@@ -38,17 +38,21 @@ using namespace std;
 void init() {
 //    image = new Image();
     picture = new gf::Bitmap();
-//    picture->setOrigin(0.5, 0.5);
-    picture->setPosition(-1, -1);
+    picture->setOrigin(256, 256);
+//    picture->setScale(2.0f, 2.0f);
+
+    picture->setPosition(512, 512);
     picture2 = new gf::Bitmap();
 //    picture2->setOrigin(0.5, 0.5);
+//    picture2->setScale(2.0f, 2.0f);
     picture2->setPosition(0, 0);
     triangle = new gf::Triangle();
 }
 
 void render() {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(0.7, 0.7, 0.7, 0.0);
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClearColor(0.7, 0.7, 0.7, 0.0);
+    window->clear(ColorU(180, 180, 180, 255));
 //    rotation += 0.1f;
 //    translation += 0.01f;
 //    modelView.rotate(rotation);

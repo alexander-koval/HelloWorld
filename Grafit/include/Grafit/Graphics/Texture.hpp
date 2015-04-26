@@ -10,7 +10,7 @@ namespace gf {
 class BitmapData;
 class Texture {
 public:
-    static void bind(const Texture& texture);
+    static void bind(const Texture* texture);
 
     static Uint32 getMaximumSize(void);
 

@@ -127,13 +127,16 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
         const Texture* texture = states.texture;
         Transform transform = states.transform;
         applyTransform(transform);
+//        m_view.setCenter(256, 256);
+//        m_view.setRotation(m_view.getRotation() + .1);
         applyCurrentView();
 //        Uint64 textureId = states.texture ? states.texture->m_textureID : 0;
 //        if (textureId != m_cache.lastTextureId)
             applyTexture(texture);
         applyShader(shader);
         vertices.use();
-        Mat4f mvpView = m_projectionStack.top() * m_modelViewStack.top() * m_textureStack.top();
+//        Mat4f mvpView = m_projectionStack.top() * m_modelViewStack.top() * m_textureStack.top();
+        Mat4f mvpView = m_textureStack.top() * m_modelViewStack.top() * m_projectionStack.top();
         shader->setParameter<Shader::Uniform>("TextureMap", *texture);
         shader->setParameter<Shader::Uniform>("MVP", mvpView);
         GL_CHECK(glDrawElements(GL_TRIANGLES,
@@ -142,6 +145,7 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
         vertices.unuse();
         applyShader(NULL);
     }
+    resetGLStates();
 }
 
 ////////////////////////////////////////////////////////////
@@ -312,7 +316,7 @@ void RenderTarget::applyCurrentView() {
     int top = getSize().y - (viewport.top + viewport.height);
     GL_CHECK(glViewport(viewport.left, top, viewport.width, viewport.height));
 
-    m_projectionStack.push(m_view.getTransform().getMatrix());
+    m_modelViewStack.push(m_view.getTransform().getMatrix());
 
     m_cache.viewChanged = false;
 }
@@ -345,11 +349,11 @@ void RenderTarget::applyBlendMode(const BlendMode& mode) {
 void RenderTarget::applyTransform(const Transform& transform) {
     // No need to call glMatrixMode(GL_MODELVIEW), it is always the
     // current mode (for optimization purpose, since it's the most used)
-    m_modelViewStack.push(transform.getMatrix());
+    m_textureStack.push(transform.getMatrix());
 }
 
 void RenderTarget::applyTexture(const Texture* texture) {
-    Texture::bind(*texture/*, Texture::Pixels*/);
+    Texture::bind(texture/*, Texture::Pixels*/);
 
 //    m_cache.lastTextureId = texture ? texture->m_textureID : 0;
 }

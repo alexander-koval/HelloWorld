@@ -86,10 +86,10 @@ inline Mat4<T>::Mat4(void) {
 }
 
 template <typename T>
-inline Mat4<T>::Mat4(T m00, T m01, T m02, T m03,
-                     T m10, T m11, T m12, T m13,
-                     T m20, T m21, T m22, T m23,
-                     T m30, T m31, T m32, T m33) {
+inline Mat4<T>::Mat4(T m00, T m10, T m20, T m30,
+                     T m01, T m11, T m21, T m31,
+                     T m02, T m12, T m22, T m32,
+                     T m03, T m13, T m23, T m33) {
     m_matrix[0]  = m00;  m_matrix[1]  = m10;  m_matrix[2]  = m20;  m_matrix[3]  = m30;
     m_matrix[4]  = m01;  m_matrix[5]  = m11;  m_matrix[6]  = m21;  m_matrix[7]  = m31;
     m_matrix[8]  = m02;  m_matrix[9]  = m12;  m_matrix[10] = m22;  m_matrix[11] = m32;
@@ -204,10 +204,10 @@ inline Mat4<T>& Mat4<T>::rotate(T angle) {
     float cos = std::cos(radian);
     float sin = std::sin(radian);
 
-    Mat4<T> rotation(cos, -sin, 0, 0,
-                     sin,  cos, 0, 0,
-                     0  ,    0, 1, 0,
-                     0  ,    0, 0, 1);
+    Mat4<T> rotation( cos,  sin, 0, 0,
+                     -sin,  cos, 0, 0,
+                      0  ,    0, 1, 0,
+                      0  ,    0, 0, 1);
     return multiply(rotation);
 }
 
@@ -217,10 +217,10 @@ inline Mat4<T>& Mat4<T>::rotate(T angle, T centerX, T centerY) {
     float cos = std::cos(rad);
     float sin = std::sin(rad);
 
-    Mat4<T> rotation(cos, -sin, centerX * (1 - cos) + centerY * sin, 0,
-                     sin,  cos, centerY * (1 - cos) - centerX * sin, 0,
-                     0,    0,     1,      0,
-                     0,    0,     0,      1);
+    Mat4<T> rotation(                                cos,                                   sin,     0,      0,
+                                                    -sin,                                   cos,     0,      0,
+                                                       0,                                     0,     1,      0,
+                     centerX * (1 - cos) + centerY * sin,   centerY * (1 - cos) - centerX * sin,     0,      1);
     return multiply(rotation);
 }
 

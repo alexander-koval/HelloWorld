@@ -114,7 +114,7 @@ void Shader::bindTextures(void) const {
         const Uniform* uniform = it->first;
         uniform->set(index);
         GL_CHECK(glActiveTexture(GL_TEXTURE0 + index));
-        Texture::bind(*it->second);
+        Texture::bind(it->second);
         ++it;
     }
 }

@@ -4,9 +4,9 @@
 #include <iostream>
 
 namespace gf {
-void Texture::bind(const Texture &texture) {
-    if (texture.m_textureID) {
-        GL_CHECK(glBindTexture(GL_TEXTURE_2D, texture.m_textureID));
+void Texture::bind(const Texture* texture) {
+    if (texture && texture->m_textureID) {
+        GL_CHECK(glBindTexture(GL_TEXTURE_2D, texture->m_textureID));
     } else {
         GL_CHECK(glBindTexture(GL_TEXTURE_2D, 0));
     }

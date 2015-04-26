@@ -33,7 +33,7 @@ private:
     VertexArray m_vertexArray;
     Vertex2<Vector2F, Vector2F> m_vertices[4];
 
-    typedef Vertex2<Vector2F, Vector2F> Vertex;
+    typedef VertexP2F_T2F Vertex;
 };
 }
 #endif // IMAGE_HPP

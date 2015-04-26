@@ -44,6 +44,10 @@ public:
 
 #include <Grafit/Graphics/Vertex.inl>
 
+
+typedef Vertex2<Vector2F, ColorF> VertexP2F_CF;
+typedef Vertex2<Vector2F, Vector2F> VertexP2F_T2F;
+typedef Vertex3<Vector2F, Vector2F, ColorF> VertexP2F_T2F_CF;
 }
 #endif // VERTEX_HPP
 

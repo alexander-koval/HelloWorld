@@ -27,9 +27,9 @@ Bitmap::Bitmap() {
     GL_CHECK(m_shader.unuse());
 
     m_vertices[0].value1 = Vector2F(0.0f, 0.0f);
-    m_vertices[1].value1 = Vector2F(1.0f, 0.0f);
-    m_vertices[2].value1 = Vector2F(1.0f, 1.0f);
-    m_vertices[3].value1 = Vector2F(0.0f, 1.0f);
+    m_vertices[1].value1 = Vector2F(512.0f, 0.0f);
+    m_vertices[2].value1 = Vector2F(512.0f, 512.0f);
+    m_vertices[3].value1 = Vector2F(0.0f, 512.0f);
 
 //    m_vertices[0].value2 = Vector2F(0.0f, 0.0f);
 //    m_vertices[1].value2 = Vector2F(1.0f, 0.0f);
@@ -71,6 +71,7 @@ void Bitmap::render(Mat4f mvpView) {
 void Bitmap::draw(RenderTarget &target, RenderStates states) {
     states.shader = &m_shader;
     states.texture = &m_texture;
+    rotate(1);
     states.transform = getTransform();
     target.draw(m_vertexArray, PrimitiveType::Triangles, states);
 //    target.draw(m_vertices, 4, PrimitiveType::Triangles, states);
