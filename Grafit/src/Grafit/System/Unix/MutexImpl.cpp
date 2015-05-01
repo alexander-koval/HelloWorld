@@ -1,5 +1,6 @@
 #include <Grafit/System/Unix/MutexImpl.hpp>
 
+namespace gf {
 namespace priv {
 
 MutexImpl::MutexImpl() {
@@ -32,3 +33,5 @@ void MutexImpl::unlock()
 }
 
 } // namespace priv
+
+} // namespace gf

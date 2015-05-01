@@ -5,6 +5,7 @@
     #include <time.h>
 #endif
 
+namespace gf {
 
 namespace priv {
 
@@ -29,3 +30,5 @@ Time ClockImpl::getCurrentTime() {
 }
 
 } // namespace priv
+
+} // namespace gf

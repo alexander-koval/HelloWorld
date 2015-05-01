@@ -71,7 +71,7 @@ void Bitmap::render(Mat4F mvpView) {
 void Bitmap::draw(RenderTarget &target, RenderStates states) {
     states.shader = &m_shader;
     states.texture = &m_texture;
-//    rotate(1);
+    rotate(1);
     states.transform = getTransform();
     target.draw(m_vertexArray, PrimitiveType::Triangles, states);
 //    target.draw(m_vertices, 4, PrimitiveType::Triangles, states);

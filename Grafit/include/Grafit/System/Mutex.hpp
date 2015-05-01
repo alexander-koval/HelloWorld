@@ -5,7 +5,7 @@
 
 namespace gf {
 namespace priv {
-    class MutexImpl;
+class MutexImpl;
 }
 
 class Mutex : NonCopyable {

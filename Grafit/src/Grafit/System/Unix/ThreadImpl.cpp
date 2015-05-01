@@ -1,64 +1,29 @@
-////////////////////////////////////////////////////////////
-//
-// SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2014 Laurent Gomila (laurent.gom@gmail.com)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////
-// Headers
-////////////////////////////////////////////////////////////
 #include <Grafit/System/Unix/ThreadImpl.hpp>
 #include <Grafit/System/Thread.hpp>
 #include <iostream>
 #include <cassert>
 
+namespace gf {
 namespace priv {
 
-ThreadImpl::ThreadImpl(Thread* owner) :
-m_isActive(true)
-{
+ThreadImpl::ThreadImpl(Thread* owner)
+: m_isActive(true) {
     m_isActive = pthread_create(&m_thread, NULL, &ThreadImpl::entryPoint, owner) == 0;
 
     if (!m_isActive)
         std::cerr << "Failed to create thread" << std::endl;
 }
 
-
-////////////////////////////////////////////////////////////
-void ThreadImpl::wait()
-{
-    if (m_isActive)
-    {
+void ThreadImpl::wait() {
+    if (m_isActive) {
         assert(pthread_equal(pthread_self(), m_thread) == 0); // A thread cannot wait for itself!
         pthread_join(m_thread, NULL);
     }
 }
 
-
-////////////////////////////////////////////////////////////
-void ThreadImpl::terminate()
-{
-    if (m_isActive)
-    {
-        #ifndef SYSTEM_ANDROID
+void ThreadImpl::terminate() {
+    if (m_isActive) {
+        #ifndef GRAFIT_SYSTEM_ANDROID
             pthread_cancel(m_thread);
         #else
             // See http://stackoverflow.com/questions/4610086/pthread-cancel-al
@@ -67,10 +32,7 @@ void ThreadImpl::terminate()
     }
 }
 
-
-////////////////////////////////////////////////////////////
-void* ThreadImpl::entryPoint(void* userData)
-{
+void* ThreadImpl::entryPoint(void* userData) {
     // The Thread instance is stored in the user data
     Thread* owner = static_cast<Thread*>(userData);
 
@@ -86,3 +48,4 @@ void* ThreadImpl::entryPoint(void* userData)
 }
 
 } // namespace priv
+} // namespace gf

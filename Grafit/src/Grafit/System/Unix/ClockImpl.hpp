@@ -14,10 +14,6 @@ public:
 
 } // namespace priv
 
-<<<<<<< HEAD
-#endif // CLOCKIMPLUNIX_HPP
-=======
 } // namespace gf
 
 #endif // SFML_CLOCKIMPLUNIX_HPP
->>>>>>> Workflow on Windows

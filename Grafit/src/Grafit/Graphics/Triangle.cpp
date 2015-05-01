@@ -41,7 +41,7 @@ Triangle::Triangle() {
 
 void Triangle::render(Mat4F mvpView) {
     m_shader.use();
-//    rotate(-1);
+    rotate(-1);
     mvpView = mvpView * getTransform().getMatrix();
     m_shader.setParameter<Shader::Uniform>("MVP", mvpView);
     m_vertexArray.use();
