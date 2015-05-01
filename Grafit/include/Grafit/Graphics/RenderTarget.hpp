@@ -96,9 +96,9 @@ private:
     View        m_view;        ///< Current view
     StatesCache m_cache;       ///< Render states cache
 
-    std::stack<Mat4f> m_modelViewStack;
-    std::stack<Mat4f> m_projectionStack;
-    std::stack<Mat4f> m_textureStack;
+    std::stack<Mat4F> m_modelViewStack;
+    std::stack<Mat4F> m_projectionStack;
+    std::stack<Mat4F> m_textureStack;
 };
 
 }

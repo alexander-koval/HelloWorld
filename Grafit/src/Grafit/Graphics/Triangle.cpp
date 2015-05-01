@@ -39,7 +39,7 @@ Triangle::Triangle() {
     m_vertexArray.unuse();
 }
 
-void Triangle::render(Mat4f mvpView) {
+void Triangle::render(Mat4F mvpView) {
     m_shader.use();
     rotate(-1);
     mvpView = mvpView * getTransform().getMatrix();

@@ -127,7 +127,7 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
         const Texture* texture = states.texture;
         Transform transform = states.transform;
         applyTransform(transform);
-//        m_view.setCenter(256, 256);
+//        m_view.setCenter(512, 378);
 //        m_view.setRotation(m_view.getRotation() + .1);
         applyCurrentView();
 //        Uint64 textureId = states.texture ? states.texture->m_textureID : 0;
@@ -136,7 +136,7 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
         applyShader(shader);
         vertices.use();
 //        Mat4f mvpView = m_projectionStack.top() * m_modelViewStack.top() * m_textureStack.top();
-        Mat4f mvpView = m_textureStack.top() * m_modelViewStack.top() * m_projectionStack.top();
+        Mat4F mvpView = m_textureStack.top() * m_modelViewStack.top() * m_projectionStack.top();
         shader->setParameter<Shader::Uniform>("TextureMap", *texture);
         shader->setParameter<Shader::Uniform>("MVP", mvpView);
         GL_CHECK(glDrawElements(GL_TRIANGLES,
@@ -296,9 +296,9 @@ void RenderTarget::resetGLStates() {
     while (!m_textureStack.empty()) {
         m_textureStack.pop();
     }
-    m_modelViewStack.push(Mat4f::IDENTITY);
-    m_projectionStack.push(Mat4f::IDENTITY);
-    m_textureStack.push(Mat4f::IDENTITY);
+    m_modelViewStack.push(Mat4F::IDENTITY);
+    m_projectionStack.push(Mat4F::IDENTITY);
+    m_textureStack.push(Mat4F::IDENTITY);
 }
 
 void RenderTarget::initialize() {

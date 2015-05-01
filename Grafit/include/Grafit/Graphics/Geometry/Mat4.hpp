@@ -331,6 +331,6 @@ Mat4<T>& operator *=(Mat4<T>& left, const Mat4<T>& right) {
 
 #include <Grafit/Graphics/Geometry/Mat4.inl>
 
-typedef Mat4<float> Mat4f;
+typedef Mat4<float> Mat4F;
 
 #endif // MAT4_HPP

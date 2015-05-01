@@ -18,12 +18,12 @@ Transform::Transform(float m00, float m01, float m02,
                m20, m21, 0, m22) {
 }
 
-Transform::Transform(Mat4f matrix)
+Transform::Transform(Mat4F matrix)
     : m_matrix(matrix) {
 
 }
 
-const Mat4f& Transform::getMatrix(void) const {
+const Mat4F& Transform::getMatrix(void) const {
     return m_matrix;
 }
 

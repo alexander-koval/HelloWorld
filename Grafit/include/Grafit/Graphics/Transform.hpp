@@ -16,9 +16,9 @@ public:
               float m10, float m11, float m12,
               float m20, float m21, float m22);
 
-    Transform(Mat4f matrix);
+    Transform(Mat4F matrix);
 
-    const Mat4f& getMatrix(void) const;
+    const Mat4F& getMatrix(void) const;
 
     Transform getInverse(void) const;
 

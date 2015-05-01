@@ -23,8 +23,8 @@ const std::string filename = "Resources/Lenna.png";
 #endif
 
 gf::Window* window = NULL;
-Mat4f projection = Mat4f();
-Mat4f modelView = Mat4f();
+Mat4F projection = Mat4F();
+Mat4F modelView = Mat4F();
 float rotation = 1.f;
 float translation = .005f;
 Time statsTime = Time::Zero;
@@ -57,7 +57,7 @@ void render() {
 //    translation += 0.01f;
 //    modelView.rotate(rotation);
 //    modelView.translate(translation, translation, 0);
-    Mat4f mvpView = projection * modelView;
+    Mat4F mvpView = projection * modelView;
 //    image->render(mvpView);
     triangle->render(mvpView);
 //    picture->setScale(picture->getScale().x + 0.01f, picture->getScale().y + 0.01f);

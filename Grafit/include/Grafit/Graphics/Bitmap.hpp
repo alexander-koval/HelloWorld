@@ -17,7 +17,7 @@ class Bitmap : public Drawable, public Transformable {
 public:
     Bitmap();
 
-    void render(Mat4f mvpView);
+    void render(Mat4F mvpView);
 
     ~Bitmap();
 

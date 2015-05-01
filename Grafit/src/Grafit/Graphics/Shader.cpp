@@ -252,7 +252,7 @@ void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const g
 }
 
 template<>
-void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const Mat4f& matrix) {
+void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const Mat4F& matrix) {
     Uniform& uniform = getUniform(parameter);
     uniform.setMatrix4(matrix.getMatrix(), 1, false);
 }

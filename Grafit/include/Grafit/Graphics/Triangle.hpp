@@ -16,7 +16,7 @@ class Triangle : public Transformable
 public:
     Triangle();
 
-    void render(Mat4f mvpView);
+    void render(Mat4F mvpView);
 
     ~Triangle();
 

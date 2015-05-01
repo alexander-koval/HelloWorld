@@ -70,7 +70,7 @@ public:
     void setParameter(const std::string& parameter, const glm::mat3& matrix);
 
     template<typename Type>
-    void setParameter(const std::string& parameter, const Mat4f& matrix);
+    void setParameter(const std::string& parameter, const Mat4F& matrix);
 
     template<typename Type>
     void setParameter(const std::string& parameter, const Texture& texture);

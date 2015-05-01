@@ -58,7 +58,7 @@ Bitmap::Bitmap() {
     m_vertexArray.unuse();
 }
 
-void Bitmap::render(Mat4f mvpView) {
+void Bitmap::render(Mat4F mvpView) {
     m_shader.use();
     m_vertexArray.use();
     mvpView = mvpView * getTransform().getMatrix();
