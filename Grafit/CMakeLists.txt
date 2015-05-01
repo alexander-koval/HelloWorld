@@ -46,12 +46,14 @@ set(GLFW_BUILD_EXAMPLES OFF)
 if(APPLE)
 add_definitions(-DGLFW_EXPOSE_NATIVE_COCOA -DGLFW_EXPOSE_NATIVE_NSGL -DGRAFIT_SYSTEM_MACOS)
 elseif(WIN32)
-add_definitions(-DGLFW_EXPOSE_NATIVE_WIN32 -DGLFW_EXPOSE_NATIVE_WGL -DGRAFIT_SYSTEM_WINDOWS)
+set(GLFW_USE_DWM_SWAP_INTERVAL ON)
+add_definitions(-DGLFW_EXPOSE_NATIVE_WIN32
+                -DGLFW_EXPOSE_NATIVE_WGL
+                -DGRAFIT_SYSTEM_WINDOWS)
 else()
 add_definitions(-DGLFW_EXPOSE_NATIVE_X11 -DGLFW_EXPOSE_NATIVE_GLX -DGRAFIT_SYSTEM_LINUX)
 endif()
 
-add_subdirectory(src/Grafit)
-add_subdirectory(modules/glm)
 add_subdirectory(modules/glfw)
-#add_subdirectory(modules/SOIL)
+add_subdirectory(modules/glm)
+add_subdirectory(src/Grafit)

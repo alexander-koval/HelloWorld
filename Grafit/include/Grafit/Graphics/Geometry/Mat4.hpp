@@ -2,6 +2,7 @@
 #define MAT4_HPP
 
 #include <Grafit/Graphics/Geometry/Vector3.hpp>
+#include <Grafit/System/Types.hpp>
 #include <cmath>
 #include <cstring>
 

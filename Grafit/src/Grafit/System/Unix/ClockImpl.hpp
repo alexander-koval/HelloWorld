@@ -3,6 +3,7 @@
 
 #include <Grafit/System/Time.hpp>
 
+namespace gf {
 namespace priv {
 
 class ClockImpl {
@@ -13,4 +14,10 @@ public:
 
 } // namespace priv
 
+<<<<<<< HEAD
 #endif // CLOCKIMPLUNIX_HPP
+=======
+} // namespace gf
+
+#endif // SFML_CLOCKIMPLUNIX_HPP
+>>>>>>> Workflow on Windows

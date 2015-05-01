@@ -27,7 +27,7 @@ Mat4F projection = Mat4F();
 Mat4F modelView = Mat4F();
 float rotation = 1.f;
 float translation = .005f;
-Time statsTime = Time::Zero;
+gf::Time statsTime = gf::Time::Zero;
 Int32 statsFPS;
 
 int frameCount;
@@ -68,14 +68,14 @@ void render() {
     window->display();
 }
 
-void updateStatistics(Time dt) {
+void updateStatistics(gf::Time dt) {
     statsTime += dt;
     statsFPS += 1;
-    if (statsTime >= seconds(1.0f)) {
+    if (statsTime >= gf::seconds(1.0f)) {
         std::ostringstream os;
         os << statsFPS;
         window->setTitle(os.str());
-        statsTime -= seconds(1.0f);
+        statsTime -= gf::seconds(1.0f);
         statsFPS = 0;
     }
 }
@@ -109,9 +109,9 @@ int main() {
     window->setVerticalSyncEnabled(true);
     init();
     gf::Clock clock;
-    Time lastTime = Time::Zero;
+    gf::Time lastTime = gf::Time::Zero;
     while (window->isOpen()) {
-        Time dt = clock.restart();
+        gf::Time dt = clock.restart();
         lastTime += dt;
         updateFPS();
         render();

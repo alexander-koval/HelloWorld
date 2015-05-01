@@ -42,7 +42,6 @@ if(APPLE)
 
 elseif(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${hello_world_source_files})
-    add_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "output")
 
 else()
     set(BUNDLE_NAME ${PROJECT_NAME})

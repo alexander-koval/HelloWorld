@@ -1,4 +1,5 @@
 #include <Grafit/Graphics/Geometry/Vector2.hpp>
+#include <Grafit/System/Types.hpp>
 
 template <typename T>
 inline gf::Vector2<T>::Vector2()
