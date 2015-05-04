@@ -93,7 +93,7 @@ public:
 private:
     void initialize(void);
 
-    inline virtual bool activate(bool active) {
+    inline virtual bool activate(bool active) const {
         return setActive(active);
     }
 

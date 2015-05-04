@@ -83,7 +83,7 @@ private:
 
     void applyShader(const Shader* shader);
 
-    virtual bool activate(bool active) = 0;
+    virtual bool activate(bool active) const = 0;
 
     struct StatesCache {
         enum {VertexCacheSize = 4};

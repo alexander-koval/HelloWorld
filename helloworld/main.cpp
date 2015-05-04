@@ -148,7 +148,7 @@ int main() {
               << "\t TEMP_DIR: " << gf::SystemInfo::getTempDirectory() << "\n"
               << std::endl;
 
-    gf::File file = gf::File(gf::SystemInfo::getApplicationDirectory() + "/Contents/Resources/Lenna.png");
+    gf::File file = gf::File(gf::SystemInfo::getApplicationDirectory() + "/Resources/Lenna.png");
     std::cout << "Name: " << file.getName().toAnsiString() << "\n"
               << " Ext: " << file.getExtension().toAnsiString() << "\n"
               << "Path: " << file.getNativePath().toAnsiString() << "\n"
