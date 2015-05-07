@@ -2,6 +2,7 @@
 #define MAT4_HPP
 
 #include <Grafit/Graphics/Geometry/Vector3.hpp>
+#include <Grafit/Graphics/Geometry/Math.hpp>
 #include <Grafit/System/Types.hpp>
 #include <cmath>
 #include <cstring>
@@ -201,7 +202,7 @@ inline Mat4<T>& Mat4<T>::translate(const Vector3<T> &offset) {
 
 template <typename T>
 inline Mat4<T>& Mat4<T>::rotate(T angle) {
-    float radian = angle * M_PI / 180.f;
+    float radian = angle * gf::Math::PI / 180.f;
     float cos = std::cos(radian);
     float sin = std::sin(radian);
 
@@ -214,7 +215,7 @@ inline Mat4<T>& Mat4<T>::rotate(T angle) {
 
 template <typename T>
 inline Mat4<T>& Mat4<T>::rotate(T angle, T centerX, T centerY) {
-    float rad = angle * M_PI / 180.f;
+    float rad = angle * gf::Math::PI / 180.f;
     float cos = std::cos(rad);
     float sin = std::sin(rad);
 

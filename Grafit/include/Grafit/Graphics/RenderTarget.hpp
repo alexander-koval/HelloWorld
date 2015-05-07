@@ -30,6 +30,8 @@ public:
 
     void clear(const Color<Uint8>& color = Color<Uint8>(0, 0, 0, 255));
 
+    void clear(const Color<float>& color = Color<float>(0.f, 0.f, 0.f, 1.f));
+
     void setView(const View& view);
 
     const View& getView() const;

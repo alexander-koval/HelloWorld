@@ -50,11 +50,13 @@ void init() {
 }
 
 void render() {
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    glClearColor(0.7, 0.7, 0.7, 0.0);
     window->clear(ColorU(180, 180, 180, 255));
+//    window->clear(ColorU::Red);
+//    window->clear(ColorF(0.7f, 0.7f, 0.7f, 1.f));
+//    GL_CHECK(glClearColor(1.0f, 1.0f, 0.0f, 1.0f));
+//    GL_CHECK(glClear(GL_COLOR_BUFFER_BIT));
 //    rotation += 0.1f;
-//    translation += 0.01f;
+//    tranlation += 0.01f;
 //    modelView.rotate(rotation);
 //    modelView.translate(translation, translation, 0);
     Mat4F mvpView = projection * modelView;
@@ -63,6 +65,7 @@ void render() {
 //    picture->setScale(picture->getScale().x + 0.01f, picture->getScale().y + 0.01f);
 //    picture->render(mvpView);
 //    picture2->render(mvpView);
+
     window->draw(*picture);
     window->draw(*picture2);
     window->display();

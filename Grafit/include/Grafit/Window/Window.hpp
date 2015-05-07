@@ -93,8 +93,8 @@ public:
 private:
     void initialize(void);
 
-    virtual bool activate(bool active) {
-        setActive(active);
+    inline virtual bool activate(bool active) {
+        return setActive(active);
     }
 
     GLFWwindow* m_window;

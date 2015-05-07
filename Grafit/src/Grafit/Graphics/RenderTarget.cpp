@@ -52,8 +52,20 @@ void RenderTarget::clear(const Color<Uint8>& color) {
     if (activate(true)) {
         applyTexture(NULL);
 
-        GL_CHECK(glClearColor(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f));
         GL_CHECK(glClear(GL_COLOR_BUFFER_BIT));
+        GL_CHECK(glClearColor(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f));
+    }
+}
+
+void RenderTarget::clear(const Color<float> &color) {
+    std::cout << "PRE YEEEEAH " << std::endl;
+    if (activate(true)) {
+        std::cout << "YEEEEAH: " << std::endl;
+        applyTexture(NULL);
+
+        GL_CHECK(glClear(GL_COLOR_BUFFER_BIT));
+//        GL_CHECK(glClearColor(color.r, color.g, color.b, color.a));
+        GL_CHECK(glClearColor(1.0f, 0.0f, 0.0f, 1.0f));
     }
 }
 

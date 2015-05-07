@@ -34,6 +34,8 @@ file(GLOB grafit_graphics_source_files
     "${INCROOT}/Geometry/Vector2.inl"
     "${INCROOT}/Geometry/Vector3.hpp"
     "${INCROOT}/Geometry/Vector3.inl"
+    "${INCROOT}/Geometry/Math.hpp"
+    "${SRCROOT}/Geometry/Math.cpp"
     "${INCROOT}/Drawable.hpp"
     "${INCROOT}/View.hpp"
     "${SRCROOT}/View.cpp"

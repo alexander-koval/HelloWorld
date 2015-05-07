@@ -1,4 +1,5 @@
 #include <Grafit/Graphics/Geometry/Vector2.hpp>
+#include <Grafit/Graphics/Geometry/Math.hpp>
 #include <Grafit/System/Types.hpp>
 
 template <typename T>
@@ -46,7 +47,7 @@ inline float gf::Vector2<T>::getDistanceSq(const gf::Vector2<T>& other) {
 template <typename T>
 inline float gf::Vector2<T>::getAngle(void) const {
     float angle = std::atan2(y, x);
-    if (angle < 0) angle += M_PI * 2;
+    if (angle < 0) angle += gf::Math::PI * 2;
     return angle;
 }
 
@@ -58,8 +59,8 @@ inline float gf::Vector2<T>::getAngleBetween(const gf::Vector2<T>& other) const 
 template <typename T>
 inline float gf::Vector2<T>::getRangedAngleBetween(const gf::Vector2<T>& other) const {
     float angle = std::atan2(x, y) - std::atan2(other.y, other.x);
-    while (angle >  M_PI) angle -= M_PI * 2;
-    while (angle < -M_PI) angle += M_PI * 2;
+    while (angle >  gf::Math::PI) angle -= gf::Math::PI * 2;
+    while (angle < -gf::Math::PI) angle += gf::Math::PI * 2;
     return angle;
 }
 
