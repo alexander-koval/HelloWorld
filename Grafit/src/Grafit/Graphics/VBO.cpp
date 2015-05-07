@@ -58,7 +58,7 @@ bool VertexBuffer::update(const void *vertices, Int32 count, Int32 begin) {
     GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, m_vbo));
     GL_CHECK(glBufferSubData(GL_ARRAY_BUFFER, begin * m_sizePerVertex, count * m_sizePerVertex, vertices));
 
-//    GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
+    GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
     return true;
 }
 
