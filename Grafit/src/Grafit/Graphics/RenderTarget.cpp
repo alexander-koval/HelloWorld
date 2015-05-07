@@ -139,19 +139,17 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
         const Texture* texture = states.texture;
         Transform transform = states.transform;
         applyTransform(transform);
-//        m_view.setCenter(512, 378);
-//        m_view.setRotation(m_view.getRotation() + .1);
         applyCurrentView();
 //        Uint64 textureId = states.texture ? states.texture->m_textureID : 0;
 //        if (textureId != m_cache.lastTextureId)
-            applyTexture(texture);
+        applyTexture(texture);
         applyShader(shader);
         vertices.use();
 //        Mat4f mvpView = m_projectionStack.top() * m_modelViewStack.top() * m_textureStack.top();
         Mat4F mvpView = m_textureStack.top() * m_modelViewStack.top() * m_projectionStack.top();
         shader->setParameter<Shader::Uniform>("TextureMap", *texture);
         shader->setParameter<Shader::Uniform>("MVP", mvpView);
-        GL_CHECK(glDrawElements(GL_TRIANGLES,
+        GL_CHECK(glDrawElements(type,
                                 vertices.getIndexBuffer().getNumIndices(),
                                 GL_UNSIGNED_SHORT, 0));
         vertices.unuse();
