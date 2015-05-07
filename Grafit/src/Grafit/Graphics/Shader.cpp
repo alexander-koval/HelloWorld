@@ -20,9 +20,6 @@ void Shader::bind(const Shader *shader) {
     if (shader && shader->m_programID) {
         GL_CHECK(glUseProgram(shader->m_programID));
         shader->bindTextures();
-//        if (shader->m_textureID != -1) {
-//            GL_CHECK(glUniform1i(shader->m_textureID, 0));
-//        }
     } else {
         GL_CHECK(glUseProgram(0));
     }

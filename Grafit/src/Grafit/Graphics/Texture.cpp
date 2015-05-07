@@ -64,12 +64,11 @@ bool Texture::create(Uint32 width, Uint32 height) {
     m_actualSize = actual_size;
 
     if (!m_textureID) {
-        GLuint texture;
+        GLuint texture = 0;
         GL_CHECK(glGenTextures(1, &texture));
-        GL_CHECK(glActiveTexture(GL_TEXTURE0));
         m_textureID = texture;
     }
-    GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
+    Texture::bind(this);
     GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_actualSize.x, m_actualSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
@@ -77,6 +76,8 @@ bool Texture::create(Uint32 width, Uint32 height) {
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
 
     GL_CHECK(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
+    Texture::bind(NULL);
+
     return true;
 }
 
@@ -104,13 +105,13 @@ bool Texture::loadFromImage(const BitmapData &image, const IntRect& area) {
     } else {
         if (create(area.width, area.height)) {
             const Uint8* pixels = image.getPixels() /*+ 3 * (width * 0)*/;
-//            GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
+            Texture::bind(this);
 //            for (int index = 0; index < area.y; ++index) {
             GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
                           width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL));
             GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, area.width, area.height,
                                      GL_RGB, GL_UNSIGNED_BYTE, pixels));
-
+            Texture::bind(NULL);
 //                GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, index, area.x, 1, GL_RGB, GL_UNSIGNED_BYTE, pixels));
 //                pixels += 3 * width;
 //            }
@@ -129,8 +130,9 @@ void Texture::update(const Uint8 *pixels, Uint32 width, Uint32 height, Uint32 x,
     assert(x + width <= m_size.x);
     assert(y + height <= m_size.y);
     if (pixels && m_textureID) {
-//        GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
+        Texture::bind(this);
         GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels));
+        Texture::bind(NULL);
     }
 }
 
@@ -146,9 +148,10 @@ void Texture::setSmooth(bool smooth) {
     if (smooth != m_isSmooth) {
         m_isSmooth = smooth;
         if (m_textureID) {
-//            GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
+            Texture::bind(this);
             GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
             GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
+            Texture::bind(NULL);
         }
     }
 }
@@ -161,9 +164,10 @@ void Texture::setRepeated(bool repeated) {
     if (repeated != m_isRepeated) {
         m_isRepeated = repeated;
         if (m_textureID) {
-//            GL_CHECK(glBindTexture(GL_TEXTURE_2D, m_textureID));
+            Texture::bind(this);
             GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
             GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
+            Texture::bind(NULL);
         }
     }
 }

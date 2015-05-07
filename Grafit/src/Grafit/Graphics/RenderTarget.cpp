@@ -58,14 +58,11 @@ void RenderTarget::clear(const Color<Uint8>& color) {
 }
 
 void RenderTarget::clear(const Color<float> &color) {
-    std::cout << "PRE YEEEEAH " << std::endl;
     if (activate(true)) {
-        std::cout << "YEEEEAH: " << std::endl;
-        applyTexture(NULL);
+         applyTexture(NULL);
 
         GL_CHECK(glClear(GL_COLOR_BUFFER_BIT));
-//        GL_CHECK(glClearColor(color.r, color.g, color.b, color.a));
-        GL_CHECK(glClearColor(1.0f, 0.0f, 0.0f, 1.0f));
+        GL_CHECK(glClearColor(color.r, color.g, color.b, color.a));
     }
 }
 
@@ -142,7 +139,7 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
         applyCurrentView();
 //        Uint64 textureId = states.texture ? states.texture->m_textureID : 0;
 //        if (textureId != m_cache.lastTextureId)
-        applyTexture(texture);
+//        applyTexture(texture);
         applyShader(shader);
         vertices.use();
 //        Mat4f mvpView = m_projectionStack.top() * m_modelViewStack.top() * m_textureStack.top();

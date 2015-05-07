@@ -12,10 +12,7 @@ namespace gf {
 Bitmap::Bitmap() {
     m_transform = Transform::Identity;
     m_image.loadFromFile(filename);
-//    m_image.flipY();
     m_texture.loadFromImage(m_image, IntRect(0, 0, 512, 512));
-//    m_shader.loadFromMemory(luma_glsl, GL_FRAGMENT_SHADER);
-//    m_shader.loadFromMemory(dither2x2_glsl, GL_FRAGMENT_SHADER);
     m_shader.loadFromMemory(positionTexture_vert, GL_VERTEX_SHADER);
     m_shader.loadFromMemory(positionTexture_frag, GL_FRAGMENT_SHADER);
     GL_CHECK(m_shader.link());
