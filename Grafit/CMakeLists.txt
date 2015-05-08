@@ -41,7 +41,13 @@ function(add_shaders output)
     set(${output} ${result} PARENT_SCOPE)
 endfunction()
 
-set(GLFW_BUILD_EXAMPLES OFF)
+set( GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build GLFW examples" )
+set( GLFW_BUILD_TESTS OFF CACHE BOOL "Build GLFW tests" )
+set( GLFW_BUILD_DOCS OFF CACHE BOOL "Build GLFW documentation" )
+set( GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation" )
+
+include_directories(modules/glfw/include)
+include_directories(modules/stb/)
 
 if(APPLE)
 add_definitions(-DGLFW_EXPOSE_NATIVE_COCOA -DGLFW_EXPOSE_NATIVE_NSGL -DGRAFIT_SYSTEM_MACOS)
