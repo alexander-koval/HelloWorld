@@ -27,6 +27,9 @@ file(GLOB grafit_system_source_files
     "${INCROOT}/Tipes.hpp"
     "${INCROOT}/Utf.hpp"
     "${INCROOT}/Utf.inl"
+    "${INCROOT}/Assert.hpp"
+    "${SRCROOT}/Assert.cpp"
+    "${INCROOT}/SourceInfo.hpp"
 )
 
 set(grafit_system_platform_source_files)

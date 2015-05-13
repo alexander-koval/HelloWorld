@@ -1,5 +1,4 @@
 #include <Grafit/Graphics/OpenGL.hpp>
-//#include <GL/glew.h>
 #include <string>
 #include <iostream>
 

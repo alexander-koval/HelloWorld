@@ -7,6 +7,8 @@
 #include <Grafit/Window/Window.hpp>
 #include <Grafit/System/Clock.hpp>
 #include <Grafit/System/String.hpp>
+#include <Grafit/System/SourceInfo.hpp>
+#include <Grafit/System/Assert.hpp>
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
@@ -47,6 +49,7 @@ void init() {
 //    picture2->setScale(2.0f, 2.0f);
     picture2->setPosition(0, 0);
     triangle = new gf::Triangle();
+    GF_ASSERT(false, "Test Call Return %d", 1);
 }
 
 void render() {
