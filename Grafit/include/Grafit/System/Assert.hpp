@@ -3,15 +3,14 @@
 
 #include <Grafit/System/SourceInfo.hpp>
 
-#define GF_VA_NUM_ARGS(...) GF_VA_NUM_ARGS_HELPER(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
-#define GF_VA_NUM_ARGS_HELPER(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, N, ...) N
+#define GF_ASSERT_IMPL_VAR(value) .variable(GF_STRINGIFY(value), value)
+#define GF_ASSERT_IMPL_VARS(...) GF_EXPAND_ARGS(GF_ASSERT_IMPL_VAR, __VA_ARGS__)
 
-#define GF_JOIN(x, y) x##y
-#define GF_ASSERT_IMPL_VAR(variable) .variable(GF_STRINGIFY(variable), variable)
-#define GF_ASSERT(condition, format, ...) \
-    if (!condition) {\
-        gf::Assert(GF_SOURCEINFO, "Assertion \"" #condition "\" failed. ", __VA_ARGS__); \
-    }
+#define GF_ASSERT(condition, format, ...) do {  \
+    if (!condition) { \
+            (gf::Assert(GF_SOURCEINFO, "Assertion \"" #condition "\" failed. ", __VA_ARGS__) GF_ASSERT_IMPL_VARS(__VA_ARGS__)); \
+    } } while(0)
+
 
 namespace gf {
 

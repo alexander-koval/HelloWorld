@@ -2,11 +2,9 @@
 #define SOURCEINFO_HPP
 
 #include <string>
+#include <Grafit/System/PlatformMacros.hpp>
 
-#define GF_STRINGIFY(x) #x
-#define GF_TOSTRING(x) GF_STRINGIFY(x)
-
-#define GF_SOURCEINFO gf::SourceInfo(__FILE__, GF_TOSTRING(__LINE__), __FUNCTION__)
+#define GF_SOURCEINFO gf::SourceInfo(__FILE__, GF_TOSTRING(__LINE__), GF_FUNCTION)
 
 namespace gf {
 

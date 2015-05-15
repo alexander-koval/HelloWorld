@@ -4,9 +4,7 @@
 namespace gf {
 
 Assert::Assert(const SourceInfo& sourceInfo, const char* format, ...) {
-    va_list ap;
-//    va_start(ap, GF_VA_NUM_ARGS(...));
-//    int kkk = 0;
+
 }
 
 Assert& Assert::variable(const char* const name, bool value) {
@@ -18,6 +16,10 @@ Assert& Assert::variable(const char* const name, char value) {
 }
 
 Assert& Assert::variable(const char* const name, short value) {
+    return *this;
+}
+
+Assert& Assert::variable(const char* const name, int value) {
     return *this;
 }
 

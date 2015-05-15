@@ -30,6 +30,7 @@ file(GLOB grafit_system_source_files
     "${INCROOT}/Assert.hpp"
     "${SRCROOT}/Assert.cpp"
     "${INCROOT}/SourceInfo.hpp"
+    "${INCROOT}/PlatformMacros.hpp"
 )
 
 set(grafit_system_platform_source_files)
