@@ -7,15 +7,15 @@ namespace gf {
 class InputStream {
 public:
 
-    virtual ~InputStream() {}
+    virtual ~InputStream(void) {}
 
     virtual Int64 read(void* data, Int64 size) = 0;
 
     virtual Int64 seek(Int64 position) = 0;
     
-    virtual Int64 tell() = 0;
+    virtual Int64 tell(void) = 0;
 
-    virtual Int64 getSize() = 0;
+    virtual Int64 getSize(void) = 0;
 };
 
 }

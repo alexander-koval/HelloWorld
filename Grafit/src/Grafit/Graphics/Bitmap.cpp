@@ -2,14 +2,9 @@
 #include <Grafit/Graphics/RenderTarget.hpp>
 #include <Grafit/Graphics/shaders/shaders.hpp>
 
-#ifdef __APPLE__
-const std::string filename = "../Resources/Lenna.png";
-#else
-const std::string filename = "Resources/Lenna.png";
-#endif
 
 namespace gf {
-Bitmap::Bitmap() {
+Bitmap::Bitmap(const std::string& filename) {
     m_transform = Transform::Identity;
     m_image.loadFromFile(filename);
     m_texture.loadFromImage(m_image, IntRect(0, 0, 512, 512));

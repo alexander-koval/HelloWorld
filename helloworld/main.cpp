@@ -9,6 +9,7 @@
 #include <Grafit/System/String.hpp>
 #include <Grafit/System/SourceInfo.hpp>
 #include <Grafit/System/Assert.hpp>
+#include <Grafit/System/SystemInfo.hpp>
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
@@ -20,8 +21,10 @@ gf::Triangle* triangle;
 
 #ifdef __APPLE__
 const std::string filename = "../Resources/Lenna.png";
+const std::string filename1 = "../Resources/serrano.png";
 #else
 const std::string filename = "Resources/Lenna.png";
+const std::string filename1 = "Resources/serrano.png";
 #endif
 
 gf::Window* window = NULL;
@@ -39,12 +42,12 @@ using namespace std;
 
 void init() {
 //    image = new Image();
-    picture = new gf::Bitmap();
+    picture = new gf::Bitmap(filename1);
     picture->setOrigin(256, 256);
 //    picture->setScale(2.0f, 2.0f);
 
     picture->setPosition(512, 512);
-    picture2 = new gf::Bitmap();
+    picture2 = new gf::Bitmap(filename);
 //    picture2->setOrigin(0.5, 0.5);
 //    picture2->setScale(2.0f, 2.0f);
     picture2->setPosition(0, 0);
@@ -112,6 +115,13 @@ int main() {
         std::cout << "\tGLSL: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
         std::cout << "\tDPI: " << window->getDotsPerInch() << std::endl;
     }
+    std::cout << "\tUSER_NAME: " << gf::SystemInfo::getUserName() << "\n"
+              << "\tHOST_NAME: " << gf::SystemInfo::getHostName() << "\n"
+              << "\t  APP_DIR: " << gf::SystemInfo::getApplicationDirectory() << "\n"
+              << "\t USER_DIR: " << gf::SystemInfo::getUserDirectory() << "\n"
+              << "\t TEMP_DIR: " << gf::SystemInfo::getTempDirectory() << "\n"
+              << std::endl;
+
     window->setVerticalSyncEnabled(true);
     init();
     gf::Clock clock;

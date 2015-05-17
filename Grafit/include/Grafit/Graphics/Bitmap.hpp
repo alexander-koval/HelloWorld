@@ -15,7 +15,7 @@
 namespace gf {
 class Bitmap : public Drawable, public Transformable {
 public:
-    Bitmap();
+    Bitmap(const std::string& filename);
 
     void render(Mat4F mvpView);
 

@@ -31,6 +31,10 @@ file(GLOB grafit_system_source_files
     "${SRCROOT}/Assert.cpp"
     "${INCROOT}/SourceInfo.hpp"
     "${INCROOT}/PlatformMacros.hpp"
+    "${INCROOT}/File.hpp"
+    "${SRCROOT}/File.cpp"
+    "${INCROOT}/SystemInfo.hpp"
+    "${SRCROOT}/SystemInfo.cpp"
 )
 
 set(grafit_system_platform_source_files)
@@ -60,6 +64,8 @@ file(GLOB grafit_system_platform_source_files
     "${SRCROOT}/Unix/ThreadImpl.cpp"
     "${SRCROOT}/Unix/ThreadLocalImpl.hpp"
     "${SRCROOT}/Unix/ThreadLocalImpl.cpp"
+    "${SRCROOT}/Unix/SystemInfoImpl.hpp"
+    "${SRCROOT}/Unix/SystemInfoImpl.cpp"
 )
 source_group("Unix" FILES ${grafit_system_platform_source_files})
 endif()
