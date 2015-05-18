@@ -2,8 +2,9 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <limits.h>
-
-#ifndef GRAFIT_SYSTEM_LINUX
+#if defined(GRAFIT_SYSTEM_MACOS)
+    #include <mach-o/dyld.h>
+#else
     #define _PSTAT64
     #include <sys/pstat.h>
     #include <sys/types.h>
@@ -48,6 +49,12 @@ std::string SystemInfoImpl::getApplicationDirectory(void) {
     char result[PATH_MAX];
     ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
     return std::string(result, (count > 0) ? count : 0);
+#elif defined(GRAFIT_SYSTEM_MACOS)
+    char result[PATH_MAX];
+    uint32_t count = sizeof(result);
+    if (_NSGetExecutablePath(result, &count) == 0)
+        return std::string(result);
+    return std::string();
 #else
     char result[ PATH_MAX ];
     struct pst_status ps;
