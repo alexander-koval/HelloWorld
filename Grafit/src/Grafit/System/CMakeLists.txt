@@ -39,35 +39,51 @@ file(GLOB grafit_system_source_files
 
 set(grafit_system_platform_source_files)
 if(WIN32)
-file(GLOB grafit_system_platform_source_files
-    "${SRCROOT}/Win32/ClockImpl.hpp"
-    "${SRCROOT}/Win32/ClockImpl.cpp"
-    "${SRCROOT}/Win32/MutexImpl.hpp"
-    "${SRCROOT}/Win32/MutexImpl.cpp"
-    "${SRCROOT}/Win32/SleepImpl.hpp"
-    "${SRCROOT}/Win32/SleepImpl.cpp"
-    "${SRCROOT}/Win32/ThreadImpl.hpp"
-    "${SRCROOT}/Win32/ThreadImpl.cpp"
-    "${SRCROOT}/Win32/ThreadLocalImpl.hpp"
-    "${SRCROOT}/Win32/ThreadLocalImpl.cpp"
-)
-source_group("Win32" FILES ${grafit_system_platform_source_files})
+    file(GLOB grafit_system_platform_source_files
+        "${SRCROOT}/Win32/ClockImpl.hpp"
+        "${SRCROOT}/Win32/ClockImpl.cpp"
+        "${SRCROOT}/Win32/MutexImpl.hpp"
+        "${SRCROOT}/Win32/MutexImpl.cpp"
+        "${SRCROOT}/Win32/SleepImpl.hpp"
+        "${SRCROOT}/Win32/SleepImpl.cpp"
+        "${SRCROOT}/Win32/ThreadImpl.hpp"
+        "${SRCROOT}/Win32/ThreadImpl.cpp"
+        "${SRCROOT}/Win32/ThreadLocalImpl.hpp"
+        "${SRCROOT}/Win32/ThreadLocalImpl.cpp"
+    )
+    source_group("Win32" FILES ${grafit_system_platform_source_files})
+elseif(APPLE)
+    file(GLOB grafit_system_platform_source_files
+        "${SRCROOT}/Unix/ClockImpl.hpp"
+        "${SRCROOT}/Unix/ClockImpl.cpp"
+        "${SRCROOT}/Unix/MutexImpl.hpp"
+        "${SRCROOT}/Unix/MutexImpl.cpp"
+        "${SRCROOT}/Unix/SleepImpl.hpp"
+        "${SRCROOT}/Unix/SleepImpl.cpp"
+        "${SRCROOT}/Unix/ThreadImpl.hpp"
+        "${SRCROOT}/Unix/ThreadImpl.cpp"
+        "${SRCROOT}/Unix/ThreadLocalImpl.hpp"
+        "${SRCROOT}/Unix/ThreadLocalImpl.cpp"
+        "${SRCROOT}/OSX/SystemInfoImpl.hpp"
+        "${SRCROOT}/OSX/SystemInfoImpl.mm"
+    )
+    source_group("OSX" FILES ${grafit_system_platform_source_files})
 else()
-file(GLOB grafit_system_platform_source_files
-    "${SRCROOT}/Unix/ClockImpl.hpp"
-    "${SRCROOT}/Unix/ClockImpl.cpp"
-    "${SRCROOT}/Unix/MutexImpl.hpp"
-    "${SRCROOT}/Unix/MutexImpl.cpp"
-    "${SRCROOT}/Unix/SleepImpl.hpp"
-    "${SRCROOT}/Unix/SleepImpl.cpp"
-    "${SRCROOT}/Unix/ThreadImpl.hpp"
-    "${SRCROOT}/Unix/ThreadImpl.cpp"
-    "${SRCROOT}/Unix/ThreadLocalImpl.hpp"
-    "${SRCROOT}/Unix/ThreadLocalImpl.cpp"
-    "${SRCROOT}/Unix/SystemInfoImpl.hpp"
-    "${SRCROOT}/Unix/SystemInfoImpl.cpp"
-)
-source_group("Unix" FILES ${grafit_system_platform_source_files})
+    file(GLOB grafit_system_platform_source_files
+        "${SRCROOT}/Unix/ClockImpl.hpp"
+        "${SRCROOT}/Unix/ClockImpl.cpp"
+        "${SRCROOT}/Unix/MutexImpl.hpp"
+        "${SRCROOT}/Unix/MutexImpl.cpp"
+        "${SRCROOT}/Unix/SleepImpl.hpp"
+        "${SRCROOT}/Unix/SleepImpl.cpp"
+        "${SRCROOT}/Unix/ThreadImpl.hpp"
+        "${SRCROOT}/Unix/ThreadImpl.cpp"
+        "${SRCROOT}/Unix/ThreadLocalImpl.hpp"
+        "${SRCROOT}/Unix/ThreadLocalImpl.cpp"
+        "${SRCROOT}/OSX/SystemInfoImpl.hpp"
+        "${SRCROOT}/OSX/SystemInfoImpl.cpp"
+    )
+    source_group("Unix" FILES ${grafit_system_platform_source_files})
 endif()
 
 source_group("System" FILES ${grafit_system_source_files})

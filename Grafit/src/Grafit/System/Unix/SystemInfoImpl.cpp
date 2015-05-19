@@ -8,6 +8,7 @@
 //    #define _PSTAT64
 //    #include <sys/pstat.h>
 //    #include <sys/types.h>
+#include <iostream>
 
 namespace gf {
 namespace priv {
@@ -52,7 +53,8 @@ std::string SystemInfoImpl::getApplicationDirectory(void) {
 #elif defined(GRAFIT_SYSTEM_MACOS)
     char result[PATH_MAX];
     uint32_t count = sizeof(result);
-    if (_NSGetExecutablePath(result, &count) == 0)
+    if (getcwd(result, count))
+//    if (_NSGetExecutablePath(result, &count) == 0)
         return std::string(result);
     return std::string();
 #else

@@ -6,7 +6,7 @@ set(Grafit_VERSION_MINOR 1)
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules/")
 
-find_package(Boost 1.58.0 COMPONENTS system filesystem REQUIRED)
+find_package(Boost 1.57.0 COMPONENTS system filesystem REQUIRED)
 
 function(add_shaders output)
     set(result)
