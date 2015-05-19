@@ -60,6 +60,7 @@ target_link_libraries(${PROJECT_NAME}
     grafit-graphics
     grafit-window
     glfw3
+#    ${Boost_LIBRARIES}
     ${GLFW_LIBRARIES}
     ${EXTRA_LIBS}
 )

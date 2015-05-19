@@ -10,6 +10,8 @@
 #include <Grafit/System/SourceInfo.hpp>
 #include <Grafit/System/Assert.hpp>
 #include <Grafit/System/SystemInfo.hpp>
+#include <Grafit/System/File.hpp>
+
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
@@ -121,6 +123,11 @@ int main() {
               << "\t USER_DIR: " << gf::SystemInfo::getUserDirectory() << "\n"
               << "\t TEMP_DIR: " << gf::SystemInfo::getTempDirectory() << "\n"
               << std::endl;
+
+    gf::File file = gf::File(gf::SystemInfo::getApplicationDirectory() + "/Resources/Lenna.png");
+    std::cout << "Name: " << file.getName().toAnsiString() << "\n"
+              << " Ext: " << file.getExtension().toAnsiString() << "\n"
+              << "Size: " << file.getSize() << std::endl;
 
     window->setVerticalSyncEnabled(true);
     init();

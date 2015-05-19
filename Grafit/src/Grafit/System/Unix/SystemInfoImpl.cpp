@@ -4,11 +4,10 @@
 #include <limits.h>
 #if defined(GRAFIT_SYSTEM_MACOS)
     #include <mach-o/dyld.h>
-#else
-    #define _PSTAT64
-    #include <sys/pstat.h>
-    #include <sys/types.h>
 #endif
+//    #define _PSTAT64
+//    #include <sys/pstat.h>
+//    #include <sys/types.h>
 
 namespace gf {
 namespace priv {
@@ -46,9 +45,10 @@ std::string SystemInfoImpl::getTempDirectory(void) {
 
 std::string SystemInfoImpl::getApplicationDirectory(void) {
 #if defined(GRAFIT_SYSTEM_LINUX)
-    char result[PATH_MAX];
-    ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
-    return std::string(result, (count > 0) ? count : 0);
+    return get_current_dir_name();
+//    char result[PATH_MAX];
+//    ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+//    return std::string(result, (count > 0) ? count : 0);
 #elif defined(GRAFIT_SYSTEM_MACOS)
     char result[PATH_MAX];
     uint32_t count = sizeof(result);
