@@ -13,6 +13,7 @@ if(APPLE)
     set(IMPORTSDIR ${BINDIR})
     set(BUNDLE_BINARIES ${PROJECT_NAME})
 
+#    set(BUILDID BUILDID"abcdef1234")
     # Locate all recourses
     file(GLOB COPY_RESOURCES ${PROJECT_SOURCE_DIR}/media/*.png)
     file(GLOB COPY_RLIBS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/*.a)
@@ -31,6 +32,17 @@ if(APPLE)
         PROPERTIES
         MACOSX_PACKAGE_LOCATION Resources
     )
+
+#    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#                       COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}>
+#                                     ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.debug
+#                       COMMAND ${CMAKE_STRIP}  $<TARGET_FILE:${PROJECT_NAME}>)
+#    install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.debug
+#        DESTINATION ${CMAKE_BINARY_DIR}/.build-id/${BUILDIDPREFIX}
+#        RENAME ${BUILDIDSUFFIX}.debug)
+
+
+#    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-Wl,--build-id=0x${BUILDID}")
 
     set_target_properties(${BUNDLE_BINARIES} PROPERTIES
                             MACOSX_BUNDLE_SHORT_VERSION_STRING ${GLFW_VERSION}
