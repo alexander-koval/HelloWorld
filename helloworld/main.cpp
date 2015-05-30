@@ -11,13 +11,15 @@
 #include <Grafit/System/Assert.hpp>
 #include <Grafit/System/SystemInfo.hpp>
 #include <Grafit/System/File.hpp>
+#include <Grafit/Graphics/Sprite.hpp>
+#include <Grafit/Graphics/Geometry/Rect.hpp>
 
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
 
 gf::Bitmap* picture;
-gf::Bitmap* picture2;
+gf::Sprite* sprite;
 gf::Triangle* triangle;
 //Image* image;
 
@@ -44,15 +46,17 @@ using namespace std;
 
 void init() {
 //    image = new Image();
-    picture = new gf::Bitmap(filename1);
+    picture = new gf::Bitmap(filename);
     picture->setOrigin(256, 256);
 //    picture->setScale(2.0f, 2.0f);
 
     picture->setPosition(512, 512);
-    picture2 = new gf::Bitmap(filename);
+    gf::Texture* texture = new gf::Texture();
+    texture->loadFromFile(filename1);
+    sprite = new gf::Sprite(*texture, gf::RectI(0, 0, 512, 512));
 //    picture2->setOrigin(0.5, 0.5);
 //    picture2->setScale(2.0f, 2.0f);
-    picture2->setPosition(0, 0);
+    sprite->setPosition(0, 0);
     triangle = new gf::Triangle();
     GF_ASSERT(false, "Test Call Return %d", 1);
 }
@@ -73,9 +77,9 @@ void render() {
 //    picture->setScale(picture->getScale().x + 0.01f, picture->getScale().y + 0.01f);
 //    picture->render(mvpView);
 //    picture2->render(mvpView);
-
+//    sprite->setRotation(sprite->getRotation() + 1);
     window->draw(*picture);
-    window->draw(*picture2);
+    window->draw(*sprite);
     window->display();
 }
 

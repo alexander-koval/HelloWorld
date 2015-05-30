@@ -22,11 +22,11 @@ public:
 
     bool create(Uint32 width, Uint32 height);
 
-    bool loadFromFile(const std::string filename, const IntRect& area = IntRect());
+    bool loadFromFile(const std::string filename, const RectI& area = RectI());
 
-    bool loadFromMemory(const void* data, std::size_t size, const IntRect& area = IntRect());
+    bool loadFromMemory(const void* data, std::size_t size, const RectI& area = RectI());
 
-    bool loadFromImage(const BitmapData& image, const IntRect& area = IntRect());
+    bool loadFromImage(const BitmapData& image, const RectI& area = RectI());
 
     void update(const Uint8* pixels);
 

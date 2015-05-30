@@ -38,7 +38,7 @@ public:
 
     const View& getDefaultView() const;
 
-    IntRect getViewport(const View& view) const;
+    RectI getViewport(const View& view) const;
 
     Vector2F mapPixelToCoords(const Vector2I& point) const;
 

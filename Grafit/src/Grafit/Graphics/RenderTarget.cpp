@@ -80,12 +80,12 @@ const View& RenderTarget::getDefaultView() const {
     return m_defaultView;
 }
 
-IntRect RenderTarget::getViewport(const View& view) const {
+RectI RenderTarget::getViewport(const View& view) const {
     float width  = static_cast<float>(getSize().x);
     float height = static_cast<float>(getSize().y);
-    const FloatRect& viewport = view.getViewport();
+    const RectF& viewport = view.getViewport();
 
-    return IntRect(static_cast<int>(0.5f + width  * viewport.left),
+    return RectI(static_cast<int>(0.5f + width  * viewport.left),
                    static_cast<int>(0.5f + height * viewport.top),
                    static_cast<int>(0.5f + width  * viewport.width),
                    static_cast<int>(0.5f + height * viewport.height));
@@ -99,7 +99,7 @@ Vector2F RenderTarget::mapPixelToCoords(const Vector2I& point) const {
 Vector2F RenderTarget::mapPixelToCoords(const Vector2I& point, const View& view) const {
     // First, convert from viewport coordinates to homogeneous coordinates
     Vector2F normalized;
-    IntRect viewport = getViewport(view);
+    RectI viewport = getViewport(view);
     normalized.x = -1.f + 2.f * (point.x - viewport.left) / viewport.width;
     normalized.y =  1.f - 2.f * (point.y - viewport.top)  / viewport.height;
 
@@ -117,7 +117,7 @@ Vector2I RenderTarget::mapCoordsToPixel(const Vector2F& point, const View& view)
 
     // Then convert to viewport coordinates
     Vector2I pixel;
-    IntRect viewport = getViewport(view);
+    RectI viewport = getViewport(view);
     pixel.x = static_cast<int>(( normalized.x + 1.f) / 2.f * viewport.width  + viewport.left);
     pixel.y = static_cast<int>((-normalized.y + 1.f) / 2.f * viewport.height + viewport.top);
 
@@ -144,6 +144,7 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
         vertices.use();
 //        Mat4f mvpView = m_projectionStack.top() * m_modelViewStack.top() * m_textureStack.top();
         Mat4F mvpView = m_textureStack.top() * m_modelViewStack.top() * m_projectionStack.top();
+        assert(shader != NULL);
         shader->setParameter<Shader::Uniform>("TextureMap", *texture);
         shader->setParameter<Shader::Uniform>("MVP", mvpView);
         GL_CHECK(glDrawElements(type,
@@ -310,7 +311,7 @@ void RenderTarget::resetGLStates() {
 
 void RenderTarget::initialize() {
     // Setup the default and current views
-    m_defaultView.reset(FloatRect(0, 0, static_cast<float>(getSize().x), static_cast<float>(getSize().y)));
+    m_defaultView.reset(RectF(0, 0, static_cast<float>(getSize().x), static_cast<float>(getSize().y)));
     m_view = m_defaultView;
 
     // Set GL states only on first draw, so that we don't pollute user's states
@@ -319,17 +320,16 @@ void RenderTarget::initialize() {
 
 void RenderTarget::applyCurrentView() {
     // Set the viewport
-    IntRect viewport = getViewport(m_view);
+    RectI viewport = getViewport(m_view);
     int top = getSize().y - (viewport.top + viewport.height);
     GL_CHECK(glViewport(viewport.left, top, viewport.width, viewport.height));
 
-    m_modelViewStack.push(m_view.getTransform().getMatrix());
+    m_projectionStack.push(m_view.getTransform().getMatrix());
 
     m_cache.viewChanged = false;
 }
 
 void RenderTarget::applyBlendMode(const BlendMode& mode) {
-    // Apply the blend mode, falling back to the non-separate versions if necessary
     if (GL_EXT_blend_func_separate) {
         GL_CHECK(glBlendFuncSeparate(
             factorToGlConstant(mode.colorSrcFactor), factorToGlConstant(mode.colorDstFactor),
@@ -354,9 +354,7 @@ void RenderTarget::applyBlendMode(const BlendMode& mode) {
 }
 
 void RenderTarget::applyTransform(const Transform& transform) {
-    // No need to call glMatrixMode(GL_MODELVIEW), it is always the
-    // current mode (for optimization purpose, since it's the most used)
-    m_textureStack.push(transform.getMatrix());
+    m_modelViewStack.push(transform.getMatrix());
 }
 
 void RenderTarget::applyTexture(const Texture* texture) {

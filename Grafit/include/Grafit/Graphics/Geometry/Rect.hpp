@@ -42,8 +42,8 @@ bool operator !=(const Rect<T>& left, const Rect<T>& right);
 
 #include <Grafit/Graphics/Geometry/Rect.inl>
 
-typedef Rect<int>   IntRect;
-typedef Rect<float> FloatRect;
+typedef Rect<int>   RectI;
+typedef Rect<float> RectF;
 
 } // namespace sf
 

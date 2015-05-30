@@ -43,8 +43,35 @@ Vector2F Transform::transformPoint(const Vector2F &point) const {
     return transformPoint(point.x, point.y);
 }
 
+RectF Transform::transformRect(const RectF& rect) const {
+    const Vector2F points[] = {
+        transformPoint(rect.left, rect.top),
+        transformPoint(rect.left, rect.top + rect.height),
+        transformPoint(rect.left + rect.width, rect.top),
+        transformPoint(rect.left + rect.width, rect.top + rect.height)
+    };
+
+    float left = points[0].x;
+    float top  = points[0].y;
+    float right = points[0].x;
+    float bottom = points[0].y;
+
+    for (int i = 1; i < 4; ++i) {
+        if      (points[i].x < left)   left = points[i].x;
+        else if (points[i].x > right)  right = points[i].x;
+        if      (points[i].y < top)    top = points[i].y;
+        else if (points[i].y > bottom) bottom = points[i].y;
+    }
+
+    return RectF(left, top, right - left, bottom - top);
+}
+
 Transform& Transform::combine(const Transform &transform) {
     m_matrix.multiply(transform.m_matrix);
+}
+
+Transform& Transform::combine(const Mat4F& matrix) {
+    m_matrix.multiply(matrix);
 }
 
 Transform& Transform::translate(float x, float y) {
@@ -82,6 +109,22 @@ Transform& Transform::scale(const Vector2F &factors) {
 
 Transform& Transform::scale(const Vector2F &factors, const Vector2F &center) {
     return scale(factors.x, factors.y, center.x, center.y);
+}
+
+Transform operator *(const Transform& left, const Transform& right) {
+    return Transform(left).combine(right);
+}
+
+Transform& operator *=(Transform& left, const Mat4F& right) {
+    return left.combine(right);
+}
+
+Transform& operator *=(Transform& left, const Transform& right) {
+    return left.combine(right);
+}
+
+Vector2F operator *(const Transform& left, const Vector2F& right) {
+    return left.transformPoint(right);
 }
 
 }

@@ -81,43 +81,46 @@ bool Texture::create(Uint32 width, Uint32 height) {
     return true;
 }
 
-bool Texture::loadFromFile(const std::string filename, const IntRect& area) {
+bool Texture::loadFromFile(const std::string filename, const RectI& area) {
     BitmapData image;
     return image.loadFromFile(filename) && loadFromImage(image, area);
 }
 
-bool Texture::loadFromMemory(const void *data, std::size_t size, const IntRect& area) {
+bool Texture::loadFromMemory(const void *data, std::size_t size, const RectI& area) {
     BitmapData image;
     return image.loadFromMemory(data, size) && loadFromImage(image, area);
 }
 
-bool Texture::loadFromImage(const BitmapData &image, const IntRect& area) {
+bool Texture::loadFromImage(const BitmapData &image, const RectI& area) {
     int width = static_cast<int>(image.getSize().x);
     int height = static_cast<int>(image.getSize().y);
 
     if ((area.width == 0) || (area.height == 0)) {
         if (create(image.getSize().x, image.getSize().y)) {
             update(image);
+            GL_CHECK(glFlush());
             return true;
         } else {
             return false;
         }
     } else {
-        if (create(area.width, area.height)) {
+        RectI rect = area;
+        if (rect.left < 0) rect.left = 0;
+        if (rect.top <  0) rect.top  = 0;
+        if (rect.left + rect.width > width) rect.width = width - rect.left;
+        if (rect.top + rect.height > height) rect.height = height - rect.top;
+        if (create(rect.width, rect.height)) {
             const Uint8* pixels = image.getPixels() /*+ 3 * (width * 0)*/;
             Texture::bind(this);
-//            for (int index = 0; index < area.y; ++index) {
             GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
                           width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL));
-            GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, area.width, area.height,
+            GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, rect.width, rect.height,
                                      GL_RGB, GL_UNSIGNED_BYTE, pixels));
+            GL_CHECK(glFlush());
             Texture::bind(NULL);
-//                GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, index, area.x, 1, GL_RGB, GL_UNSIGNED_BYTE, pixels));
-//                pixels += 3 * width;
-//            }
             return true;
         } else {
-
+            return false;
         }
     }
 }
@@ -142,6 +145,10 @@ void Texture::update(const BitmapData &image) {
 
 void Texture::update(const BitmapData &image, Uint32 x, Uint32 y) {
     update(image.getPixels(), image.getSize().x, image.getSize().y, x, y);
+}
+
+Vector2U Texture::getSize(void) const {
+    return m_size;
 }
 
 void Texture::setSmooth(bool smooth) {
@@ -178,6 +185,9 @@ bool Texture::isRepeated() const {
 
 Int32 Texture::getValidSize(Int32 size) {
     if (isPowerOfTwo(size)) {
+        return size;
+    }
+    if (GL_ARB_texture_non_power_of_two) {
         return size;
     }
     return getPowerOfTwo(size);

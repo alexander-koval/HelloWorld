@@ -52,6 +52,8 @@ file(GLOB grafit_graphics_source_files
     "${SRCROOT}/BlendMode.cpp"
     "${INCROOT}/VBO.hpp"
     "${SRCROOT}/VBO.cpp"
+    "${INCROOT}/Sprite.hpp"
+    "${SRCROOT}/Sprite.cpp"
     "${INCROOT}/shaders/shaders.hpp"
     "${SRCROOT}/shaders/shaders.cpp"
     "${SRCROOT}/shaders/v330/positioncolor.frag"

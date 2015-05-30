@@ -10,10 +10,10 @@ m_rotation           (0),
 m_viewport           (0, 0, 1, 1),
 m_transformUpdated   (false),
 m_invTransformUpdated(false) {
-    reset(FloatRect(0, 0, 1000, 1000));
+    reset(RectF(0, 0, 1000, 1000));
 }
 
-View::View(const FloatRect& rectangle) :
+View::View(const RectF& rectangle) :
 m_center             (),
 m_size               (),
 m_rotation           (0),
@@ -66,11 +66,11 @@ void View::setRotation(float angle) {
     m_invTransformUpdated = false;
 }
 
-void View::setViewport(const FloatRect& viewport) {
+void View::setViewport(const RectF& viewport) {
     m_viewport = viewport;
 }
 
-void View::reset(const FloatRect& rectangle) {
+void View::reset(const RectF& rectangle) {
     m_center.x = rectangle.left + rectangle.width / 2.f;
     m_center.y = rectangle.top + rectangle.height / 2.f;
     m_size.x   = rectangle.width;
@@ -93,7 +93,7 @@ float View::getRotation() const {
     return m_rotation;
 }
 
-const FloatRect& View::getViewport() const {
+const RectF& View::getViewport() const {
     return m_viewport;
 }
 

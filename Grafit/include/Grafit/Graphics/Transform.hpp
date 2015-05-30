@@ -2,6 +2,7 @@
 #define TRANSFORM_HPP
 
 #include <Grafit/Graphics/Geometry/Mat4.hpp>
+#include <Grafit/Graphics/Geometry/Rect.hpp>
 #include <Grafit/Graphics/Geometry/Vector2.hpp>
 
 namespace gf {
@@ -16,7 +17,7 @@ public:
               float m10, float m11, float m12,
               float m20, float m21, float m22);
 
-    Transform(Mat4F matrix);
+    explicit Transform(Mat4F matrix);
 
     const Mat4F& getMatrix(void) const;
 
@@ -26,7 +27,11 @@ public:
 
     Vector2F transformPoint(const Vector2F& point) const;
 
+    RectF transformRect(const RectF& rect) const;
+
     Transform& combine(const Transform& transform);
+
+    Transform& combine(const Mat4F& matrix);
 
     Transform& translate(float x, float y);
 
@@ -47,6 +52,10 @@ public:
 private:
     Mat4<float> m_matrix;
 };
+
+Transform& operator *=(Transform& left, const Mat4F& right);
+
+Transform& operator *=(Transform& left, const Transform& right);
 
 }
 #endif // TRANSFORM_HPP
