@@ -80,8 +80,8 @@ else()
         "${SRCROOT}/Unix/ThreadImpl.cpp"
         "${SRCROOT}/Unix/ThreadLocalImpl.hpp"
         "${SRCROOT}/Unix/ThreadLocalImpl.cpp"
-        "${SRCROOT}/OSX/SystemInfoImpl.hpp"
-        "${SRCROOT}/OSX/SystemInfoImpl.cpp"
+        "${SRCROOT}/Unix/SystemInfoImpl.hpp"
+        "${SRCROOT}/Unix/SystemInfoImpl.cpp"
     )
     source_group("Unix" FILES ${grafit_system_platform_source_files})
 endif()

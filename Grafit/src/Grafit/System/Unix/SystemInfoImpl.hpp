@@ -5,33 +5,21 @@
 
 namespace gf {
 namespace priv {
+namespace systeminfo {
+    std::string getUserName(void);
 
-class SystemInfoImpl {
-public:
-    static std::string getUserName(void);
+    std::string getUserDirectory(void);
 
-    static std::string getUserDirectory(void);
+    std::string getHostName(void);
 
-    template <typename Sequence>
-    static void getPath(Sequence& path);
+    std::string getTempDirectory(void);
 
-    static std::string getHostName(void);
+    std::string getApplicationDirectory(void);
 
-    static std::string getTempDirectory(void);
-
-    static std::string getApplicationDirectory(void);
-
-    static std::string getEnvironment(const std::string& value);
-
-};
-
-template <typename Sequence>
-void SystemInfoImpl::getPath(Sequence& path) {
-
-}
-
-}
-}
+    std::string getEnvironment(const std::string& value);
+} // systeminfo
+} // priv
+} // gf
 
 #endif // SYSTEMINFOIMPL_HPP
 

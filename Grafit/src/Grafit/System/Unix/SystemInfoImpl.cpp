@@ -12,8 +12,9 @@
 
 namespace gf {
 namespace priv {
+namespace systeminfo {
 
-std::string SystemInfoImpl::getUserName(void) {
+std::string getUserName(void) {
     std::string result(getEnvironment("USER"));
     if (result.empty())
         result = getEnvironment("LOGNAME");
@@ -21,11 +22,11 @@ std::string SystemInfoImpl::getUserName(void) {
     return result;
 }
 
-std::string SystemInfoImpl::getUserDirectory(void) {
+std::string getUserDirectory(void) {
     return getEnvironment("HOME");
 }
 
-std::string SystemInfoImpl::getHostName(void) {
+std::string getHostName(void) {
     char name[PATH_MAX];
     std::string result;
     if (gethostname(name, PATH_MAX) == 0) {
@@ -36,7 +37,7 @@ std::string SystemInfoImpl::getHostName(void) {
     return result;
 }
 
-std::string SystemInfoImpl::getTempDirectory(void) {
+std::string getTempDirectory(void) {
 #if defined(P_tmpdir)
     return P_tmpdir;
 #else
@@ -44,31 +45,14 @@ std::string SystemInfoImpl::getTempDirectory(void) {
 #endif
 }
 
-std::string SystemInfoImpl::getApplicationDirectory(void) {
-#if defined(GRAFIT_SYSTEM_LINUX)
+std::string getApplicationDirectory(void) {
     return get_current_dir_name();
 //    char result[PATH_MAX];
 //    ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
 //    return std::string(result, (count > 0) ? count : 0);
-#elif defined(GRAFIT_SYSTEM_MACOS)
-    char result[PATH_MAX];
-    uint32_t count = sizeof(result);
-    if (getcwd(result, count))
-//    if (_NSGetExecutablePath(result, &count) == 0)
-        return std::string(result);
-    return std::string();
-#else
-    char result[ PATH_MAX ];
-    struct pst_status ps;
-    if (pstat_getproc( &ps, sizeof( ps ), 0, getpid() ) < 0)
-        return std::string();
-    if (pstat_getpathname( result, PATH_MAX, &ps.pst_fid_text ) < 0)
-        return std::string();
-    return std::string( result );
-#endif
 }
 
-std::string SystemInfoImpl::getEnvironment(const std::string& value) {
+std::string getEnvironment(const std::string& value) {
     char* variable = getenv(value.c_str());
     std::string result;
     if (variable)
@@ -76,5 +60,6 @@ std::string SystemInfoImpl::getEnvironment(const std::string& value) {
     return result;
 }
 
+}
 }
 }

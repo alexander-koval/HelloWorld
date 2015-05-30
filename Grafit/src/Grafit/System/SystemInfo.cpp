@@ -9,27 +9,27 @@
 namespace gf {
 
 std::string SystemInfo::getHostName(void) {
-    return priv::SystemInfoImpl::getHostName();
+    return priv::systeminfo::getHostName();
 }
 
 std::string SystemInfo::getUserName(void) {
-    return priv::SystemInfoImpl::getUserName();
+    return priv::systeminfo::getUserName();
 }
 
 std::string SystemInfo::getUserDirectory(void) {
-    return priv::SystemInfoImpl::getUserDirectory();
+    return priv::systeminfo::getUserDirectory();
 }
 
 std::string SystemInfo::getTempDirectory(void) {
-    return priv::SystemInfoImpl::getTempDirectory();
+    return priv::systeminfo::getTempDirectory();
 }
 
 std::string SystemInfo::getApplicationDirectory(void) {
-    return priv::SystemInfoImpl::getApplicationDirectory();
+    return priv::systeminfo::getApplicationDirectory();
 }
 
 std::string SystemInfo::getEnvironment(const std::string& value) {
-    return priv::SystemInfoImpl::getEnvironment(value);
+    return priv::systeminfo::getEnvironment(value);
 }
 
 }
