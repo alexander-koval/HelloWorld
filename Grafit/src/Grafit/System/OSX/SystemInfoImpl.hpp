@@ -5,23 +5,22 @@
 
 namespace gf {
 namespace priv {
+namespace systeminfo {
 
-class SystemInfoImpl {
-public:
-    static std::string getHostName(void);
+std::string getHostName(void);
 
-    static std::string getUserName(void);
+std::string getUserName(void);
 
-    static std::string getUserDirectory(void);
+std::string getUserDirectory(void);
 
-    static std::string getTempDirectory(void);
+std::string getTempDirectory(void);
 
-    static std::string getApplicationDirectory(void);
+std::string getApplicationDirectory(void);
 
-    static std::string getEnvironment(const std::string& value);
-};
+std::string getEnvironment(const std::string& value);
 
-}
-}
+} // systeminfo
+} // priv
+} // gf
 
 #endif // SYSTEMINFOIMPL_HPP

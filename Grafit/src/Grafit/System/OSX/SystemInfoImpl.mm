@@ -6,8 +6,9 @@
 
 namespace gf {
 namespace priv {
+namespace systeminfo {
 
-std::string SystemInfoImpl::getHostName(void) {
+std::string getHostName(void) {
     char name[PATH_MAX];
     std::string result;
     if (gethostname(name, PATH_MAX) == 0) {
@@ -18,11 +19,7 @@ std::string SystemInfoImpl::getHostName(void) {
     return result;
 }
 
-std::string SystemInfoImpl::getUserDirectory(void) {
-    return getEnvironment("HOME");
-}
-
-std::string SystemInfoImpl::getUserName(void) {
+std::string getUserName(void) {
     std::string result(getEnvironment("USER"));
     if (result.empty()) {
         result = getEnvironment("LOGNAME");
@@ -30,7 +27,11 @@ std::string SystemInfoImpl::getUserName(void) {
     return result;
 }
 
-std::string SystemInfoImpl::getTempDirectory(void) {
+std::string getUserDirectory(void) {
+    return getEnvironment("HOME");
+}
+
+std::string getTempDirectory(void) {
 #if defined(P_tmpdir)
     return P_tmpdir;
 #else
@@ -38,7 +39,7 @@ std::string SystemInfoImpl::getTempDirectory(void) {
 #endif
 }
 
-std::string SystemInfoImpl::getApplicationDirectory(void) {
+std::string getApplicationDirectory(void) {
     std::string rpath;
     NSBundle* bundle = [NSBundle mainBundle];
     if (bundle != nil) {
@@ -48,7 +49,7 @@ std::string SystemInfoImpl::getApplicationDirectory(void) {
     return rpath;
 }
 
-std::string SystemInfoImpl::getEnvironment(const std::string& value) {
+std::string getEnvironment(const std::string& value) {
     std::string rpath;
     NSString* input = [[[NSString alloc] initWithUTF8String:value.c_str()] autorelease];
     NSString* path = [[[NSProcessInfo processInfo] environment] objectForKey:input];
@@ -58,6 +59,7 @@ std::string SystemInfoImpl::getEnvironment(const std::string& value) {
     return rpath;
 }
 
+}
 }
 }
 

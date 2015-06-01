@@ -2,6 +2,8 @@
 
 #if defined(GRAFIT_SYSTEM_WINDOWS)
 //    #include <Grafit/System/Win32/ThreadImpl.hpp>
+#elif defined(GRAFIT_SYSTEM_MACOS)
+    #include <Grafit/System/OSX/SystemInfoImpl.hpp>
 #else
     #include <Grafit/System/Unix/SystemInfoImpl.hpp>
 #endif
