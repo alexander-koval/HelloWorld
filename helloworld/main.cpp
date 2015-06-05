@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <stb.h>
+#include <execinfo.h>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Triangle.hpp>
 #include <Grafit/Graphics/Bitmap.hpp>
@@ -44,6 +45,17 @@ double previousSeconds = 0;
 
 using namespace std;
 
+void on_terminate(void) {
+    void* trace_elems[20];
+    int trace_elem_count(backtrace(trace_elems, 20));
+    char** stack_syms(backtrace_symbols(trace_elems, trace_elem_count));
+    for (int i = 0; i < trace_elem_count; ++i) {
+        std::cout << stack_syms[i] << "\n";
+    }
+    std::free(stack_syms);
+    exit(1);
+}
+
 void init() {
 //    image = new Image();
     picture = new gf::Bitmap(filename);
@@ -75,7 +87,7 @@ void render() {
 //    image->render(mvpView);
     triangle->render(mvpView);
 //    picture->setScale(picture->getScale().x + 0.01f, picture->getScale().y + 0.01f);
-//    picture->render(mvpView);
+//    picture->render(mvpView);0
 //    picture2->render(mvpView);
 //    sprite->setRotation(sprite->getRotation() + 1);
     window->draw(*picture);
@@ -112,6 +124,7 @@ void updateFPS() {
 }
 
 int main() {
+    std::set_terminate(on_terminate);
     window = new gf::Window(VideoMode(1024, 768), "Hello World", gf::Style::Default);
     window->setView(window->getDefaultView());
     if (gladLoadGL()) {
