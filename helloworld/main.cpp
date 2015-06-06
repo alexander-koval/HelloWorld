@@ -64,8 +64,8 @@ void init() {
 
     picture->setPosition(512, 512);
     gf::Texture* texture = new gf::Texture();
-    texture->loadFromFile(filename1);
-    sprite = new gf::Sprite(*texture, gf::RectI(0, 0, 512, 512));
+    texture->loadFromFile(filename1, gf::RectI(0, 0, 629, 794));
+    sprite = new gf::Sprite(*texture/*, gf::RectI(0, 0, 512, 512)*/);
 //    picture2->setOrigin(0.5, 0.5);
 //    picture2->setScale(2.0f, 2.0f);
     sprite->setPosition(0, 0);

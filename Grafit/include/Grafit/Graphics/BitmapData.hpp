@@ -2,8 +2,6 @@
 #define IMAGEDATA_HPP
 
 #include <vector>
-#include <glm/vec2.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/OpenGL.hpp>
 #include <Grafit/System/Types.hpp>
@@ -12,8 +10,6 @@ namespace gf {
 class BitmapData {
 public:
     BitmapData(void);
-
-    void render(glm::mat4 mvpView);
 
     ~BitmapData(void);
 
@@ -25,25 +21,15 @@ public:
 
     const Uint8* getPixels() const;
 
+    Int32 getNumChannels(void) const;
+
     void flipX(void);
 
     void flipY(void);
 
-    bool isTransparent(void) const { return false; }
+    bool isTransparent(void) const;
 
 private:
-    struct Vertex {
-        glm::vec2 position;
-
-    };
-
-    GLuint m_vaoID;
-    GLuint m_vboID[2];
-    GLuint m_textureID;
-    Vertex m_vertices[4];
-    GLushort m_indices[6];
-    Shader m_shader;
-
     Int32 m_channels;
     glm::vec2 m_size;
     std::vector<Uint8> m_pixels;

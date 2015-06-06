@@ -3,6 +3,17 @@
 #include <Grafit/Graphics/Bitmap.hpp>
 #include <iostream>
 
+namespace {
+
+enum PixelFormat {
+    Gray      = GL_RED,
+    GrayAlpha = GL_RG,
+    RGB       = GL_RGB,
+    RGBA      = GL_RGBA
+};
+
+}
+
 namespace gf {
 void Texture::bind(const Texture* texture) {
     if (texture && texture->m_textureID) {
@@ -69,7 +80,7 @@ bool Texture::create(Uint32 width, Uint32 height) {
         m_textureID = texture;
     }
     Texture::bind(this);
-    GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_actualSize.x, m_actualSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL));
+    GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_actualSize.x, m_actualSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
@@ -110,7 +121,7 @@ bool Texture::loadFromImage(const BitmapData &image, const RectI& area) {
         if (rect.left + rect.width > width) rect.width = width - rect.left;
         if (rect.top + rect.height > height) rect.height = height - rect.top;
         if (create(rect.width, rect.height)) {
-            const Uint8* pixels = image.getPixels() /*+ 3 * (width * 0)*/;
+            const Uint8* pixels = image.getPixels();
             Texture::bind(this);
             GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
                           width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL));

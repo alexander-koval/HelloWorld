@@ -50,7 +50,7 @@ public:
 
 private:
     static Int32 getValidSize(Int32 size);
-    static bool isPowerOfTwo(Int32 size);
+    static bool  isPowerOfTwo(Int32 size);
     static Int32 getPowerOfTwo(Int32 size);
 
     Vector2U m_size;

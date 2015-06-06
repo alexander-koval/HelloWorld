@@ -1,28 +1,11 @@
 #include <Grafit/Graphics/Bitmap.hpp>
-#include <Grafit/Graphics/shaders/shaders.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <stb_image.h>
 #include <iostream>
 
-#ifdef __APPLE__
-const std::string filename = "../Resources/Lenna.png";
-#else
-const std::string filename = "Resources/Lenna.png";
-#endif
-
 namespace gf {
+
 BitmapData::BitmapData(void) {
 
-}
-
-void BitmapData::render(glm::mat4 mvpView) {
-//    m_shader.use();
-//    GL_CHECK(glBindVertexArray(m_vaoID));
-//    m_shader.setParameter<Shader::Uniform>("MVP", mvpView);
-////    GL_CHECK(glUniformMatrix4fv(m_shader.getParameterID<Shader::Uniform>("MVP"), 1, GL_FALSE, glm::value_ptr(mvpView)));
-//    GL_CHECK(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0));
-//    GL_CHECK(glBindVertexArray(0));
-//    m_shader.unuse();
 }
 
 BitmapData::~BitmapData(void) {
@@ -84,6 +67,10 @@ const Uint8* BitmapData::getPixels() const {
     }
 }
 
+Int32 BitmapData::getNumChannels(void) const {
+    return m_channels;
+}
+
 void BitmapData::flipX(void) {
     if (!m_pixels.empty()) {
        std::size_t rowSize = m_size.x * m_channels;
@@ -115,6 +102,10 @@ void BitmapData::flipY(void) {
             bottom -= rowSize;
         }
     }
+}
+
+bool BitmapData::isTransparent(void) const {
+    return (m_channels == STBI_grey_alpha || m_channels == STBI_rgb_alpha);
 }
 
 }
