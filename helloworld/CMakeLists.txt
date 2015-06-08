@@ -3,6 +3,12 @@ file(GLOB hello_world_source_files
 )
 
 if(APPLE)
+#    include(GmtHelperMacros)
+    #dsymutil
+    find_program(DSYMUTIL dsymutil)
+    #dwarfdump
+#    find_program(DWARFDUMP dwarfdump)
+
     set(BUNDLE_NAME ${PROJECT_NAME}.app)
     set(BUNDLE_PATH "${CMAKE_INSTALL_PREFIX}/${BUNDLE_NAME}")
     set(BINDIR ${BUNDLE_NAME}/Contents/MacOS)
@@ -13,7 +19,6 @@ if(APPLE)
     set(IMPORTSDIR ${BINDIR})
     set(BUNDLE_BINARIES ${PROJECT_NAME})
 
-#    set(BUILDID BUILDID"abcdef1234")
     # Locate all recourses
     file(GLOB COPY_RESOURCES ${PROJECT_SOURCE_DIR}/media/*.png)
     file(GLOB COPY_RLIBS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/*.a)
@@ -22,28 +27,30 @@ if(APPLE)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                         COMMAND ${CMAKE_COMMAND} -E make_directory
                         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${RLIBDIR})
+
     foreach(library ${COPY_RLIBS})
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                             COMMAND ${CMAKE_COMMAND} -E copy
                             ${library} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${RLIBDIR})
     endforeach()
-    set_source_files_properties(
-        "${COPY_RESOURCES}"
-        PROPERTIES
-        MACOSX_PACKAGE_LOCATION Resources
-    )
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E make_directory
+                        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${SHAREDIR})
+    foreach(resource ${COPY_RESOURCES})
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                            COMMAND ${CMAKE_COMMAND} -E copy
+                            ${resource} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${SHAREDIR})
+    endforeach()
 
-#    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#                       COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}>
-#                                     ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.debug
-#                       COMMAND ${CMAKE_STRIP}  $<TARGET_FILE:${PROJECT_NAME}>)
-#    install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.debug
-#        DESTINATION ${CMAKE_BINARY_DIR}/.build-id/${BUILDIDPREFIX}
-#        RENAME ${BUILDIDSUFFIX}.debug)
-
-
-#    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-Wl,--build-id=0x${BUILDID}")
-
+    if(DSYMUTIL)
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                            COMMAND ${DSYMUTIL} $<TARGET_FILE:${PROJECT_NAME}>
+                            ARGS -o ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${BUNDLE_NAME}.dSYM
+                            COMMENT "Generating .dSYM bundle for ${PROJECT_NAME}"
+                            COMMAND ${CMAKE_STRIP} $<TARGET_FILE:${PROJECT_NAME}>
+                            COMMENT "Strip debug information from ${PROJECT_NAME}"
+                            VERBATIM)
+    endif()
     set_target_properties(${BUNDLE_BINARIES} PROPERTIES
                             MACOSX_BUNDLE_SHORT_VERSION_STRING ${GLFW_VERSION}
                             MACOSX_BUNDLE_LONG_VERSION_STRING ${GLFW_VERSION_FULL})
