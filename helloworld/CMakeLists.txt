@@ -63,15 +63,33 @@ elseif(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${hello_world_source_files})
 
 else()
+    find_program(OBJCOPY objcopy)
+    file(GLOB COPY_RESOURCES ${PROJECT_SOURCE_DIR}/media/*.png)
     set(BUNDLE_NAME ${PROJECT_NAME})
-#    set(BUNDLE_PATH ${CMAKE_INSTALL_PREFIX})
     add_executable(${PROJECT_NAME} ${hello_world_source_files})
 
-    add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-                        COMMAND ${CMAKE_COMMAND} -E copy_directory
-                        ${CMAKE_CURRENT_SOURCE_DIR}/media Resources
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E make_directory
+                        Resources
                         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-
+    foreach(resource ${COPY_RESOURCES})
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                            COMMAND ${CMAKE_COMMAND} -E copy
+                            ${resource} Resources
+                            WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+    endforeach()
+    if(OBJCOPY)
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                            COMMAND ${OBJCOPY} $<TARGET_FILE:${PROJECT_NAME}>
+                            ARGS --only-keep-debug $<TARGET_FILE:${PROJECT_NAME}>.dSYM
+                            COMMENT "Generating binary with debug information"
+                            COMMAND ${OBJCOPY} $<TARGET_FILE:${PROJECT_NAME}>
+                            ARGS --add-gnu-debuglink=$<TARGET_FILE:${PROJECT_NAME}>.dSYM
+                            COMMENT "Link binary file with debug information"
+                            COMMAND ${CMAKE_STRIP} $<TARGET_FILE:${PROJECT_NAME}>
+                            COMMENT "Strip debug information from ${PROJECT_NAME}"
+                            VERBATIM)
+    endif(OBJCOPY)
 endif()
 
 target_link_libraries(${PROJECT_NAME}
