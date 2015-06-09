@@ -30,12 +30,11 @@ set( GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build GLFW examples" )
 set( GLFW_BUILD_TESTS OFF CACHE BOOL "Build GLFW tests" )
 set( GLFW_BUILD_DOCS OFF CACHE BOOL "Build GLFW documentation" )
 set( GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation" )
+set( BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libraries" )
 
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(modules/glfw/include)
 include_directories(modules/stb/)
-
-message("BOOST " ${Boost_LIBRARIES})
 
 if(APPLE)
 add_definitions(-DGLFW_EXPOSE_NATIVE_COCOA -DGLFW_EXPOSE_NATIVE_NSGL -DGRAFIT_SYSTEM_MACOS)

@@ -21,7 +21,7 @@ if(APPLE)
 
     # Locate all recourses
     file(GLOB COPY_RESOURCES ${PROJECT_SOURCE_DIR}/media/*.png)
-    file(GLOB COPY_RLIBS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/*.a)
+    file(GLOB COPY_RLIBS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/*.dylib)
     add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${hello_world_source_files} ${COPY_RESOURCES} ${COPY_RLIBS})
 
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
