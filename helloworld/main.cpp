@@ -14,6 +14,7 @@
 #include <Grafit/System/File.hpp>
 #include <Grafit/Graphics/Sprite.hpp>
 #include <Grafit/Graphics/Geometry/Rect.hpp>
+#include <Grafit/System/Event.hpp>
 
 
 static const int WIDTH = 1280;
@@ -44,6 +45,10 @@ int frameCount;
 double previousSeconds = 0;
 
 using namespace std;
+
+void FreeFunction(int) {
+  // do something
+}
 
 void on_terminate(void) {
     void* trace_elems[20];
@@ -147,6 +152,8 @@ int main() {
               << "Size: " << file.getSize() << std::endl;
 
     window->setVerticalSyncEnabled(true);
+    Delegate delegate;
+//    delegate.bind<&FreeFunction>();
     init();
     gf::Clock clock;
     gf::Time lastTime = gf::Time::Zero;

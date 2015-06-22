@@ -35,6 +35,7 @@ file(GLOB grafit_system_source_files
     "${SRCROOT}/File.cpp"
     "${INCROOT}/SystemInfo.hpp"
     "${SRCROOT}/SystemInfo.cpp"
+    "${INCROOT}/Event.hpp"
 )
 
 set(grafit_system_platform_source_files)
