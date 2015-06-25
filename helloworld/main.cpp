@@ -15,6 +15,8 @@
 #include <Grafit/Graphics/Sprite.hpp>
 #include <Grafit/Graphics/Geometry/Rect.hpp>
 #include <Grafit/System/Event.hpp>
+#include <Grafit/System/Signal.hpp>
+#include <Grafit/System/Slot.hpp>
 
 
 static const int WIDTH = 1280;
@@ -146,14 +148,21 @@ int main() {
               << "\t TEMP_DIR: " << gf::SystemInfo::getTempDirectory() << "\n"
               << std::endl;
 
-    gf::File file = gf::File(gf::SystemInfo::getApplicationDirectory() + "/Resources/Lenna.png");
+    gf::File file = gf::File(gf::SystemInfo::getApplicationDirectory() + "/Contents/Resources/Lenna.png");
     std::cout << "Name: " << file.getName().toAnsiString() << "\n"
               << " Ext: " << file.getExtension().toAnsiString() << "\n"
+              << "Path: " << file.getNativePath().toAnsiString() << "\n"
               << "Size: " << file.getSize() << std::endl;
 
     window->setVerticalSyncEnabled(true);
     Delegate delegate;
-//    delegate.bind<&FreeFunction>();
+    delegate.bind<&FreeFunction>();
+
+//    gf::Signal<gf::Slot<void(*)(int)>, void(*)(int)> signal;
+//    gf::Slot slot(signal, &FreeFunction);
+//    gf::Slot<gf::Signal<Slot<void(*)(int)>, void(*)(int)>, void(*)(int)> slot;
+//    signal.add(&FreeFunction);
+
     init();
     gf::Clock clock;
     gf::Time lastTime = gf::Time::Zero;

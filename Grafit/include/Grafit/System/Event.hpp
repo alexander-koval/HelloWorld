@@ -37,12 +37,32 @@ public:
     }
 
     void invoke(int ARG0) const {
-        assert(m_stub.second != nullptr)        ;
+        assert(m_stub.second != nullptr);
         return m_stub.second(m_stub.first, ARG0);
     }
 
 private:
     Stub m_stub;
+};
+
+template <typename Listener>
+class Slot {
+public:
+};
+
+template <typename Listener>
+class Slot<Listener ()> {
+public:
+    void bind(Listener listener) {
+
+    }
+
+private:
+    std::pair<void*, Listener> m_stub;
+};
+
+template <typename Listener, typename ARG0>
+class Slot<Listener (ARG0)> {
 
 };
 
