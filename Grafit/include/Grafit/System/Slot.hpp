@@ -54,6 +54,12 @@ TListener Slot<TSignal, TListener>::getListener(void) {
 }
 
 class Slot0 : public Slot<gf::Signal0, void(*)()> {
+typedef void(*Function)();
+public:
+    Slot0(gf::Signal0 signal, Function listener, bool once = false, int priority = 0)
+        : Slot(signal, listener, once, priority) {
+
+    }
 
 };
 
