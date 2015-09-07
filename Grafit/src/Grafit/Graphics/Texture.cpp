@@ -1,6 +1,7 @@
 #include <Grafit/Graphics/Texture.hpp>
 #include <Grafit/Graphics/OpenGL.hpp>
 #include <Grafit/Graphics/Bitmap.hpp>
+#include <Grafit/System/Assert.hpp>
 #include <iostream>
 
 namespace {

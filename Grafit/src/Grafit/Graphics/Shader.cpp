@@ -116,28 +116,28 @@ void Shader::bindTextures(void) const {
     }
 }
 
-const GLuint Shader::getProgramID(void) {
+const GLuint Shader::getProgramID(void) const {
     if (m_programID == 0) {
         m_programID = glCreateProgram();
     }
     return m_programID;
 }
 
-GLuint Shader::getAttributeID(const std::string &attribute) {
+GLuint Shader::getAttributeID(const std::string &attribute) const {
     std::map<std::string, Shader::Attribute>::const_iterator it = m_attributes.find(attribute);
     if (it != m_attributes.end())
         return it->second.attributeID;
     return 0;
 }
 
-GLuint Shader::getUniformID(const std::string &uniform) {
+GLuint Shader::getUniformID(const std::string &uniform) const {
     std::map<std::string, Shader::Uniform>::const_iterator it = m_uniforms.find(uniform);
     if (it != m_uniforms.end())
         return it->second.uniformID;
     return 0;
 }
 
-Shader::Attribute::Attribute(Shader &shader, const char *name)
+Shader::Attribute::Attribute(const Shader &shader, const char *name)
     : attributeID(glGetAttribLocation(shader.getProgramID(), name)) {
     GL_CHECK(assert(attributeID >= 0));
 }
@@ -148,7 +148,7 @@ void Shader::Attribute::set(const VertexBuffer& buffer, GLint size, GLenum type,
     GL_CHECK(glVertexAttribPointer(attributeID, size, type, normalize, buffer.getSizePerVertex(), (const GLvoid*)offset)));
 }
 
-Shader::Uniform::Uniform(Shader &shader, const char *name)
+Shader::Uniform::Uniform(const Shader &shader, const char *name)
     : uniformID(glGetUniformLocation(shader.getProgramID(), name)) {
     GL_CHECK(assert(uniformID >= 0));
 }
@@ -202,61 +202,61 @@ void Shader::Uniform::setMatrix4(const GLfloat *values, GLint count, GLboolean t
 }
 
 template<>
-void Shader::setParameter<Shader::Uniform>(const std::string& parameter) {
+void Shader::setParameter<Shader::Uniform>(const std::string& parameter) const {
     getUniform(parameter);
 }
 
 template<>
-void Shader::setParameter<Shader::Uniform>(const std::string& parameter, int v1) {
-    Uniform& uniform = getUniform(parameter);
+void Shader::setParameter<Shader::Uniform>(const std::string& parameter, int v1) const {
+    const Uniform& uniform = getUniform(parameter);
     uniform.set(v1);
 }
 
 template<>
-void Shader::setParameter<Shader::Uniform>(const std::string& parameter, float v1) {
-    Uniform& uniform = getUniform(parameter);
+void Shader::setParameter<Shader::Uniform>(const std::string& parameter, float v1) const {
+    const Uniform& uniform = getUniform(parameter);
     uniform.set(v1);
 }
 
 template<>
-void Shader::setParameter<Shader::Uniform>(const std::string& parameter, float v1, float v2) {
-    Uniform& uniform = getUniform(parameter);
+void Shader::setParameter<Shader::Uniform>(const std::string& parameter, float v1, float v2) const {
+    const Uniform& uniform = getUniform(parameter);
     uniform.set(v1, v2);
 }
 
 template<>
-void Shader::setParameter<Shader::Uniform>(const std::string& parameter, float v1, float v2, float v3) {
-    Uniform& uniform = getUniform(parameter);
+void Shader::setParameter<Shader::Uniform>(const std::string& parameter, float v1, float v2, float v3) const {
+    const Uniform& uniform = getUniform(parameter);
     uniform.set(v1, v2, v3);
 }
 
 template<>
-void Shader::setParameter<Shader::Uniform>(const std::string& parameter, float v1, float v2, float v3, float v4) {
-    Uniform& uniform = getUniform(parameter);
+void Shader::setParameter<Shader::Uniform>(const std::string& parameter, float v1, float v2, float v3, float v4) const {
+    const Uniform& uniform = getUniform(parameter);
     uniform.set(v1, v2, v3, v3);
 }
 
 template<>
-void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const glm::mat2& matrix) {
-    Uniform& uniform = getUniform(parameter);
+void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const glm::mat2& matrix) const {
+    const Uniform& uniform = getUniform(parameter);
     uniform.setMatrix2(glm::value_ptr(matrix), 1, false);
 }
 
 template<>
-void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const glm::mat3& matrix) {
-    Uniform& uniform = getUniform(parameter);
+void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const glm::mat3& matrix) const {
+    const Uniform& uniform = getUniform(parameter);
     uniform.setMatrix3(glm::value_ptr(matrix), 1, false);
 }
 
 template<>
-void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const Mat4F& matrix) {
-    Uniform& uniform = getUniform(parameter);
+void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const Mat4F& matrix) const {
+    const Uniform& uniform = getUniform(parameter);
     uniform.setMatrix4(matrix.getMatrix(), 1, false);
 }
 
 template<>
-void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const Texture& texture) {
-    Uniform& uniform = getUniform(parameter);
+void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const Texture& texture) const {
+    const Uniform& uniform = getUniform(parameter);
     if (uniform.uniformID != -1) {
         std::map<const Uniform*, const Texture*>::iterator it = m_textures.find(&uniform);
         if (it != m_textures.end()) {
@@ -273,7 +273,7 @@ void Shader::setParameter<Shader::Uniform>(const std::string &parameter, const T
 }
 
 template<>
-void Shader::setParameter<Shader::Attribute>(const std::string &parameter) {
+void Shader::setParameter<Shader::Attribute>(const std::string &parameter) const {
     getAttribute(parameter);
 }
 
@@ -283,22 +283,22 @@ void Shader::setParameter<Shader::Attribute>(const std::string& parameter,
                                              GLint size,
                                              GLenum type,
                                              GLboolean normalize,
-                                             const GLvoid* offset) {
-    Attribute& attribute = getAttribute(parameter);
+                                             const GLvoid* offset) const {
+    const Attribute& attribute = getAttribute(parameter);
     attribute.set(buffer, size, type, normalize, offset);
 }
 
 template<>
-GLuint Shader::getParameterID<Shader::Uniform>(const std::string& parameter) {
+GLuint Shader::getParameterID<Shader::Uniform>(const std::string& parameter) const {
     return getUniformID(parameter);
 }
 
 template<>
-GLuint Shader::getParameterID<Shader::Attribute>(const std::string &parameter) {
+GLuint Shader::getParameterID<Shader::Attribute>(const std::string &parameter) const {
     return getAttributeID(parameter);
 }
 
-Shader::Uniform& Shader::getUniform(const std::string& parameter) {
+const Shader::Uniform& Shader::getUniform(const std::string& parameter) const {
     std::map<std::string, Shader::Uniform>::iterator it = m_uniforms.find(parameter);
     if (it != m_uniforms.end()) {
         return it->second;
@@ -308,7 +308,7 @@ Shader::Uniform& Shader::getUniform(const std::string& parameter) {
     return getUniform(parameter);
 }
 
-Shader::Attribute& Shader::getAttribute(const std::string &parameter) {
+const Shader::Attribute& Shader::getAttribute(const std::string &parameter) const {
     std::map<std::string, Shader::Attribute>::iterator it = m_attributes.find(parameter);
     if (it != m_attributes.end()) {
         return it->second;

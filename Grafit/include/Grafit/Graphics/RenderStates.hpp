@@ -29,7 +29,7 @@ public:
     BlendMode      blendMode; ///< Blending mode
     Transform      transform; ///< Transform
     const Texture* texture;   ///< Texture
-    Shader*  shader;    ///< Shader
+    const Shader* shader;    ///< Shader
 };
 
 }

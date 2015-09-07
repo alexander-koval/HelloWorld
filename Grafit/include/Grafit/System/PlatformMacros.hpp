@@ -38,11 +38,12 @@
 #    define GF_RIGHT_PARENTHESIS )
 #    define GF_VA_NUM_ARGS(...) GF_VA_NUM_ARGS_HELPER GF_LEFT_PARENTHESIS __VA_ARGS__, GF_VA_NUM_ARGS_REVERSE_SEQUENCE GF_RIGHT_PARENTHESIS
 #else
-//#    define GF_VA_NUM_ARGS(...) (sizeof(#__VA_ARGS__) == sizeof("") ? 0 : \
-//        GF_VA_NUM_ARGS_HELPER(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1))
 
-#    define GF_VA_NUM_ARGS(...) GF_VA_NUM_ARGS_HELPER(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
-#    define GF_VA_NUM_ARGS_HELPER(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, N, ...)    N
+    #define SIZE_OF(...) sizeof(#__VA_ARGS__)
+
+    #define GF_VA_NUM_ARGS_EMPTY(...) (sizeof(#__VA_ARGS__) == sizeof(GF_STRINGIFY()))
+    #define GF_VA_NUM_ARGS(...) GF_VA_NUM_ARGS_HELPER(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+    #define GF_VA_NUM_ARGS_HELPER(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, N, ...)    N
 #endif
 
 #if _MSC_VER >= 1400

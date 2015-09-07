@@ -48,12 +48,12 @@ public:
 
     Vector2I mapCoordsToPixel(const Vector2F& point, const View& view) const;
 
-    void draw(Drawable& drawable, const RenderStates& states = RenderStates::Default);
+    void draw(const Drawable& drawable, const RenderStates& states = RenderStates::Default) const;
 
-    void draw(const VertexArray& vertices, PrimitiveType type, const RenderStates& states = RenderStates::Default);
+    void draw(const VertexArray& vertices, PrimitiveType type, const RenderStates& states = RenderStates::Default) const;
 
     void draw(const Vertex2<Vector2F, Vector2F>* vertices, unsigned int vertexCount,
-              PrimitiveType type, const RenderStates& states = RenderStates::Default);
+              PrimitiveType type, const RenderStates& states = RenderStates::Default) const;
 
     virtual Vector2U getSize() const = 0;
 
@@ -65,7 +65,7 @@ public:
 
     void popGLStates();
 
-    void resetGLStates();
+    void resetGLStates() const;
 
 protected:
     RenderTarget();
@@ -73,15 +73,15 @@ protected:
     void initialize();
 
 private:
-    void applyCurrentView();
+    void applyCurrentView() const;
 
     void applyBlendMode(const BlendMode& mode);
 
-    void applyTransform(const Transform& transform);
+    void applyTransform(const Transform& transform) const;
 
     void applyTexture(const Texture* texture);
 
-    void applyShader(const Shader* shader);
+    void applyShader(const Shader* shader) const;
 
     virtual bool activate(bool active) const = 0;
 
@@ -89,7 +89,7 @@ private:
         enum {VertexCacheSize = 4};
 
         bool      glStatesSet;    ///< Are our internal GL states set yet?
-        bool      viewChanged;    ///< Has the current view changed since last draw?
+        mutable bool      viewChanged;    ///< Has the current view changed since last draw?
         BlendMode lastBlendMode;  ///< Cached blending mode
         Uint64    lastTextureId;  ///< Cached texture
     };
@@ -98,9 +98,9 @@ private:
     View        m_view;        ///< Current view
     StatesCache m_cache;       ///< Render states cache
 
-    std::stack<Mat4F> m_modelViewStack;
-    std::stack<Mat4F> m_projectionStack;
-    std::stack<Mat4F> m_textureStack;
+    mutable std::stack<Mat4F> m_modelViewStack;
+    mutable std::stack<Mat4F> m_projectionStack;
+    mutable std::stack<Mat4F> m_textureStack;
 };
 
 }

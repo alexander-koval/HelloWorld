@@ -3,9 +3,9 @@
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Texture.hpp>
 #include <Grafit/Graphics/VertexArray.hpp>
+#include <Grafit/System/Assert.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
-#include <cassert>
 #include <stack>
 
 namespace {
@@ -126,13 +126,13 @@ Vector2I RenderTarget::mapCoordsToPixel(const Vector2F& point, const View& view)
 
 
 ////////////////////////////////////////////////////////////
-void RenderTarget::draw(Drawable& drawable, const RenderStates& states) {
+void RenderTarget::draw(const Drawable& drawable, const RenderStates& states) const {
     drawable.draw(*this, states);
 }
 
-void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const RenderStates& states) {
+void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const RenderStates& states) const {
     if (activate(true)) {
-        Shader* shader = states.shader;
+        const Shader* shader = states.shader;
         const Texture* texture = states.texture;
         Transform transform = states.transform;
         applyTransform(transform);
@@ -144,7 +144,7 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
         vertices.use();
 //        Mat4f mvpView = m_projectionStack.top() * m_modelViewStack.top() * m_textureStack.top();
         Mat4F mvpView = m_textureStack.top() * m_modelViewStack.top() * m_projectionStack.top();
-        assert(shader != NULL);
+        GF_ASSERT(shader != NULL, "Unitialized shader pointer", nullptr);
         shader->setParameter<Shader::Uniform>("TextureMap", *texture);
         shader->setParameter<Shader::Uniform>("MVP", mvpView);
         GL_CHECK(glDrawElements(type,
@@ -158,7 +158,7 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
 
 ////////////////////////////////////////////////////////////
 void RenderTarget::draw(const Vertex2<Vector2F, Vector2F>* vertices, unsigned int vertexCount,
-                        PrimitiveType type, const RenderStates& states) {
+                        PrimitiveType type, const RenderStates& states) const {
     // Nothing to draw?
 //    if (!vertices || (vertexCount == 0))
 //        return;
@@ -262,7 +262,7 @@ void RenderTarget::pushMatrix(MatrixMode mode) {
     } else if (mode == MatrixMode::TEXTURE) {
         m_textureStack.pop();
     } else {
-        assert(false);
+        GF_ASSERT(false, "Unresolvable MatrixMode", GF_STRINGIFY(MatrixMode));
     }
 }
 
@@ -274,7 +274,7 @@ void RenderTarget::popMatrix(MatrixMode mode) {
     } else if (mode == MatrixMode::TEXTURE) {
         m_textureStack.push(m_textureStack.top());
     } else {
-        assert(false);
+        GF_ASSERT(false, "Unresolvable MatrixMode", GF_STRINGIFY(MatrixMode));
     }
 }
 
@@ -294,7 +294,7 @@ void RenderTarget::popGLStates() {
     }
 }
 
-void RenderTarget::resetGLStates() {
+void RenderTarget::resetGLStates() const {
     while (!m_modelViewStack.empty()) {
         m_modelViewStack.pop();
     }
@@ -318,7 +318,7 @@ void RenderTarget::initialize() {
     m_cache.glStatesSet = false;
 }
 
-void RenderTarget::applyCurrentView() {
+void RenderTarget::applyCurrentView() const {
     // Set the viewport
     RectI viewport = getViewport(m_view);
     int top = getSize().y - (viewport.top + viewport.height);
@@ -353,7 +353,7 @@ void RenderTarget::applyBlendMode(const BlendMode& mode) {
     m_cache.lastBlendMode = mode;
 }
 
-void RenderTarget::applyTransform(const Transform& transform) {
+void RenderTarget::applyTransform(const Transform& transform) const {
     m_modelViewStack.push(transform.getMatrix());
 }
 
@@ -363,7 +363,7 @@ void RenderTarget::applyTexture(const Texture* texture) {
 //    m_cache.lastTextureId = texture ? texture->m_textureID : 0;
 }
 
-void RenderTarget::applyShader(const Shader* shader) {
+void RenderTarget::applyShader(const Shader* shader) const {
 //    Shader::use();
     Shader::bind(shader);
 }

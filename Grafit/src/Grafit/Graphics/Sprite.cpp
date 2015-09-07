@@ -3,6 +3,7 @@
 #include <Grafit/Graphics/RenderTarget.hpp>
 #include <Grafit/Graphics/shaders/shaders.hpp>
 #include <cstdlib>
+#include <boost/signals/detail/signal_base.hpp>
 
 namespace gf {
 
@@ -105,12 +106,11 @@ RectF Sprite::getGlobalBounds(void) const {
     return getTransform().transformRect(getLocalBounds());
 }
 
-void Sprite::draw(RenderTarget& target, RenderStates states) {
+void Sprite::draw(const RenderTarget& target, RenderStates states) const {
     if (m_texture) {
-        Transform transform = getTransform();
-        states.transform = transform;
         states.texture = m_texture;
         states.shader = &m_shader;
+        states.transform = getTransform();
         target.draw(m_vertexArray, PrimitiveType::Triangles, states);
     }
 }

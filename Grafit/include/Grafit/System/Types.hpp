@@ -1,7 +1,7 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
-#include <stdint.h>
+#include <cstdint>
 
 typedef int8_t      Int8;
 typedef uint8_t     Uint8;

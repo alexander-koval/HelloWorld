@@ -68,10 +68,12 @@ RectF Transform::transformRect(const RectF& rect) const {
 
 Transform& Transform::combine(const Transform &transform) {
     m_matrix.multiply(transform.m_matrix);
+    return *this;
 }
 
 Transform& Transform::combine(const Mat4F& matrix) {
     m_matrix.multiply(matrix);
+    return *this;
 }
 
 Transform& Transform::translate(float x, float y) {

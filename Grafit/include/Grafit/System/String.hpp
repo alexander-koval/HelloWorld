@@ -15,7 +15,7 @@ public:
 
     static const std::size_t InvalidPos; ///< Represents an invalid position in the string
 
-    String();
+    String(void);
 
     String(char ansiChar, const std::locale& locale = std::locale());
 

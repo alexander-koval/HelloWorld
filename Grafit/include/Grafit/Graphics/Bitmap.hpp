@@ -11,6 +11,7 @@
 #include <Grafit/Graphics/Transform.hpp>
 #include <Grafit/Graphics/VBO.hpp>
 #include <Grafit/Graphics/VertexArray.hpp>
+#include <Grafit/System/PlatformMacros.hpp>
 
 namespace gf {
 class Bitmap : public Drawable, public Transformable {
@@ -22,11 +23,11 @@ public:
     ~Bitmap();
 
 protected:
-    virtual void draw(RenderTarget &target, RenderStates states);
+    virtual void draw(const RenderTarget &target, RenderStates states) const;
 
 private:
     BitmapData m_image;
-    Shader m_shader;
+    mutable Shader m_shader;
     Texture m_texture;
     GLushort m_indices[6];
     Transform m_transform;

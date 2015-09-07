@@ -14,7 +14,7 @@ protected:
 
     friend class RenderTarget;
 
-    virtual void draw(RenderTarget& target, RenderStates states) = 0;
+    virtual void draw(const RenderTarget& target, RenderStates states) const = 0;
 };
 }
 

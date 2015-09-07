@@ -37,43 +37,43 @@ public:
     void bindTextures(void) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter);
+    void setParameter(const std::string& parameter) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter, int v1);
+    void setParameter(const std::string& parameter, int v1) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter, float v1);
+    void setParameter(const std::string& parameter, float v1) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter, float v1, float v2);
+    void setParameter(const std::string& parameter, float v1, float v2) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter, float v1, float v2, float v3);
+    void setParameter(const std::string& parameter, float v1, float v2, float v3) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter, float v1, float v2, float v3, float v4);
+    void setParameter(const std::string& parameter, float v1, float v2, float v3, float v4) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter, const Vector2F& vector);
+    void setParameter(const std::string& parameter, const Vector2F& vector) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter, const Vector3F& vector);
+    void setParameter(const std::string& parameter, const Vector3F& vector) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter, const ColorF& color);
+    void setParameter(const std::string& parameter, const ColorF& color) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter, const glm::mat2& matrix);
+    void setParameter(const std::string& parameter, const glm::mat2& matrix) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter, const glm::mat3& matrix);
+    void setParameter(const std::string& parameter, const glm::mat3& matrix) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter, const Mat4F& matrix);
+    void setParameter(const std::string& parameter, const Mat4F& matrix) const;
 
     template<typename Type>
-    void setParameter(const std::string& parameter, const Texture& texture);
+    void setParameter(const std::string& parameter, const Texture& texture) const;
 
     template<typename Type>
     void setParameter(const std::string& parameter,
@@ -81,29 +81,29 @@ public:
                       GLint size,
                       GLenum type,
                       GLboolean normalize,
-                      const GLvoid* offset);
+                      const GLvoid* offset) const;
 
     template<typename ParameterType>
-    GLuint getParameterID(const std::string& parameter);
+    GLuint getParameterID(const std::string& parameter) const;
 
-    const GLuint getProgramID(void);
+    const GLuint getProgramID(void) const;
 
-    GLuint getUniformID(const std::string& uniform);
+    GLuint getUniformID(const std::string& uniform) const;
 
-    GLuint getAttributeID(const std::string& attribute);
+    GLuint getAttributeID(const std::string& attribute) const;
 
     void relese(void);
 
     struct Attribute {
-        Attribute(Shader& shader, const char* name);
+        Attribute(const Shader& shader, const char* name);
 
         void set(const VertexBuffer& buffer, GLint size, GLenum type, GLboolean normalize, const GLvoid* offset) const;
 
-        GLuint attributeID;
+        const GLuint attributeID;
     };
 
     struct Uniform {
-        Uniform(Shader& shader, const char* name);
+        Uniform(const Shader& shader, const char* name);
 
         void set(GLint value) const;
 
@@ -129,18 +129,17 @@ public:
 
         void setMatrix4(const GLfloat* values, GLint count, GLboolean transpose) const;
 
-        GLint uniformID;
+        const GLint uniformID;
     };
 
 private:
-    Uniform& getUniform(const std::string& parameter);
-    Attribute& getAttribute(const std::string& parameter);
+    const Uniform& getUniform(const std::string& parameter) const;
+    const Attribute& getAttribute(const std::string& parameter) const;
 
-    GLuint m_programID;
-//    GLuint m_textureID;
-    std::map<const Shader::Uniform*, const Texture*> m_textures;
-    std::map<std::string, Shader::Uniform> m_uniforms;
-    std::map<std::string, Shader::Attribute> m_attributes;
+    mutable GLuint m_programID;
+    mutable std::map<const Shader::Uniform*, const Texture*> m_textures;
+    mutable std::map<std::string, Shader::Uniform> m_uniforms;
+    mutable std::map<std::string, Shader::Attribute> m_attributes;
 };
 
 }

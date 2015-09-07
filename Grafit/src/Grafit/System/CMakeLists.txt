@@ -36,9 +36,17 @@ file(GLOB grafit_system_source_files
     "${INCROOT}/SystemInfo.hpp"
     "${SRCROOT}/SystemInfo.cpp"
     "${INCROOT}/Event.hpp"
-    "${INCROOT}/Slot.hpp"
-    "${INCROOT}/Signal.hpp"
-    "${INCROOT}/SlotList.hpp"
+    "${INCROOT}/Signals/Slot.hpp"
+    "${INCROOT}/Signals/Slot.inl"
+    "${INCROOT}/Signals/Signal.hpp"
+    "${INCROOT}/Signals/Signal.inl"
+    "${INCROOT}/Signals/SlotMap.hpp"
+    "${INCROOT}/Signals/SlotMap.inl"
+    "${INCROOT}/Signals/Connection.hpp"
+    "${INCROOT}/Function.hpp"
+    "${INCROOT}/Factory.hpp"
+    "${INCROOT}/Uuid.hpp"
+    "${SRCROOT}/Uuid.cpp"
 )
 
 set(grafit_system_platform_source_files)

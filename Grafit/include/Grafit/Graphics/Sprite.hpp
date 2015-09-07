@@ -33,7 +33,7 @@ public:
     RectF getGlobalBounds(void) const;
 
 private:
-    virtual void draw(RenderTarget& target, RenderStates states);
+    virtual void draw(const RenderTarget& target, RenderStates states) const override;
 
     void updatePositions(void);
 
