@@ -36,6 +36,8 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/Grafit/extlibs/include
     ${PROJECT_SOURCE_DIR}/Grafit/modules/glm
     ${PROJECT_SOURCE_DIR}/Grafit/modules/stb
+    ${PROJECT_SOURCE_DIR}/Grafit/modules/signals/include
+    ${PROJECT_SOURCE_DIR}/Grafit/modules/loki/include
 )
 
 message("DIRS: " ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
