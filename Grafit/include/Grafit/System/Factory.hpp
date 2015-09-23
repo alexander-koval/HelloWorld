@@ -4,6 +4,7 @@
 #include <Grafit/System/EmptyType.hpp>
 #include <Grafit/System/NullType.hpp>
 #include <Grafit/System/Assert.hpp>
+#include <Grafit/System/Destructable.hpp>
 #include <type_traits>
 #include <functional>
 #include <map>
@@ -15,9 +16,8 @@ namespace priv {
 template <typename ... Args> struct FactoryImpl;
 
 template <typename AP, typename ID, typename ... Args>
-struct FactoryImpl<AP, ID, Args...> {
+struct FactoryImpl<AP, ID, Args...> : public Destructable {
     using ReturnType = AP;
-    virtual ~FactoryImpl(void) {}
     virtual ReturnType create(const ID& id, Args&& ...args) = 0;
 };
 

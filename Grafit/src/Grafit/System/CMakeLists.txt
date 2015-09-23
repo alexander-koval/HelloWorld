@@ -2,6 +2,7 @@ set(INCROOT ${PROJECT_SOURCE_DIR}/include/Grafit/System)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/Grafit/System)
 
 file(GLOB grafit_system_source_files
+    "${INCROOT}/Destructable.hpp"
     "${INCROOT}/Clock.hpp"
     "${SRCROOT}/Clock.cpp"
     "${INCROOT}/InputStream.hpp"

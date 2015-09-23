@@ -10,6 +10,7 @@
 #include <Grafit/Graphics/PrimitiveType.hpp>
 #include <Grafit/Graphics/Vertex.hpp>
 #include <Grafit/System/NonCopyable.hpp>
+#include <Grafit/System/Destructable.hpp>
 #include <stack>
 
 
@@ -23,7 +24,7 @@ enum MatrixMode {
     TEXTURE
 };
 
-class RenderTarget : NonCopyable {
+class RenderTarget : public Destructable, NonCopyable {
 public:
 
     virtual ~RenderTarget();

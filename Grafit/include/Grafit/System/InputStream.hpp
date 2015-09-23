@@ -2,13 +2,11 @@
 #define INPUTSTREAM_HPP
 
 #include <Grafit/System/Types.hpp>
+#include <Grafit/System/IDestructable.hpp>
 
 namespace gf {
-class InputStream {
+class IInputStream : public Destructable {
 public:
-
-    virtual ~InputStream(void) {}
-
     virtual Int64 read(void* data, Int64 size) = 0;
 
     virtual Int64 seek(Int64 position) = 0;

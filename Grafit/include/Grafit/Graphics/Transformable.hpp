@@ -2,10 +2,11 @@
 #define TRANSFORMABLE_HPP
 
 #include <Grafit/Graphics/Transform.hpp>
+#include <Grafit/System/Destructable.hpp>
 
 namespace gf {
 
-class Transformable {
+class Transformable : public Destructable {
 public:
     Transformable();
 

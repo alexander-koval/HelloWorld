@@ -34,9 +34,9 @@ public:
         m_slotMap.clear();
     }
 
-    int numSlots(void) {
+    int numSlots(void) const {
         std::size_t count = 0;
-        for (Iterator it = m_slotMap.begin(); it != m_slotMap.end(); ++it) {
+        for (ConstIterator it = m_slotMap.begin(); it != m_slotMap.end(); ++it) {
             if (it->first.isConnected()) ++count;
         }
         return count;
@@ -46,7 +46,7 @@ public:
         Iterator it = m_slotMap.begin();
         while (it != m_slotMap.end()) {
             if (it->first.isConnected()) {
-                Slot<R(Args...)>& slot = it->second;
+                const Slot<R(Args...)>& slot = it->second;
                 slot.execute(std::forward<Args>(args)...);
                 if (slot.isOnce()) {
                     m_slotMap.erase(it++);
@@ -69,6 +69,7 @@ private:
 private:
     using SlotContainer = SlotMap<Slot<R(Args...)>>;
     using Iterator = typename SlotContainer::Iterator;
+    using ConstIterator = typename SlotContainer::ConstIterator;
 
     SlotMap<Slot<R(Args...)>> m_slotMap;
 };

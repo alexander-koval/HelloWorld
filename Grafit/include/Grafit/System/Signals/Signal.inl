@@ -1,5 +1,6 @@
 #include <Grafit/System/Signals/Signal.hpp>
 #include <Grafit/System/Signals/Connection.hpp>
+#include <iostream>
 
 namespace gf {
 
@@ -19,8 +20,6 @@ bool Signal<R(Args...)>::disconnect(const Connection& connection) {
 template <typename R, typename ... Args>
 Connection& Signal<R(Args...)>::registerListener(const std::function<R(Args...)>& listener,
                                                  bool once, int priority, ConnectPosition pos) {
-    std::cout << listener.target_type().name() << std::endl;
-
     void (*signal_disconnect)(Signal<R(Args...)>*, const Connection&) = &Signal<R(Args...)>::disconnect;
 
     typename SlotMap<Slot<R(Args...)>>::Iterator it = m_slotMap.insert(priority,
@@ -28,10 +27,6 @@ Connection& Signal<R(Args...)>::registerListener(const std::function<R(Args...)>
                                                                        Slot<R(Args...)>(listener, once, priority),
                                                                        pos);
     return (*it).first;
-//    const std::shared_ptr<priv::ConnectionImpl>& impl = connection.getConnection();
-//    impl->disconnect = &Signal<R(Args...)>::disconnect;
-//    impl->signal = this;
-//    return connection;
 }
 
 }

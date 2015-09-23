@@ -11,13 +11,13 @@ class Connection;
 
 namespace priv {
 
-class ConnectionBase {
+class IConnection {
 public:
     virtual bool isConnected(void) = 0;
 
     virtual void disconnect(const Connection&) = 0;
 
-    virtual ConnectionBase* clone(void) const = 0;
+    virtual IConnection * clone(void) const = 0;
 
     template <typename U>
     static U* clone(U* object) {
@@ -29,7 +29,7 @@ public:
 };
 
 template <typename R, typename ...Args>
-class ConnectionImpl : public ConnectionBase {
+class ConnectionImpl : public IConnection {
 public:
     using DisconnectFunc = void(*)(Signal<R(Args...)>*, const Connection&);
 
@@ -39,7 +39,7 @@ public:
     ConnectionImpl(Signal<R(Args...)>* signal, DisconnectFunc func) : signal(signal), disconnectFunc(func) { }
 
     virtual bool isConnected(void) {
-        return disconnectFunc;
+        return disconnectFunc != nullptr;
     }
 
     virtual void disconnect(const Connection& connection) {
@@ -58,7 +58,7 @@ public:
 class Connection : private std::less<Connection>
         , private std::equal_to<Connection> {
 public:
-    using Impl = priv::ConnectionBase;
+    using Impl = priv::IConnection;
 
     Connection(void) : m_connection() {}
 
@@ -87,7 +87,7 @@ public:
         return m_connection.get() == other.m_connection.get();
     }
 
-    bool operator <(const Connection& other) {
+    bool operator <(const Connection& other) const {
         return m_connection.get() < other.m_connection.get();
     }
 

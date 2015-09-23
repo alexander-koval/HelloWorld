@@ -12,14 +12,6 @@ public:
 
     Slot(const std::function<R(Args...)>& listener, bool once = false, int priority = 0);
 
-    void setListener(const std::function<R(Args...)>& listener) {
-        m_listener = listener;
-    }
-
-    const std::function<R(Args...)>& getListener(void) const {
-        return m_listener;
-    }
-
     bool isOnce(void) const {
         return m_isOnce;
     }

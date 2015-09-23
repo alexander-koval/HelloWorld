@@ -1,5 +1,5 @@
-#ifndef ASSERT
-#define ASSERT
+#ifndef ASSERT_HPP
+#define ASSERT_HPP
 
 #include <Grafit/System/SourceInfo.hpp>
 #include <sstream>
@@ -52,5 +52,5 @@ private:
 
 }
 
-#endif // ASSERT
+#endif // ASSERT_HPP
 

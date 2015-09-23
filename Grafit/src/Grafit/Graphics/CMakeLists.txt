@@ -114,6 +114,7 @@ target_link_libraries(grafit-graphics
 #    GLU
 #    GL
 #    SOIL
+    grafit-system
     ${DESKTOP_LIBS}
     ${OPENGL_glu_LIBRARY}
     ${GLFW_LIBRARIES}

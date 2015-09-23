@@ -4,6 +4,7 @@
 #include <memory>
 #include <type_traits>
 #include <Grafit/System/Assert.hpp>
+#include <Grafit/System/Destructable.hpp>
 
 namespace gf {
 
@@ -11,11 +12,10 @@ namespace priv {
 template<typename ... Args> class FunctionImpl;
 
 template <typename R, typename ... Args>
-class FunctionImpl<R(Args...)> {
+class FunctionImpl<R(Args...)> : public Destructable {
 public:
     using Fn = R(Args...);
     using ResultType = R;
-    virtual ~FunctionImpl(void) {}
     virtual R operator()(Args&& ...args) = 0;
     virtual FunctionImpl* clone(void) const = 0;
 

@@ -46,6 +46,7 @@ m_cache      () {
 }
 
 RenderTarget::~RenderTarget() {
+
 }
 
 void RenderTarget::clear(const Color<Uint8>& color) {

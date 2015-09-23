@@ -22,9 +22,20 @@ typename SlotMap<TSlot, CompareType>::Iterator SlotMap<TSlot, CompareType>::begi
 }
 
 template <typename TSlot, typename CompareType>
+typename SlotMap<TSlot, CompareType>::ConstIterator SlotMap<TSlot, CompareType>::begin(void) const {
+    return SlotMap<TSlot, CompareType>::ConstIterator(m_groups.begin(), m_groups.end());
+}
+
+template <typename TSlot, typename CompareType>
 typename SlotMap<TSlot, CompareType>::Iterator SlotMap<TSlot, CompareType>::end(void) {
     return SlotMap<TSlot, CompareType>::Iterator(m_groups.end(), m_groups.end());
 }
+
+template <typename TSlot, typename CompareType>
+typename SlotMap<TSlot, CompareType>::ConstIterator SlotMap<TSlot, CompareType>::end(void) const {
+    return SlotMap<TSlot, CompareType>::ConstIterator(m_groups.end(), m_groups.end());
+}
+
 
 template <typename TSlot, typename CompareType>
 typename SlotMap<TSlot, CompareType>::Iterator SlotMap<TSlot, CompareType>::insert(const StoredGroup& name,

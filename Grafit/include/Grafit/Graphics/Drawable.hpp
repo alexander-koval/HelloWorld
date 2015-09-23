@@ -2,16 +2,12 @@
 #define DRAWABLE_HPP
 
 #include <Grafit/Graphics/RenderStates.hpp>
+#include <Grafit/System/Destructable.hpp>
 
 namespace gf {
 class RenderTarget;
-class Drawable {
+class Drawable : public Destructable {
 public:
-
-    virtual ~Drawable() {}
-
-protected:
-
     friend class RenderTarget;
 
     virtual void draw(const RenderTarget& target, RenderStates states) const = 0;
