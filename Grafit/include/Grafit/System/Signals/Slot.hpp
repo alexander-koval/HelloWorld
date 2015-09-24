@@ -12,13 +12,9 @@ public:
 
     Slot(const std::function<R(Args...)>& listener, bool once = false, int priority = 0);
 
-    bool isOnce(void) const {
-        return m_isOnce;
-    }
+    bool isOnce(void) const;
 
-    int getPriority(void) const {
-        return m_priority;
-    }
+    int getPriority(void) const;
 
     void execute(Args&&... args) const;
 

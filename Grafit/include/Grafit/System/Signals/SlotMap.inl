@@ -3,6 +3,103 @@
 namespace gf {
 
 template <typename TSlot, typename CompareType>
+SlotIterator<TSlot, CompareType>::SlotIterator(const SlotIterator &other)
+    : m_group(other.m_group)
+    , m_groupLast(other.m_groupLast)
+    , m_isAssigned(other.m_isAssigned) {
+    if (m_isAssigned) m_slot = other.m_slot;
+}
+
+template <typename TSlot, typename CompareType>
+SlotIterator<TSlot, CompareType>& SlotIterator<TSlot, CompareType>::operator=(const SlotIterator& other) {
+    m_isAssigned = other.m_isAssigned;
+    m_group = other.m_group;
+    m_groupLast = other.m_groupLast;
+    if (m_isAssigned) m_slot = other.m_slot;
+    return *this;
+}
+
+template <typename TSlot, typename CompareType>
+typename SlotIterator<TSlot, CompareType>::Reference SlotIterator<TSlot, CompareType>::operator*() const {
+    return *m_slot;
+}
+
+template <typename TSlot, typename CompareType>
+SlotIterator<TSlot, CompareType>& SlotIterator<TSlot, CompareType>::operator++(void) {
+    ++m_slot;
+    if (m_slot == m_group->second.end()) {
+        ++m_group;
+        initNextGroup();
+    }
+    return *this;
+}
+
+template <typename TSlot, typename CompareType>
+SlotIterator<TSlot, CompareType> SlotIterator<TSlot, CompareType>::operator++(int) {
+    SlotIterator tmp = *this;
+    ++m_slot;
+    if (m_slot == m_group->second.end()) {
+        ++m_group;
+        initNextGroup();
+    }
+    return tmp;
+}
+
+template <typename TSlot, typename CompareType>
+typename SlotIterator<TSlot, CompareType>::Pointer SlotIterator<TSlot, CompareType>::operator->() const {
+    return &(operator*());
+}
+
+template <typename TSlot, typename CompareType>
+ConstSlotIterator<TSlot, CompareType>::ConstSlotIterator(const ConstSlotIterator &other)
+    : m_group(other.m_group)
+    , m_groupLast(other.m_groupLast)
+    , m_isAssigned(other.m_isAssigned) {
+    if (m_isAssigned) m_slot = other.m_slot;
+}
+
+template <typename TSlot, typename CompareType>
+ConstSlotIterator<TSlot, CompareType>& ConstSlotIterator<TSlot, CompareType>::operator=(const ConstSlotIterator& other) {
+    m_isAssigned = other.m_isAssigned;
+    m_group = other.m_group;
+    m_groupLast = other.m_groupLast;
+    if (m_isAssigned) m_slot = other.m_slot;
+    return *this;
+}
+
+template <typename TSlot, typename CompareType>
+typename ConstSlotIterator<TSlot, CompareType>::Reference ConstSlotIterator<TSlot, CompareType>::operator*() const {
+    return *m_slot;
+}
+
+template <typename TSlot, typename CompareType>
+ConstSlotIterator<TSlot, CompareType>& ConstSlotIterator<TSlot, CompareType>::operator++(void) {
+    ++m_slot;
+    if (m_slot == m_group->second.end()) {
+        ++m_group;
+        initNextGroup();
+    }
+    return *this;
+}
+
+template <typename TSlot, typename CompareType>
+ConstSlotIterator<TSlot, CompareType> ConstSlotIterator<TSlot, CompareType>::operator++(int) {
+    ConstSlotIterator tmp = *this;
+    ++m_slot;
+    if (m_slot == m_group->second.end()) {
+        ++m_group;
+        initNextGroup();
+    }
+    return tmp;
+}
+
+template <typename TSlot, typename CompareType>
+typename ConstSlotIterator<TSlot, CompareType>::Pointer ConstSlotIterator<TSlot, CompareType>::operator->() const {
+    return &(operator*());
+}
+
+
+template <typename TSlot, typename CompareType>
 SlotMap<TSlot, CompareType>::SlotMap() {
     clear();
 }
@@ -98,22 +195,6 @@ template <typename TSlot, typename CompareType>
 void SlotMap<TSlot, CompareType>::erase(Iterator pos) {
     pos.m_slot->first.disconnect();
     pos.m_group->second.erase(pos.m_slot);
-}
-
-template <typename TSlot, typename CompareType>
-void SlotMap<TSlot, CompareType>::removeDisconnectedSlots(void) {
-    GroupIterator group_it = m_groups.begin();
-    while (group_it != m_groups.end()) {
-        SlotPairIterator it = group_it->second.begin();
-        while (it != group_it->second.end()) {
-            if (it->first.connected()) ++it;
-            else group_it->second.erase(it++);
-        }
-        if (isEmpty(group_it))
-            m_groups.erase(group_it++);
-        else
-            ++group_it;
-    }
 }
 
 }

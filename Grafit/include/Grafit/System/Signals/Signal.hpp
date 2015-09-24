@@ -1,12 +1,7 @@
 #ifndef SIGNAL_HPP
 #define SIGNAL_HPP
 
-#include <map>
-#include <queue>
-#include <memory>
 #include <functional>
-#include <unordered_map>
-#include <type_traits>
 #include <Grafit/System/NonCopyable.hpp>
 #include <Grafit/System/Signals/SlotMap.hpp>
 
@@ -23,39 +18,15 @@ public:
     Signal(void) : m_slotMap() {}
 
     Connection& connect(const std::function<R(Args...)>& listener, bool once = false, int priority = 0,
-                        ConnectPosition pos = ConnectPosition::Back) {
-        registerListener(listener, once, priority, pos);
-    }
-
+                        ConnectPosition pos = ConnectPosition::Back);
 
     virtual bool disconnect(const Connection& connection);
 
-    virtual void disconnectAll(void) {
-        m_slotMap.clear();
-    }
+    virtual void disconnectAll(void);
 
-    int numSlots(void) const {
-        std::size_t count = 0;
-        for (ConstIterator it = m_slotMap.begin(); it != m_slotMap.end(); ++it) {
-            if (it->first.isConnected()) ++count;
-        }
-        return count;
-    }
+    void dispatch(Args&& ...args);
 
-    void dispatch(Args&& ...args) {
-        Iterator it = m_slotMap.begin();
-        while (it != m_slotMap.end()) {
-            if (it->first.isConnected()) {
-                const Slot<R(Args...)>& slot = it->second;
-                slot.execute(std::forward<Args>(args)...);
-                if (slot.isOnce()) {
-                    m_slotMap.erase(it++);
-                    continue;
-                }
-            }
-            ++it;
-        }
-    }
+    int numSlots(void) const;
 
 private:
     Connection& registerListener(const std::function<R(Args...)>& listener, bool once, int priority, ConnectPosition pos);

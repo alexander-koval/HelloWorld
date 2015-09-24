@@ -73,77 +73,28 @@ class SlotIterator : public std::iterator<std::forward_iterator_tag,
     using DifferenceType = typename Base::difference_type;
     using IteratorCategory = typename Base::iterator_category;
     using ValueType = typename Base::value_type;
-    using Poiner = typename Base::pointer;
+    using Pointer = typename Base::pointer;
     using Reference = typename Base::reference;
 
     using GroupList = std::list<ConSlotPair<TSlot>>;
     using SlotPairIterator = typename GroupList::iterator;
-    using SlotPairConstIterator = typename GroupList::const_iterator;
     using SlotContainerType = std::map<StoredGroup, GroupList, CompareType>;
     using GroupIterator = typename SlotContainerType::iterator;
-    using ConstGroupIterator = typename SlotContainerType::const_iterator;
 
 public:
-    SlotIterator() : m_isAssigned(false) {}
+    SlotIterator(void) : m_isAssigned(false) {}
 
-    SlotIterator(const SlotIterator& other)
-        : m_group(other.m_group)
-        , m_groupLast(other.m_groupLast)
-        , m_isAssigned(other.m_isAssigned) {
-        if (m_isAssigned) m_slot = other.m_slot;
-    }
+    SlotIterator(const SlotIterator& other);
 
-    SlotIterator& operator =(const SlotIterator& other) {
-        m_isAssigned = other.m_isAssigned;
-        m_group = other.m_group;
-        m_groupLast = other.m_groupLast;
-        if (m_isAssigned) m_slot = other.m_slot;
-        return *this;
-    }
+    SlotIterator& operator=(const SlotIterator& other);
 
-    typename SlotPairConstIterator::reference operator *() const {
-        return *m_slot;
-    }
+    Reference operator*(void) const;
 
-    typename SlotPairIterator::reference operator *()  {
-        return *m_slot;
-    }
+    Pointer operator->(void) const;
 
-    typename SlotPairConstIterator::pointer operator ->() const {
-        return &(operator*());
-    }
+    SlotIterator& operator++(void);
 
-    typename SlotPairIterator::pointer operator ->()  {
-        return &(operator*());
-    }
-
-    SlotIterator& operator ++() {
-        ++m_slot;
-        if (m_slot == m_group->second.end()) {
-            ++m_group;
-            initNextGroup();
-        }
-        return *this;
-    }
-
-    const SlotIterator& operator ++() const {
-        ++m_slot;
-        if (m_slot == m_group->second.end()) {
-            ++m_group;
-            initNextGroup();
-        }
-        return *this;
-    }
-
-    SlotIterator operator ++(int) {
-        SlotIterator tmp = *this;
-        ++m_slot;
-        if (m_slot == m_group->second.end()) {
-            ++m_group;
-            initNextGroup();
-        }
-        return tmp;
-    }
+    SlotIterator operator++(int);
 
 private:
     SlotIterator(GroupIterator group_iterator, GroupIterator last)
@@ -151,17 +102,7 @@ private:
         initNextGroup();
     }
 
-//    SlotIterator(GroupIterator group_iterator, GroupIterator last, SlotPairIterator slot)
-//        : m_group(group_iterator), m_groupLast(last), m_slot(slot), m_isAssigned(true) { }
-
-    SlotIterator(ConstGroupIterator group_iterator, ConstGroupIterator last)
-        : m_group(group_iterator._M_const_cast())
-        , m_groupLast(last._M_const_cast())
-        , m_isAssigned(false) {
-        initNextGroup();
-    }
-
-    void initNextGroup(void) const {
+    void initNextGroup(void) {
         while (m_group != m_groupLast && m_group->second.empty()) ++m_group;
         if (m_group != m_groupLast) {
             m_slot = m_group->second.begin();
@@ -175,11 +116,75 @@ private:
     friend bool operator == (const SlotIterator<Slot, Compare>& x, const SlotIterator<Slot, Compare>& y);
     template <typename Slot, typename Compare>
     friend bool operator != (const SlotIterator<Slot, Compare>& x, const SlotIterator<Slot, Compare>& y);
-    mutable GroupIterator m_group;
-    mutable GroupIterator m_groupLast;
-    mutable SlotPairIterator m_slot;
+    GroupIterator m_group;
+    GroupIterator m_groupLast;
+    SlotPairIterator m_slot;
     mutable bool m_isAssigned;
 };
+
+template <typename TSlot, typename CompareType>
+class ConstSlotIterator : public std::iterator<std::forward_iterator_tag,
+                                               const ConSlotPair<TSlot>,
+                                               std::ptrdiff_t,
+                                               const ConSlotPair<TSlot>*,
+                                               const ConSlotPair<TSlot>&> {
+    using Base = std::iterator<std::forward_iterator_tag,
+                               const ConSlotPair<TSlot>,
+                               std::ptrdiff_t,
+                               const ConSlotPair<TSlot>*,
+                               const ConSlotPair<TSlot>&>;
+    using DifferenceType = typename Base::difference_type;
+    using IteratorCategory = typename Base::iterator_category;
+    using ValueType = typename Base::value_type;
+    using Pointer = typename Base::pointer;
+    using Reference = typename Base::reference;
+
+    using GroupList = std::list<ConSlotPair<TSlot>>;
+    using ConstSlotPairIterator = typename GroupList::const_iterator;
+    using SlotContainerType = std::map<StoredGroup, GroupList, CompareType>;
+    using ConstGroupIterator = typename SlotContainerType::const_iterator;
+
+public:
+    ConstSlotIterator() : m_isAssigned(false) {}
+
+    ConstSlotIterator(const ConstSlotIterator& other);
+
+    ConstSlotIterator& operator=(const ConstSlotIterator& other);
+
+    Reference operator*(void) const;
+
+    Pointer operator->(void) const;
+
+    ConstSlotIterator& operator++(void);
+
+    ConstSlotIterator operator++(int);
+
+private:
+    ConstSlotIterator(ConstGroupIterator group_iterator, ConstGroupIterator last)
+        : m_group(group_iterator), m_groupLast(last), m_isAssigned(false) {
+        initNextGroup();
+    }
+
+    void initNextGroup(void) {
+        while (m_group != m_groupLast && m_group->second.empty()) ++m_group;
+        if (m_group != m_groupLast) {
+            m_slot = m_group->second.begin();
+            m_isAssigned = true;
+        }
+    }
+
+private:
+    friend class SlotMap<TSlot, CompareType>;
+    template <typename Slot, typename Compare>
+    friend bool operator == (const ConstSlotIterator<Slot, Compare>& x, const ConstSlotIterator<Slot, Compare>& y);
+    template <typename Slot, typename Compare>
+    friend bool operator != (const ConstSlotIterator<Slot, Compare>& x, const ConstSlotIterator<Slot, Compare>& y);
+    ConstGroupIterator m_group;
+    ConstGroupIterator m_groupLast;
+    ConstSlotPairIterator m_slot;
+    bool m_isAssigned;
+};
+
 
 template<typename TSlot, typename CompareType>
 inline bool operator ==(const SlotIterator<TSlot, CompareType>& x, const SlotIterator<TSlot, CompareType>& y) {
@@ -190,11 +195,21 @@ template<typename TSlot, typename CompareType>
 inline bool operator !=(const SlotIterator<TSlot, CompareType>& x, const SlotIterator<TSlot, CompareType>& y)
   { return !(x == y); }
 
+template<typename TSlot, typename CompareType>
+inline bool operator ==(const ConstSlotIterator<TSlot, CompareType>& x, const ConstSlotIterator<TSlot, CompareType>& y) {
+    return (x.m_group == y.m_group && (x.m_group == x.m_groupLast || x.m_slot == y.m_slot));
+}
+
+template<typename TSlot, typename CompareType>
+inline bool operator !=(const ConstSlotIterator<TSlot, CompareType>& x, const ConstSlotIterator<TSlot, CompareType>& y)
+  { return !(x == y); }
+
+
 template <typename TSlot, typename CompareType = GroupBridgeCompare<std::less<int>, int>>
 class SlotMap {
 public:
     using Iterator = SlotIterator<TSlot, CompareType>;
-    using ConstIterator = const SlotIterator<TSlot, CompareType>;
+    using ConstIterator = ConstSlotIterator<TSlot, CompareType>;
 
     SlotMap();
 
@@ -214,18 +229,12 @@ public:
 
     void erase(Iterator it);
 
-    void removeDisconnectedSlots(void);
-
 private:
     using GroupList = std::list<ConSlotPair<TSlot>>;
     using SlotPairIterator = typename GroupList::iterator;
     using SlotContainerType = std::map<StoredGroup, GroupList, CompareType>;
     using GroupIterator = typename SlotContainerType::iterator;
     using ConstGroupIterator = typename SlotContainerType::const_iterator;
-
-    bool isEmpty(ConstGroupIterator group) const {
-        return (group->second.empty() && group != m_groups.begin() && m_groups != m_back);
-    }
 
     SlotContainerType m_groups;
     GroupIterator m_back;

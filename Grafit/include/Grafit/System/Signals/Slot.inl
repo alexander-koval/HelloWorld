@@ -12,6 +12,16 @@ Slot<R(Args...)>::Slot(const std::function<R(Args...)>& listener, bool once, int
 }
 
 template <typename R, typename ... Args>
+bool Slot<R(Args...)>::isOnce(void) const {
+    return m_isOnce;
+}
+
+template <typename R, typename ... Args>
+int Slot<R(Args...)>::getPriority(void) const {
+    return m_priority;
+}
+
+template <typename R, typename ... Args>
 void Slot<R(Args...)>::execute(Args&&... args) const {
     if (m_isEnabled) {
         const std::function<R(Args...)>& listener = m_listener;
