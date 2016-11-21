@@ -6,7 +6,9 @@ set(Grafit_VERSION_MINOR 1)
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules/")
 
-find_package(Boost 1.58.0 COMPONENTS system filesystem REQUIRED)
+#find_package(Boost 1.58.0 COMPONENTS system filesystem REQUIRED)
+set( BoostVersion 1.58.0 )
+include ("${CMAKE_MODULE_PATH}/AddBoost.cmake")
 
 function(add_shaders output)
     set(result)
@@ -25,16 +27,16 @@ function(add_shaders output)
     set(${output} ${result} PARENT_SCOPE)
 endfunction()
 
-set( Boost_USE_STATIC_LIBS ON CACHE BOOL "Use Boost static libraries" )
+#set( Boost_USE_STATIC_LIBS ON CACHE BOOL "Use Boost static libraries" )
 set( GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build GLFW examples" )
 set( GLFW_BUILD_TESTS OFF CACHE BOOL "Build GLFW tests" )
 set( GLFW_BUILD_DOCS OFF CACHE BOOL "Build GLFW documentation" )
 set( GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation" )
 set( BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libraries" )
 
-if (Boost_FOUND)
-include_directories(${Boost_INCLUDE_DIRS})
-endif()
+#if (Boost_FOUND)
+#include_directories(${Boost_INCLUDE_DIRS})
+#endif()
 include_directories(modules/glfw/include)
 include_directories(modules/stb/)
 

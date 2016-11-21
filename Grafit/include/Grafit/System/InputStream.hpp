@@ -2,7 +2,7 @@
 #define INPUTSTREAM_HPP
 
 #include <Grafit/System/Types.hpp>
-#include <Grafit/System/IDestructable.hpp>
+#include <Grafit/System/Destructable.hpp>
 
 namespace gf {
 class IInputStream : public Destructable {

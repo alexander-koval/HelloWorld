@@ -7,7 +7,7 @@ File::File(const String& path)
     , m_status() {
     using boost::filesystem::file_status;
     boost::system::error_code code;
-    m_status = boost::filesystem::status(path.toWideString(), code);
+    m_status = boost::filesystem::status(m_path, code);
 }
 
 File::~File(void) {

@@ -52,7 +52,7 @@ if(APPLE)
     SET(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY})
 endif()
 
-set(GRAFIT_ENABLE_CXX_11 ON CACHE BOOL "ISO C++11 standart")
+#set(GRAFIT_ENABLE_CXX_11 ON CACHE BOOL "ISO C++11 standart")
 set(CMAKE_CXX_FLAGS "-std=c++11 -DSTB_IMAGE_IMPLEMENTATION")
 
 link_directories(

@@ -9,6 +9,7 @@
 //    #include <sys/pstat.h>
 //    #include <sys/types.h>
 #include <iostream>
+#include <linux/limits.h>
 
 namespace gf {
 namespace priv {

@@ -2,6 +2,7 @@
 #include <sstream>
 #include <stb.h>
 #include <execinfo.h>
+#include <memory>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Triangle.hpp>
 #include <Grafit/Graphics/Bitmap.hpp>
@@ -14,10 +15,10 @@
 #include <Grafit/System/File.hpp>
 #include <Grafit/Graphics/Sprite.hpp>
 #include <Grafit/Graphics/Geometry/Rect.hpp>
-#include <Grafit/System/Event.hpp>
-#include <Grafit/System/Signal.hpp>
-#include <Grafit/System/Slot.hpp>
-
+#include <Grafit/System/Signals/Signal.hpp>
+#include <Grafit/System/Signals/Slot.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/smart_ptr/intrusive_ref_counter.hpp>
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
@@ -48,8 +49,12 @@ double previousSeconds = 0;
 
 using namespace std;
 
-void FreeFunction(int) {
-  // do something
+void FreeFunction(int value) {
+    std::cout << "FREE: " << value << std::endl;
+}
+
+void FreeFunction2(int value1) {
+    std::cout << "FREE2: " << value1 << std::endl;
 }
 
 void on_terminate(void) {
@@ -60,7 +65,7 @@ void on_terminate(void) {
         std::cout << stack_syms[i] << "\n";
     }
     std::free(stack_syms);
-    exit(1);
+    exit(EXIT_FAILURE);
 }
 
 void init() {
@@ -77,7 +82,6 @@ void init() {
 //    picture2->setScale(2.0f, 2.0f);
     sprite->setPosition(0, 0);
     triangle = new gf::Triangle();
-    GF_ASSERT(false, "Test Call Return %d", 1);
 }
 
 void render() {
@@ -148,16 +152,25 @@ int main() {
               << "\t TEMP_DIR: " << gf::SystemInfo::getTempDirectory() << "\n"
               << std::endl;
 
-    gf::File file = gf::File(gf::SystemInfo::getApplicationDirectory() + "/Resources/Lenna.png");
-    std::cout << "Name: " << file.getName().toAnsiString() << "\n"
-              << " Ext: " << file.getExtension().toAnsiString() << "\n"
-              << "Path: " << file.getNativePath().toAnsiString() << "\n"
-              << "Size: " << file.getSize() << std::endl;
+    std::string dirpath(gf::SystemInfo::getApplicationDirectory());
+    const std::string filepath(dirpath.append(filename));
+    gf::File file = gf::File(filepath);
+//    std::cout << "Name: " << file.getName().toAnsiString() << "\n"
+//              << " Ext: " << file.getExtension().toAnsiString() << "\n"
+//              << "Path: " << file.getNativePath().toAnsiString() << "\n"
+//              << "Size: " << file.getSize() << std::endl;
 
     window->setVerticalSyncEnabled(true);
-    Delegate delegate;
-    delegate.bind<&FreeFunction>();
 
+    std::shared_ptr<gf::Signal1<int>> signal = std::make_shared<gf::Signal1<int>>();
+    gf::Connection& con1 = signal->connect(std::bind(&FreeFunction, std::placeholders::_1), true, 1);
+    gf::Connection& con2 = signal->connect(std::bind(&FreeFunction2, std::placeholders::_1), false, 0);
+    std::cout << signal->numSlots() << std::endl;
+    signal->dispatch(4);
+    std::cout << con1.isConnected() << std::endl;
+//    signal->disconnect(con);
+    std::cout << signal->numSlots() << std::endl;
+    signal->dispatch(234);
 //    gf::Signal<gf::Slot<void(*)(int)>, void(*)(int)> signal;
 //    gf::Slot slot(signal, &FreeFunction);
 //    gf::Slot<gf::Signal<Slot<void(*)(int)>, void(*)(int)>, void(*)(int)> slot;

@@ -3,7 +3,6 @@
 #include <Grafit/Graphics/RenderTarget.hpp>
 #include <Grafit/Graphics/shaders/shaders.hpp>
 #include <cstdlib>
-#include <boost/signals/detail/signal_base.hpp>
 
 namespace gf {
 
