@@ -17,8 +17,8 @@
 #include <Grafit/Graphics/Geometry/Rect.hpp>
 #include <Grafit/System/Signals/Signal.hpp>
 #include <Grafit/System/Signals/Slot.hpp>
-#include <boost/intrusive_ptr.hpp>
-#include <boost/smart_ptr/intrusive_ref_counter.hpp>
+//#include <boost/intrusive_ptr.hpp>
+//#include <boost/smart_ptr/intrusive_ref_counter.hpp>
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
@@ -135,7 +135,7 @@ void updateFPS() {
 }
 
 int main() {
-    std::set_terminate(on_terminate);
+//    std::set_terminate(on_terminate);
     window = new gf::Window(VideoMode(1024, 768), "Hello World", gf::Style::Default);
     window->setView(window->getDefaultView());
     if (gladLoadGL()) {
@@ -153,18 +153,19 @@ int main() {
               << std::endl;
 
     std::string dirpath(gf::SystemInfo::getApplicationDirectory());
-    const std::string filepath(dirpath.append(filename));
+    const std::string filepath(dirpath.append(gf::File::getSeparator() + filename));
     gf::File file = gf::File(filepath);
-//    std::cout << "Name: " << file.getName().toAnsiString() << "\n"
-//              << " Ext: " << file.getExtension().toAnsiString() << "\n"
-//              << "Path: " << file.getNativePath().toAnsiString() << "\n"
-//              << "Size: " << file.getSize() << std::endl;
+    std::cout << "Name: " << file.getName().toAnsiString() << "\n"
+              << " Ext: " << file.getExtension().toAnsiString() << "\n"
+              << "Path: " << file.getNativePath().toAnsiString() << "\n"
+              << "Size: " << file.getSize() << std::endl;
 
     window->setVerticalSyncEnabled(true);
 
     std::shared_ptr<gf::Signal1<int>> signal = std::make_shared<gf::Signal1<int>>();
     gf::Connection& con1 = signal->connect(std::bind(&FreeFunction, std::placeholders::_1), true, 1);
     gf::Connection& con2 = signal->connect(std::bind(&FreeFunction2, std::placeholders::_1), false, 0);
+
     std::cout << signal->numSlots() << std::endl;
     signal->dispatch(4);
     std::cout << con1.isConnected() << std::endl;

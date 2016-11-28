@@ -34,9 +34,8 @@ set( GLFW_BUILD_DOCS OFF CACHE BOOL "Build GLFW documentation" )
 set( GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation" )
 set( BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libraries" )
 
-#if (Boost_FOUND)
-#include_directories(${Boost_INCLUDE_DIRS})
-#endif()
+message("BoostSourceDir " ${BoostSourceDir})
+include_directories(${BoostSourceDir})
 include_directories(modules/glfw/include)
 include_directories(modules/stb/)
 

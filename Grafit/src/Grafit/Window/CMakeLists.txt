@@ -23,5 +23,4 @@ target_link_libraries(grafit-window
     ${OPENGL_glu_LIBRARY}
     ${GLFW_LIBRARIES}
     ${EXTRA_LIBS}
-    ${AllBoostLibs}
 )

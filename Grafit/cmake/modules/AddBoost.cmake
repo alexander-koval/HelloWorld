@@ -160,14 +160,9 @@ if(Found LESS "0" OR NOT IS_DIRECTORY "${BoostSourceDir}")
   file(REMOVE_RECURSE ${BoostExtractFolder})
 endif()
 
-unset(pythonPath CACHE)
-find_program(pythonPath NAMES python2)
-message(${pythonPath})
-
 # Build b2 (bjam) if required
 unset(b2Path CACHE)
 find_program(b2Path NAMES b2 PATHS ${BoostSourceDir} NO_DEFAULT_PATH)
-message(${b2Path})
 if(NOT b2Path)
   message(STATUS "Building b2 (bjam)")
   if(MSVC)

@@ -119,5 +119,5 @@ target_link_libraries(grafit-graphics
     ${OPENGL_glu_LIBRARY}
     ${GLFW_LIBRARIES}
     ${EXTRA_LIBS}
-    ${AllBoostLibs}
+
 )

@@ -52,7 +52,7 @@ const File& File::getParent(void) const {
 
 }
 
-String File::getSeparator(void) const {
+String File::getSeparator(void) {
     return boost::filesystem::path::preferred_separator;
 }
 

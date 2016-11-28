@@ -31,7 +31,7 @@ public:
 
     const File& getParent(void) const;
 
-    String getSeparator(void) const;
+    static String getSeparator(void);
 
     float getSize(void) const;
 

@@ -36,14 +36,14 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/Grafit/extlibs/include
     ${PROJECT_SOURCE_DIR}/Grafit/modules/glm
     ${PROJECT_SOURCE_DIR}/Grafit/modules/stb
-    ${PROJECT_SOURCE_DIR}/Grafit/modules/signals/include
     ${PROJECT_SOURCE_DIR}/Grafit/modules/loki/include
+    ${BoostSourceDir}
 )
 
 message("DIRS: " ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 if(APPLE)
-    include_directories(/System/Library/Frameworks)
+    include_directories(/System/Library/FRAMEWORKrks)
     find_library(COCOA_LIBRARY Cocoa)
     find_library(OpenGL_LIBRARY OpenGL)
     MARK_AS_ADVANCED (COCOA_LIBRARY
@@ -57,6 +57,7 @@ set(CMAKE_CXX_FLAGS "-std=c++11 -DSTB_IMAGE_IMPLEMENTATION")
 
 link_directories(
     ${PROJECT_BINARY_DIR}/application/libs
+#    ${PROJECT_BINARY_DIR}/boost_1_62_0_GNU_6_2_1/stage/lib
 )
 
 add_subdirectory(Grafit)

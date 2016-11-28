@@ -108,6 +108,6 @@ target_link_libraries(${PROJECT_NAME}
     glfw
     ${GLFW_LIBRARIES}
     ${EXTRA_LIBS}
-#    ${BoostSystemLibs}
-#    ${BoostFilesystemLibs}
+    ${BoostSystemLibs}
+    ${BoostFilesystemLibs}
 )
