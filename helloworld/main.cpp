@@ -153,11 +153,12 @@ int main() {
               << std::endl;
 
     std::string dirpath(gf::SystemInfo::getApplicationDirectory());
-    const std::string filepath(dirpath.append(gf::File::getSeparator() + filename));
+    const std::string filepath(dirpath.append(gf::File::Separator + filename));
     gf::File file = gf::File(filepath);
     std::cout << "Name: " << file.getName().toAnsiString() << "\n"
               << " Ext: " << file.getExtension().toAnsiString() << "\n"
               << "Path: " << file.getNativePath().toAnsiString() << "\n"
+              << "Type: " << file.getType() << "\n"
               << "Size: " << file.getSize() << std::endl;
 
     window->setVerticalSyncEnabled(true);

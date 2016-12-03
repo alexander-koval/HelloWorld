@@ -2,6 +2,8 @@
 
 namespace gf {
 
+const String& File::Separator = boost::filesystem::path::preferred_separator;
+
 File::File(const String& path)
     : m_path(path)
     , m_status() {
@@ -23,7 +25,7 @@ bool File::isDirectory(void) const {
 }
 
 bool File::isHidden(void) const {
-
+    return false;
 }
 
 bool File::isSymbolicLink(void) const {
@@ -48,14 +50,6 @@ String File::getNativePath(void) const {
     return m_path.native();
 }
 
-const File& File::getParent(void) const {
-
-}
-
-String File::getSeparator(void) {
-    return boost::filesystem::path::preferred_separator;
-}
-
 float File::getSize(void) const {
     boost::uintmax_t size = boost::filesystem::file_size(m_path);
     return size;
@@ -66,8 +60,8 @@ float File::getSpaceAvailable(void) const {
     return space.available;
 }
 
-String File::getType(void) const {
-//    m_status.type();
+File::Type File::getType(void) const {
+    return File::Type(m_status.type());
 }
 
 }
