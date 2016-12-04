@@ -17,7 +17,7 @@ public:
 
     bool loadFromMemory(const void* data, std::size_t size);
 
-    glm::vec2 getSize(void) const;
+    Vector2U getSize(void) const;
 
     const Uint8* getPixels() const;
 
@@ -31,7 +31,7 @@ public:
 
 private:
     Int32 m_channels;
-    glm::vec2 m_size;
+    Vector2U m_size;
     std::vector<Uint8> m_pixels;
 };
 }

@@ -2,9 +2,9 @@
 
 namespace gf {
 
-const String& File::Separator = boost::filesystem::path::preferred_separator;
+const char File::Separator = boost::filesystem::path::preferred_separator;
 
-File::File(const String& path)
+File::File(const std::string& path)
     : m_path(path)
     , m_status() {
     using boost::filesystem::file_status;
@@ -36,21 +36,21 @@ bool File::isRegularFile(void) const {
     return boost::filesystem::is_regular_file(m_status);
 }
 
-String File::getName(void) const {
+std::string File::getName(void) const {
     boost::filesystem::path path = m_path.stem();
-    return path.c_str();
+    return path.string();
 }
 
-String File::getExtension(void) const {
+std::string File::getExtension(void) const {
     boost::filesystem::path path = m_path.extension();
-    return path.c_str();
+    return path.string();
 }
 
-String File::getNativePath(void) const {
+std::string File::getNativePath(void) const {
     return m_path.native();
 }
 
-float File::getSize(void) const {
+Uint64 File::getSize(void) const {
     boost::uintmax_t size = boost::filesystem::file_size(m_path);
     return size;
 }

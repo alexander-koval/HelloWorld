@@ -1,4 +1,6 @@
 #include <Grafit/Graphics/Bitmap.hpp>
+#include <Grafit/System/FileStream.hpp>
+#include <Grafit/System/File.hpp>
 #include <stb_image.h>
 #include <iostream>
 
@@ -12,21 +14,30 @@ BitmapData::~BitmapData(void) {
 
 }
 
-bool BitmapData::loadFromFile(const std::string& filename) {
+bool BitmapData::loadFromFile(const std::string& filepath) {
 
     m_pixels.clear();
     int width, height, channels;
-    unsigned char* image_data = stbi_load(filename.c_str(), &width, &height, &channels, STBI_default);
-    if (image_data && width && height) {
-        m_size.x = width;
-        m_size.y = height;
-        m_channels = channels;
-        m_pixels.resize(width * height * channels);
-        memcpy(&m_pixels[0], image_data, m_pixels.size());
-        free((void*)image_data);
-        return true;
+    gf::File file(filepath);
+    if (file.isExist() && file.isRegularFile()) {
+        gf::FileStream stream(file);
+        const Uint8* buffer = static_cast<const Uint8*>(stream.read());
+        unsigned char* image_data = stbi_load_from_memory(buffer, static_cast<int>(file.getSize()),
+                                                         &width, &height, &channels, STBI_default);
+        if (image_data && width && height) {
+            m_size.x = width;
+            m_size.y = height;
+            m_channels = channels;
+            m_pixels.resize(width * height * channels);
+            memcpy(&m_pixels[0], image_data, m_pixels.size());
+            free((void*)image_data);
+            return true;
+        } else {
+            std::cerr << "Cannot load image: " << filepath.c_str() << std::endl;
+            return false;
+        }
     } else {
-        std::cerr << "Cannot load image: " << filename.c_str() << std::endl;
+        std::cerr << "Cannot load image: " << filepath.c_str() << std::endl;
         return false;
     }
 }
@@ -36,7 +47,8 @@ bool BitmapData::loadFromMemory(const void *data, std::size_t size) {
         m_pixels.clear();
         int width, height, channels;
         const unsigned char* buffer = static_cast<const unsigned char*>(data);
-        unsigned char* image_data =stbi_load_from_memory(buffer, static_cast<int>(size), &width, &height, &channels, STBI_default);
+        unsigned char* image_data =stbi_load_from_memory(buffer, static_cast<int>(size),
+                                                         &width, &height, &channels, STBI_default);
         if (image_data && width && height) {
             m_size.x = width;
             m_size.y = height;
@@ -54,7 +66,7 @@ bool BitmapData::loadFromMemory(const void *data, std::size_t size) {
     }
 }
 
-glm::vec2 BitmapData::getSize(void) const {
+Vector2U BitmapData::getSize(void) const {
     return m_size;
 }
 

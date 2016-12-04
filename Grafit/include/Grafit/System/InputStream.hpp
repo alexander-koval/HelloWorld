@@ -7,7 +7,7 @@
 namespace gf {
 class IInputStream : public Destructable {
 public:
-    virtual Int64 read(void* data, Int64 size) = 0;
+    virtual void* read(void) = 0;
 
     virtual Int64 seek(Int64 position) = 0;
     

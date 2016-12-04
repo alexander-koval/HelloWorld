@@ -13,6 +13,7 @@
 #include <Grafit/System/Assert.hpp>
 #include <Grafit/System/SystemInfo.hpp>
 #include <Grafit/System/File.hpp>
+#include <Grafit/System/FileStream.hpp>
 #include <Grafit/Graphics/Sprite.hpp>
 #include <Grafit/Graphics/Geometry/Rect.hpp>
 #include <Grafit/System/Signals/Signal.hpp>
@@ -70,14 +71,14 @@ void on_terminate(void) {
 
 void init() {
 //    image = new Image();
-    picture = new gf::Bitmap(filename);
-    picture->setOrigin(256, 256);
+    picture = new gf::Bitmap(gf::SystemInfo::getApplicationDirectory() + gf::File::Separator + filename);
+//    picture->setOrigin(256, 256);
 //    picture->setScale(2.0f, 2.0f);
 
-    picture->setPosition(512, 512);
+    picture->setPosition(512, 256);;
     gf::Texture* texture = new gf::Texture();
     texture->loadFromFile(filename1, gf::RectI(0, 0, 629, 794));
-    sprite = new gf::Sprite(*texture/*, gf::RectI(0, 0, 512, 512)*/);
+    sprite = new gf::Sprite(*texture, gf::RectI(0, 0, 512, 512));
 //    picture2->setOrigin(0.5, 0.5);
 //    picture2->setScale(2.0f, 2.0f);
     sprite->setPosition(0, 0);
@@ -155,11 +156,13 @@ int main() {
     std::string dirpath(gf::SystemInfo::getApplicationDirectory());
     const std::string filepath(dirpath.append(gf::File::Separator + filename));
     gf::File file = gf::File(filepath);
-    std::cout << "Name: " << file.getName().toAnsiString() << "\n"
-              << " Ext: " << file.getExtension().toAnsiString() << "\n"
-              << "Path: " << file.getNativePath().toAnsiString() << "\n"
+    std::cout << "Name: " << file.getName().c_str() << "\n"
+              << " Ext: " << file.getExtension().c_str() << "\n"
+              << "Path: " << file.getNativePath() << "\n"
               << "Type: " << file.getType() << "\n"
               << "Size: " << file.getSize() << std::endl;
+//    gf::FileStream* stream = new gf::FileStream(file);
+//    stream->read();
 
     window->setVerticalSyncEnabled(true);
 

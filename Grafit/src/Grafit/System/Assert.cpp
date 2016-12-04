@@ -1,4 +1,5 @@
 #include <Grafit/System/Assert.hpp>
+#include <Grafit/System/String.hpp>
 #include <cassert>
 #include <sstream>
 #include <cstring>
@@ -27,6 +28,16 @@ Assert& Assert::variable(const char* const name, char value) {
 
 Assert& Assert::variable(const char* const name, const char* value) {
     m_os << "\n\t" << name << " " << value;
+    return *this;
+}
+
+Assert& Assert::variable(const char* const name, const std::string& value) {
+    m_os << "\n\t" << name << " " << value;
+    return *this;
+}
+
+Assert& Assert::variable(const char* const name, const gf::String& value) {
+    m_os << "\n\t" << name << " " << value.toAnsiString();
     return *this;
 }
 

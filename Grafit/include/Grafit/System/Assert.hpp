@@ -5,6 +5,7 @@
 #include <sstream>
 #include <cstring>
 #include <iostream>
+#include <cassert>
 
 #define GF_ASSERT_IMPL_VAR(value) .variable(GF_STRINGIFY(value), value)
 #define GF_ASSERT_IMPL_VARS(...) GF_EXPAND_ARGS(GF_ASSERT_IMPL_VAR, __VA_ARGS__)
@@ -20,7 +21,7 @@
 
 
 namespace gf {
-
+class String;
 class Assert {
 public:
     Assert(const SourceInfo& sourceInfo, const char* assertion_info, const char* message, ...);
@@ -28,6 +29,10 @@ public:
     Assert& variable(const char* const name, bool value);
 
     Assert& variable(const char* const name, char value);
+
+    Assert& variable(const char* const name, const std::string& value);
+
+    Assert& variable(const char* const name, const gf::String& value);
 
     Assert& variable(const char* const name, const char* value);
 

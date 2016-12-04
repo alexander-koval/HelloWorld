@@ -2,8 +2,8 @@
 #define FILE_HPP
 
 #include <string>
-#include <Grafit/System/String.hpp>
 #include <boost/filesystem/operations.hpp>
+#include <Grafit/System/Types.hpp>
 
 namespace gf {
 
@@ -23,7 +23,7 @@ public:
         UNKNOWN = boost::filesystem::file_type::type_unknown
     };
 
-    File(const String& path);
+    File(const std::string& path);
 
     ~File(void);
 
@@ -37,20 +37,20 @@ public:
 
     bool isRegularFile(void) const;
 
-    String getName(void) const;
+    std::string getName(void) const;
 
-    String getExtension(void) const;
+    std::string getExtension(void) const;
 
-    String getNativePath(void) const;
+    std::string getNativePath(void) const;
 
-    float getSize(void) const;
+    Uint64 getSize(void) const;
 
     float getSpaceAvailable(void) const;
 
     File::Type getType(void) const;
 
 public:
-    static const String& Separator;
+    static const char Separator;
 
 private:
     boost::filesystem::path m_path;

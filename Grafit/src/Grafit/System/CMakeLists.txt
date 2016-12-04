@@ -34,6 +34,8 @@ file(GLOB grafit_system_source_files
     "${INCROOT}/PlatformMacros.hpp"
     "${INCROOT}/File.hpp"
     "${SRCROOT}/File.cpp"
+    "${INCROOT}/FileStream.hpp"
+    "${SRCROOT}/FileStream.cpp"
     "${INCROOT}/SystemInfo.hpp"
     "${SRCROOT}/SystemInfo.cpp"
     "${INCROOT}/Event.hpp"

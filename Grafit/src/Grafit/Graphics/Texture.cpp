@@ -195,7 +195,7 @@ bool Texture::isRepeated() const {
     return m_isRepeated;
 }
 
-Int32 Texture::getValidSize(Int32 size) {
+Uint32 Texture::getValidSize(Uint32 size) {
     if (isPowerOfTwo(size)) {
         return size;
     }
@@ -205,11 +205,11 @@ Int32 Texture::getValidSize(Int32 size) {
     return getPowerOfTwo(size);
 }
 
-bool Texture::isPowerOfTwo(Int32 size) {
+bool Texture::isPowerOfTwo(Uint32 size) {
     return (size & (size - 1)) == 0;
 }
 
-Int32 Texture::getPowerOfTwo(Int32 size) {
+Uint32 Texture::getPowerOfTwo(Uint32 size) {
     --size;
     size |= (size >> 1);
     size |= (size >> 2);
