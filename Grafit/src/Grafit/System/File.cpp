@@ -1,4 +1,7 @@
 #include <Grafit/System/File.hpp>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 namespace gf {
 

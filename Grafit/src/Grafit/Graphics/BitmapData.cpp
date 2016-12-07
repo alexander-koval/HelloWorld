@@ -20,7 +20,8 @@ bool BitmapData::loadFromFile(const std::string& filepath) {
     int width, height, channels;
     gf::File file(filepath);
     if (file.isExist() && file.isRegularFile()) {
-        gf::FileStream stream(file);
+        gf::FileStream stream;
+        stream.open(&file);
         const Uint8* buffer = static_cast<const Uint8*>(stream.read());
         unsigned char* image_data = stbi_load_from_memory(buffer, static_cast<int>(file.getSize()),
                                                          &width, &height, &channels, STBI_default);

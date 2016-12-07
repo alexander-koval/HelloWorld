@@ -4,42 +4,51 @@
 
 namespace gf {
 
-FileStream::FileStream(const gf::File& file) : m_file(nullptr), m_fileInfo(file) {
-    if (m_file) { delete m_file; }
-    const std::string& name(file.getNativePath());
-    m_file = std::fopen(name.c_str(), "rb");
+FileStream::FileStream() : m_file(nullptr) {
+
 }
 
 FileStream::~FileStream() {
-    if (m_file) {
-        std::fclose(m_file);
+    if (m_stream.is_open()) {
+        m_stream.close();
     }
 }
 
+void FileStream::open(gf::File *file) {
+    m_file = file;
+    if (m_stream.is_open()) {
+        m_stream.close();
+    }
+    const std::string& name(file->getNativePath());
+    m_stream.open(name, std::ios_base::binary | std::ios_base::in);
+}
+
 void* FileStream::read(void) {
-    Uint64 size = m_fileInfo.getSize();
+    Uint64 size = m_file->getSize();
     char* buffer = new char[size];
-    GF_ASSERT(m_file != nullptr, "File does not opened", m_fileInfo.getName());
-    std::fread(buffer, 1, static_cast<std::size_t>(m_fileInfo.getSize()), m_file);
+    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName());
+    seek(0);
+    m_stream.read(buffer, m_file->getSize());
     return buffer;
 }
 
 Int64 FileStream::seek(Int64 position) {
-    GF_ASSERT(m_file != nullptr, "File does not opened", m_fileInfo.getName());
-    int result = std::fseek(m_file, position, SEEK_SET);
-    GF_ASSERT(result > -1, "Failed to set the file position", std::ferror(m_file));
+    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName());
+    m_stream.seekg(position, std::ios_base::beg);
+    std::ios_base::iostate state = m_stream.rdstate();
+    GF_ASSERT(state == std::ios_base::goodbit, "Failed to set the file position", (int)state);
     return tell();
 }
 
 Int64 FileStream::tell() {
-    GF_ASSERT(m_file != nullptr, "File does not opened", m_fileInfo.getName());
-    return std::ftell(m_file);
+    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName());
+    return m_stream.tellg();
 }
 
 Int64 FileStream::getSize() {
-    if (m_file) {
+    if (m_stream.is_open()) {
         Int64 position = tell();
-        std::fseek(m_file, 0, SEEK_END);
+        m_stream.seekg(0, std::ios_base::end);
         Int64 size = tell();
         seek(position);
         return size;

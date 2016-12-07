@@ -4,14 +4,17 @@
 #include <string>
 #include <Grafit/System/InputStream.hpp>
 #include <Grafit/System/NonCopyable.hpp>
+#include <fstream>
 
 namespace gf {
 class File;
 class FileStream : public IInputStream, NonCopyable {
 public:
-    FileStream(const gf::File& file);
+    FileStream();
 
     virtual ~FileStream();
+
+    void open(gf::File* file);
 
     virtual void* read(void);
 
@@ -22,8 +25,8 @@ public:
     virtual Int64 getSize(void);
 
 private:
-    std::FILE* m_file;
-    const gf::File& m_fileInfo;
+    gf::File* m_file;
+    std::fstream m_stream;
 };
 
 }
