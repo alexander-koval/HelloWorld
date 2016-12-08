@@ -14,7 +14,7 @@ public:
 
     virtual ~FileStream();
 
-    void open(gf::File* file);
+    void open(const gf::File* file);
 
     virtual void* read(void);
 
@@ -25,7 +25,7 @@ public:
     virtual Int64 getSize(void);
 
 private:
-    gf::File* m_file;
+    const gf::File* m_file;
     std::fstream m_stream;
 };
 

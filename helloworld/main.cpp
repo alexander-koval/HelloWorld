@@ -18,6 +18,7 @@
 #include <Grafit/Graphics/Geometry/Rect.hpp>
 #include <Grafit/System/Signals/Signal.hpp>
 #include <Grafit/System/Signals/Slot.hpp>
+#include <Grafit/System/ResourceManager.hpp>
 //#include <boost/intrusive_ptr.hpp>
 //#include <boost/smart_ptr/intrusive_ref_counter.hpp>
 
@@ -48,6 +49,9 @@ Int32 statsFPS;
 int frameCount;
 double previousSeconds = 0;
 
+
+gf::ResourceManager<gf::Texture, int> textureManager;
+
 using namespace std;
 
 void FreeFunction(int value) {
@@ -76,9 +80,8 @@ void init() {
 //    picture->setScale(2.0f, 2.0f);
 
     picture->setPosition(512, 256);;
-    gf::Texture* texture = new gf::Texture();
-    texture->loadFromFile(filename1, gf::RectI(0, 0, 629, 794));
-    sprite = new gf::Sprite(*texture, gf::RectI(0, 0, 512, 512));
+    gf::Texture& texture = textureManager.get(0);
+    sprite = new gf::Sprite(texture, gf::RectI(0, 0, 512, 512));
 //    picture2->setOrigin(0.5, 0.5);
 //    picture2->setScale(2.0f, 2.0f);
     sprite->setPosition(0, 0);
@@ -154,7 +157,7 @@ int main() {
               << std::endl;
 
     std::string dirpath(gf::SystemInfo::getApplicationDirectory());
-    const std::string filepath(dirpath.append(gf::File::Separator + filename));
+    const std::string filepath(dirpath.append(gf::File::Separator + filename1));
     gf::File file = gf::File(filepath);
     std::cout << "Name: " << file.getName().c_str() << "\n"
               << " Ext: " << file.getExtension().c_str() << "\n"
@@ -180,6 +183,9 @@ int main() {
 //    gf::Slot slot(signal, &FreeFunction);
 //    gf::Slot<gf::Signal<Slot<void(*)(int)>, void(*)(int)>, void(*)(int)> slot;
 //    signal.add(&FreeFunction);
+
+
+    textureManager.load(0, file);
 
     init();
     gf::Clock clock;

@@ -117,9 +117,9 @@ void Sprite::draw(const RenderTarget& target, RenderStates states) const {
 void Sprite::updatePositions(void) {
     RectF bounds = getLocalBounds();
     m_vertices[0].value1 = Vector2F(0.f, 0.f);
-    m_vertices[3].value1 = Vector2F(0.f, bounds.height);
     m_vertices[1].value1 = Vector2F(bounds.width, 0.f);
     m_vertices[2].value1 = Vector2F(bounds.width, bounds.height);
+    m_vertices[3].value1 = Vector2F(0.f, bounds.height);
 
     m_vertexArray.use();
     m_vertexArray.update<VertexBuffer>(&m_vertices[0], 4, 0);
@@ -131,13 +131,13 @@ void Sprite::updatePositions(void) {
 void Sprite::updateTexCoords(void) {
     float left   = static_cast<float>(m_textureRect.left);
     float right  = left + m_textureRect.width;
-    float top    = static_cast<float>(m_textureRect.top);
-    float bottom = top + m_textureRect.height;
+    float bottom = static_cast<float>(m_textureRect.top);
+    float top    = bottom + m_textureRect.height;
 
     m_vertices[0].value2 = Vector2F(left  / m_textureRect.width, top    / m_textureRect.height);
-    m_vertices[3].value2 = Vector2F(left  / m_textureRect.width, bottom / m_textureRect.height);
     m_vertices[1].value2 = Vector2F(right / m_textureRect.width, top    / m_textureRect.height);
     m_vertices[2].value2 = Vector2F(right / m_textureRect.width, bottom / m_textureRect.height);
+    m_vertices[3].value2 = Vector2F(left  / m_textureRect.width, bottom / m_textureRect.height);
 
     m_vertexArray.use();
     m_vertexArray.update<VertexBuffer>(&m_vertices[0], 4, 0);

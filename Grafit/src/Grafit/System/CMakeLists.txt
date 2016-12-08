@@ -50,6 +50,9 @@ file(GLOB grafit_system_source_files
     "${INCROOT}/Factory.hpp"
     "${INCROOT}/Uuid.hpp"
     "${SRCROOT}/Uuid.cpp"
+    "${INCROOT}/ResourceManager.hpp"
+    "${INCROOT}/ResourceManager.inl"
+    "${SRCROOT}/ResourceManager.cpp"
     "${INCROOT}/Memory/smart_ptr.hpp"
 )
 

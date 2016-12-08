@@ -7,7 +7,7 @@
 #include <Grafit/Graphics/Geometry/Vector2.hpp>
 
 namespace gf {
-class BitmapData;
+class Image;
 class Texture {
 public:
     static void bind(const Texture* texture);
@@ -26,15 +26,15 @@ public:
 
     bool loadFromMemory(const void* data, std::size_t size, const RectI& area = RectI());
 
-    bool loadFromImage(const BitmapData& image, const RectI& area = RectI());
+    bool loadFromImage(const Image& image, const RectI& area = RectI());
 
     void update(const Uint8* pixels);
 
     void update(const Uint8* pixels, Uint32 width, Uint32 height, Uint32 x, Uint32 y);
 
-    void update(const BitmapData& image);
+    void update(const Image& image);
 
-    void update(const BitmapData& image, Uint32 x, Uint32 y);
+    void update(const Image& image, Uint32 x, Uint32 y);
 
     Vector2U getSize(void) const;
 
@@ -58,6 +58,10 @@ private:
     Uint32 m_textureID;
     bool m_isSmooth;
     bool m_isRepeated;
+
+//    template <typename Resource, typename Identifier>
+//    friend class ResourceManager;
+    friend class TextureLoader;
 };
 }
 #endif // TEXTURE_HPP

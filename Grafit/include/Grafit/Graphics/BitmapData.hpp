@@ -7,11 +7,14 @@
 #include <Grafit/System/Types.hpp>
 
 namespace gf {
-class BitmapData {
+class IInputStream;
+class Image {
 public:
-    BitmapData(void);
+    Image(void);
 
-    ~BitmapData(void);
+    ~Image(void);
+
+    bool load(gf::IInputStream& stream);
 
     bool loadFromFile(const std::string& filename);
 

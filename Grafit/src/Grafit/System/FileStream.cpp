@@ -14,7 +14,7 @@ FileStream::~FileStream() {
     }
 }
 
-void FileStream::open(gf::File *file) {
+void FileStream::open(const gf::File *file) {
     m_file = file;
     if (m_stream.is_open()) {
         m_stream.close();

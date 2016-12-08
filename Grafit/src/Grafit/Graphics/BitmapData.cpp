@@ -1,20 +1,43 @@
 #include <Grafit/Graphics/Bitmap.hpp>
 #include <Grafit/System/FileStream.hpp>
+#include <Grafit/System/InputStream.hpp>
+#include <Grafit/System/Assert.hpp>
 #include <Grafit/System/File.hpp>
 #include <stb_image.h>
 #include <iostream>
 
 namespace gf {
 
-BitmapData::BitmapData(void) {
+Image::Image(void) {
 
 }
 
-BitmapData::~BitmapData(void) {
+Image::~Image(void) {
 
 }
 
-bool BitmapData::loadFromFile(const std::string& filepath) {
+bool Image::load(gf::IInputStream &stream) {
+    m_pixels.clear();
+    int width, height, channels;
+    const Uint8* buffer = static_cast<const Uint8*>(stream.read());
+    unsigned char* image_data = stbi_load_from_memory(buffer, static_cast<int>(stream.getSize()),
+                                                     &width, &height, &channels, STBI_default);
+    GF_ASSERT(width > 0, "Invalid image width", width);
+    GF_ASSERT(height > 0, "Invalid image width", height);
+    GF_ASSERT(image_data != nullptr, "Wrong image data", "");
+    if (image_data && width && height) {
+        m_size.x = width;
+        m_size.y = height;
+        m_channels = channels;
+        m_pixels.resize(width * height * channels);
+        memcpy(&m_pixels[0], image_data, m_pixels.size());
+        free((void*)image_data);
+        return true;
+    }
+    return false;
+}
+
+bool Image::loadFromFile(const std::string& filepath) {
 
     m_pixels.clear();
     int width, height, channels;
@@ -43,7 +66,7 @@ bool BitmapData::loadFromFile(const std::string& filepath) {
     }
 }
 
-bool BitmapData::loadFromMemory(const void *data, std::size_t size) {
+bool Image::loadFromMemory(const void *data, std::size_t size) {
     if (data && size) {
         m_pixels.clear();
         int width, height, channels;
@@ -67,11 +90,11 @@ bool BitmapData::loadFromMemory(const void *data, std::size_t size) {
     }
 }
 
-Vector2U BitmapData::getSize(void) const {
+Vector2U Image::getSize(void) const {
     return m_size;
 }
 
-const Uint8* BitmapData::getPixels() const {
+const Uint8* Image::getPixels() const {
     if (!m_pixels.empty()) {
         return &m_pixels[0];
     } else {
@@ -80,11 +103,11 @@ const Uint8* BitmapData::getPixels() const {
     }
 }
 
-Int32 BitmapData::getNumChannels(void) const {
+Int32 Image::getNumChannels(void) const {
     return m_channels;
 }
 
-void BitmapData::flipX(void) {
+void Image::flipX(void) {
     if (!m_pixels.empty()) {
        std::size_t rowSize = m_size.x * m_channels;
 
@@ -102,7 +125,7 @@ void BitmapData::flipX(void) {
     }
 }
 
-void BitmapData::flipY(void) {
+void Image::flipY(void) {
     if (!m_pixels.empty()) {
         std::size_t rowSize = m_size.x * m_channels;
         std::vector<Uint8>::iterator top = m_pixels.begin();
@@ -117,7 +140,7 @@ void BitmapData::flipY(void) {
     }
 }
 
-bool BitmapData::isTransparent(void) const {
+bool Image::isTransparent(void) const {
     return (m_channels == STBI_grey_alpha || m_channels == STBI_rgb_alpha);
 }
 

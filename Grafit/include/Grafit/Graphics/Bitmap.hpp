@@ -26,7 +26,7 @@ protected:
     virtual void draw(const RenderTarget &target, RenderStates states) const;
 
 private:
-    BitmapData m_image;
+    Image m_image;
     mutable Shader m_shader;
     Texture m_texture;
     GLushort m_indices[6];
