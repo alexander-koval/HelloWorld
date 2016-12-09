@@ -3,7 +3,7 @@
 
 #include <Grafit/Graphics/Transformable.hpp>
 #include <Grafit/Graphics/Drawable.hpp>
-#include "BitmapData.hpp"
+#include <Grafit/Graphics/Image.hpp>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Texture.hpp>
 #include <Grafit/Graphics/Geometry/Mat4.hpp>

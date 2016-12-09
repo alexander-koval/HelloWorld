@@ -16,7 +16,7 @@ Image::~Image(void) {
 
 }
 
-bool Image::load(gf::IInputStream &stream) {
+bool Image::decode(gf::IInputStream &stream) {
     m_pixels.clear();
     int width, height, channels;
     const Uint8* buffer = static_cast<const Uint8*>(stream.read());

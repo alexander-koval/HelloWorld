@@ -83,6 +83,7 @@ void init() {
 
     picture->setPosition(512, 256);;
     gf::Texture& texture = textureManager.get(0);
+    texture.setRepeated(true);
     sprite = new gf::Sprite(texture, gf::RectI(0, 0, 512, 512));
 //    picture2->setOrigin(0.5, 0.5);
 //    picture2->setScale(2.0f, 2.0f);

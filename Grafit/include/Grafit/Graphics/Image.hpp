@@ -14,7 +14,7 @@ public:
 
     ~Image(void);
 
-    bool load(gf::IInputStream& stream);
+    bool decode(gf::IInputStream& stream);
 
     bool loadFromFile(const std::string& filename);
 

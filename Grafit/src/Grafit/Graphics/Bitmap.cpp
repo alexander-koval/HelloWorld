@@ -7,7 +7,7 @@ namespace gf {
 Bitmap::Bitmap(const std::string& filename) {
     m_transform = Transform::Identity;
     m_image.loadFromFile(filename);
-    m_texture.loadFromImage(m_image, RectI(0, 0, 512, 512));
+    m_texture.create(m_image, RectI(0, 0, 512, 512));
     m_shader.loadFromMemory(positionTexture_vert, GL_VERTEX_SHADER);
     m_shader.loadFromMemory(positionTexture_frag, GL_FRAGMENT_SHADER);
     GL_CHECK(m_shader.link());

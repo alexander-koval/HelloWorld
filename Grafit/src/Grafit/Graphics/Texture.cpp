@@ -93,17 +93,7 @@ bool Texture::create(Uint32 width, Uint32 height) {
     return true;
 }
 
-bool Texture::loadFromFile(const std::string filename, const RectI& area) {
-    Image image;
-    return image.loadFromFile(filename) && loadFromImage(image, area);
-}
-
-bool Texture::loadFromMemory(const void *data, std::size_t size, const RectI& area) {
-    Image image;
-    return image.loadFromMemory(data, size) && loadFromImage(image, area);
-}
-
-bool Texture::loadFromImage(const Image &image, const RectI& area) {
+bool Texture::create(const Image &image, const RectI& area) {
     int width = static_cast<int>(image.getSize().x);
     int height = static_cast<int>(image.getSize().y);
 
@@ -135,6 +125,11 @@ bool Texture::loadFromImage(const Image &image, const RectI& area) {
             return false;
         }
     }
+}
+
+bool Texture::create(const void *data, std::size_t size, const RectI& area) {
+    Image image;
+    return image.loadFromMemory(data, size) && create(image, area);
 }
 
 void Texture::update(const Uint8 *pixels) {
