@@ -1,7 +1,7 @@
 #include <Grafit/System/SystemInfo.hpp>
 
 #if defined(GRAFIT_SYSTEM_WINDOWS)
-//    #include <Grafit/System/Win32/ThreadImpl.hpp>
+    #include <Grafit/System/Win32/SystemInfoImpl.hpp>
 #elif defined(GRAFIT_SYSTEM_MACOS)
     #include <Grafit/System/OSX/SystemInfoImpl.hpp>
 #else

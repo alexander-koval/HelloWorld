@@ -69,6 +69,8 @@ if(WIN32)
         "${SRCROOT}/Win32/ThreadImpl.cpp"
         "${SRCROOT}/Win32/ThreadLocalImpl.hpp"
         "${SRCROOT}/Win32/ThreadLocalImpl.cpp"
+        "${SRCROOT}/Win32/SystemInfoImpl.hpp"
+        "${SRCROOT}/Win32/SystemInfoImpl.cpp"
     )
     source_group("Win32" FILES ${grafit_system_platform_source_files})
 elseif(APPLE)

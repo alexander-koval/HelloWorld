@@ -1,4 +1,5 @@
 #include <Grafit/System/File.hpp>
+#include <Grafit/System/String.hpp>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -50,7 +51,8 @@ std::string File::getExtension(void) const {
 }
 
 std::string File::getNativePath(void) const {
-    return m_path.native();
+    gf::String path(m_path.native());
+    return path.toAnsiString();
 }
 
 Uint64 File::getSize(void) const {

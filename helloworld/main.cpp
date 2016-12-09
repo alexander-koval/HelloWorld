@@ -1,7 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <stb.h>
-#include <execinfo.h>
+//#include <execinfo.h>
 #include <memory>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Triangle.hpp>
@@ -63,6 +63,7 @@ void FreeFunction2(int value1) {
 }
 
 void on_terminate(void) {
+#ifdef GRAFIT_SYSTEM_WINDOWS
     void* trace_elems[20];
     int trace_elem_count(backtrace(trace_elems, 20));
     char** stack_syms(backtrace_symbols(trace_elems, trace_elem_count));
@@ -71,6 +72,7 @@ void on_terminate(void) {
     }
     std::free(stack_syms);
     exit(EXIT_FAILURE);
+#endif
 }
 
 void init() {
@@ -127,7 +129,7 @@ void updateFPS() {
     double elapsed_seconds;
     current_seconds = glfwGetTime();
     elapsed_seconds = current_seconds - previousSeconds;
-    if (elapsed_seconds > 0.25) {
+    if (elapsed_seconds > 0.5) {
         previousSeconds = current_seconds;
         char tmp[128];
         double fps = (double)frameCount / elapsed_seconds;
