@@ -2,14 +2,14 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/extlibs/include)
 
-set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
+#set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/libs")
 
 if(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") OR (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel") AND UNIX))
         option(GRAFIT_ENABLE_CXX_98 "Enable C++ 98" OFF)
         option(GRAFIT_ENABLE_CXX_0X "Enable C++ 0x" OFF)
         option(GRAFIT_ENABLE_CXX_11 "Enable C++ 11" OFF)
         option(GRAFIT_ENABLE_CXX_1Y "Enable C++ 1y" OFF)
-        option(GRAFIT_ENABLE_CXX_14 "Enable C++ 14" OFF)
+        option(GRAFIT_ENABLE_CXX_14 "Enable C++ 14" ON)
         option(GRAFIT_ENABLE_CXX_1Z "Enable C++ 1z" OFF)
 
         if(GRAFIT_ENABLE_CXX_1Z)
@@ -45,5 +45,3 @@ add_subdirectory(Graphics)
 add_subdirectory(Window)
 
 add_subdirectory(System)
-
-#add_subdirectory(Events)

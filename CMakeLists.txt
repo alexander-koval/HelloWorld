@@ -1,5 +1,5 @@
 project(HelloWorld)
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.7)
 
 set(HelloWorld_VERSION_MAJOR 0)
 set(HelloWorld_VERSION_MINOR 1)
@@ -42,13 +42,13 @@ include_directories(
 message("DIRS: " ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 if(APPLE)
-    include_directories(/System/Library/FRAMEWORKrks)
+    include_directories(/System/Library/FRAMEWORKS)
     find_library(COCOA_LIBRARY Cocoa)
     find_library(OpenGL_LIBRARY OpenGL)
-    MARK_AS_ADVANCED (COCOA_LIBRARY
+    mark_as_advanced(COCOA_LIBRARY
                       GLFW_LIBRARY
                       OpenGL_LIBRARY)
-    SET(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY})
+    set(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY})
 endif()
 
 #set(GRAFIT_ENABLE_CXX_11 ON CACHE BOOL "ISO C++11 standart")
@@ -56,7 +56,7 @@ set(CMAKE_CXX_FLAGS "-std=c++11 -DSTB_IMAGE_IMPLEMENTATION")
 
 link_directories(
     ${PROJECT_BINARY_DIR}/application/libs
-    ${PROJECT_SOURCE_DIR}/Grafit/extlibs/mingw
+    ${PROJECT_SOURCE_DIR}/Grafit/extlibs/linux
 )
 
 add_subdirectory(Grafit)

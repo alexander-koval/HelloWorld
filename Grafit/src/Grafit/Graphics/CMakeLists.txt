@@ -1,3 +1,4 @@
+#project(grafit-graphics)
 set(INCROOT ${PROJECT_SOURCE_DIR}/include/Grafit/Graphics)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/Grafit/Graphics)
 
@@ -69,7 +70,7 @@ file(GLOB grafit_graphics_source_files
 
 #include_directories(${INCROOT})
 
-source_group("" FILES ${grafit_graphics_source_files})
+source_group("Graphics" FILES ${grafit_graphics_source_files})
 
 # find external libraries
 if(NOT SFML_OPENGL_ES)
@@ -109,7 +110,7 @@ set(DESKTOP_LIBS X11 Xxf86vm Xrandr Xi Xinerama Xcursor pthread dl)
 endif()
 
 target_link_libraries(grafit-graphics
-    grafit-system
+    ${GRAFIT_SYSTEM}
     ${DESKTOP_LIBS}
     ${OPENGL_glu_LIBRARY}
     ${GLFW_LIBRARIES}

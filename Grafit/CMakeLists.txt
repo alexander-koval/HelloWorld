@@ -1,13 +1,11 @@
 project(Grafit)
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 set(Grafit_VERSION_MAJOR 0)
 set(Grafit_VERSION_MINOR 1)
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules/")
 
-#find_package(Boost 1.58.0 COMPONENTS system filesystem REQUIRED)
-set( BoostVersion 1.58.0 )
 #include ("${CMAKE_MODULE_PATH}/AddBoost.cmake")
 
 function(add_shaders output)
@@ -58,6 +56,6 @@ else()
 add_definitions(-DGLFW_EXPOSE_NATIVE_X11 -DGLFW_EXPOSE_NATIVE_GLX -DGRAFIT_SYSTEM_LINUX)
 endif()
 
-add_subdirectory(modules/glfw)
-add_subdirectory(modules/glm)
+#add_subdirectory(modules/glfw)
+#add_subdirectory(modules/glm)
 add_subdirectory(src/Grafit)

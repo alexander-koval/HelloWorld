@@ -1,7 +1,6 @@
 #include <iostream>
 #include <sstream>
 #include <stb.h>
-//#include <execinfo.h>
 #include <memory>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Triangle.hpp>
@@ -19,8 +18,6 @@
 #include <Grafit/System/Signals/Signal.hpp>
 #include <Grafit/System/Signals/Slot.hpp>
 #include <Grafit/System/ResourceManager.hpp>
-//#include <boost/intrusive_ptr.hpp>
-//#include <boost/smart_ptr/intrusive_ref_counter.hpp>
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
@@ -63,16 +60,14 @@ void FreeFunction2(int value1) {
 }
 
 void on_terminate(void) {
-#ifdef GRAFIT_SYSTEM_WINDOWS
-    void* trace_elems[20];
-    int trace_elem_count(backtrace(trace_elems, 20));
-    char** stack_syms(backtrace_symbols(trace_elems, trace_elem_count));
-    for (int i = 0; i < trace_elem_count; ++i) {
-        std::cout << stack_syms[i] << "\n";
-    }
-    std::free(stack_syms);
-    exit(EXIT_FAILURE);
-#endif
+//    void* trace_elems[20];
+//    int trace_elem_count(backtrace(trace_elems, 20));
+//    char** stack_syms(backtrace_symbols(trace_elems, trace_elem_count));
+//    for (int i = 0; i < trace_elem_count; ++i) {
+//        std::cout << stack_syms[i] << "\n";
+//    }
+//    std::free(stack_syms);
+//    exit(EXIT_FAILURE);
 }
 
 void init() {

@@ -104,7 +104,5 @@ target_link_libraries(${PROJECT_NAME}
     grafit-system
     grafit-graphics
     grafit-window
-#    glfw
-#    ${GLFW_LIBRARIES}
     ${EXTRA_LIBS}
 )

@@ -58,6 +58,8 @@ file(GLOB grafit_system_source_files
 
 set(grafit_system_platform_source_files)
 if(WIN32)
+    find_library(WINMM_LIBRARY winmm)
+    set(grafit_system_extra_libs ${WINMM_LIBRARY})
     file(GLOB grafit_system_platform_source_files
         "${SRCROOT}/Win32/ClockImpl.hpp"
         "${SRCROOT}/Win32/ClockImpl.cpp"
@@ -74,6 +76,8 @@ if(WIN32)
     )
     source_group("Win32" FILES ${grafit_system_platform_source_files})
 elseif(APPLE)
+    find_library(COCOA_LIBRARY Cocoa)
+    set(grafit_system_extra_libs ${WINMM_LIBRARY})
     file(GLOB grafit_system_platform_source_files
         "${SRCROOT}/Unix/ClockImpl.hpp"
         "${SRCROOT}/Unix/ClockImpl.cpp"
@@ -109,11 +113,13 @@ endif()
 
 source_group("System" FILES ${grafit_system_source_files})
 
+message(FILES " ${grafit_system_source_files}")
+
 add_library(grafit-system SHARED ${grafit_system_source_files}
                                  ${grafit_system_platform_source_files})
 
 target_link_libraries(grafit-system
-    winmm
     boost_system-mt
     boost_filesystem-mt
+    ${grafit_system_extra_libs}
 )
