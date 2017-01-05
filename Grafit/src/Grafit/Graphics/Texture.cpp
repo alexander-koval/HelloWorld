@@ -127,9 +127,9 @@ bool Texture::create(const Image &image, const RectI& area) {
     }
 }
 
-bool Texture::create(const void *data, std::size_t size, const RectI& area) {
+bool Texture::create(const Uint8* buffer, std::size_t size, const RectI& area) {
     Image image;
-    return image.loadFromMemory(data, size) && create(image, area);
+    return image.create(buffer, size) && create(image, area);
 }
 
 void Texture::update(const Uint8 *pixels) {

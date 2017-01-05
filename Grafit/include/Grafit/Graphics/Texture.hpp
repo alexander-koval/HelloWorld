@@ -24,7 +24,7 @@ public:
 
     bool create(const Image& image, const RectI& area = RectI());
 
-    bool create(const void* data, std::size_t size, const RectI& area = RectI());
+    bool create(const Uint8* buffer, std::size_t size, const RectI& area = RectI());
 
     void update(const Uint8* pixels);
 

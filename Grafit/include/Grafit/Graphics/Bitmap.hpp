@@ -14,9 +14,10 @@
 #include <Grafit/System/PlatformMacros.hpp>
 
 namespace gf {
+class File;
 class Bitmap : public Drawable, public Transformable {
 public:
-    Bitmap(const std::string& filename);
+    Bitmap(const gf::File& file);
 
     void render(Mat4F mvpView);
 

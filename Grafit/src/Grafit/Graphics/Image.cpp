@@ -16,38 +16,29 @@ Image::~Image(void) {
 
 }
 
-bool Image::decode(gf::IInputStream &stream) {
-    m_pixels.clear();
-    int width, height, channels;
-    const Uint8* buffer = static_cast<const Uint8*>(stream.read());
-    unsigned char* image_data = stbi_load_from_memory(buffer, static_cast<int>(stream.getSize()),
-                                                     &width, &height, &channels, STBI_default);
-    GF_ASSERT(width > 0, "Invalid image width", width);
-    GF_ASSERT(height > 0, "Invalid image width", height);
-    GF_ASSERT(image_data != nullptr, "Wrong image data", "");
-    if (image_data && width && height) {
-        m_size.x = width;
-        m_size.y = height;
-        m_channels = channels;
-        m_pixels.resize(width * height * channels);
-        memcpy(&m_pixels[0], image_data, m_pixels.size());
-        free((void*)image_data);
-        return true;
+bool Image::create(const File &file) {
+    if (file.isExist() && file.isRegularFile()) {
+        gf::FileStream stream;
+        stream.open(&file);
+        return create(stream);
     }
     return false;
 }
 
-bool Image::loadFromFile(const std::string& filepath) {
+bool Image::create(gf::IInputStream &stream) {
+    const Uint8* buffer = static_cast<const Uint8*>(stream.read());
+    return create(buffer, stream.getSize());
+}
 
-    m_pixels.clear();
-    int width, height, channels;
-    gf::File file(filepath);
-    if (file.isExist() && file.isRegularFile()) {
-        gf::FileStream stream;
-        stream.open(&file);
-        const Uint8* buffer = static_cast<const Uint8*>(stream.read());
-        unsigned char* image_data = stbi_load_from_memory(buffer, static_cast<int>(file.getSize()),
+bool Image::create(const Uint8* buffer, std::size_t size) {
+    if (buffer && size) {
+        m_pixels.clear();
+        int width, height, channels;
+        unsigned char* image_data = stbi_load_from_memory(buffer, static_cast<int>(size),
                                                          &width, &height, &channels, STBI_default);
+        GF_ASSERT(width > 0, "Invalid image width", width);
+        GF_ASSERT(height > 0, "Invalid image width", height);
+        GF_ASSERT(image_data != nullptr, "Wrong image data", "");
         if (image_data && width && height) {
             m_size.x = width;
             m_size.y = height;
@@ -56,36 +47,7 @@ bool Image::loadFromFile(const std::string& filepath) {
             memcpy(&m_pixels[0], image_data, m_pixels.size());
             free((void*)image_data);
             return true;
-        } else {
-            std::cerr << "Cannot load image: " << filepath.c_str() << std::endl;
-            return false;
         }
-    } else {
-        std::cerr << "Cannot load image: " << filepath.c_str() << std::endl;
-        return false;
-    }
-}
-
-bool Image::loadFromMemory(const void *data, std::size_t size) {
-    if (data && size) {
-        m_pixels.clear();
-        int width, height, channels;
-        const unsigned char* buffer = static_cast<const unsigned char*>(data);
-        unsigned char* image_data =stbi_load_from_memory(buffer, static_cast<int>(size),
-                                                         &width, &height, &channels, STBI_default);
-        if (image_data && width && height) {
-            m_size.x = width;
-            m_size.y = height;
-            m_pixels.resize(width * height);
-            memcpy(&m_pixels[0], image_data, m_pixels.size());
-            free((void*)image_data);
-            return true;
-        } else {
-            std::cerr << "Cannot load image from memory." << std::endl;
-            return false;
-        }
-    } else {
-        std::cerr << "Cannot load image from memory. Bad data." << std::endl;
         return false;
     }
 }

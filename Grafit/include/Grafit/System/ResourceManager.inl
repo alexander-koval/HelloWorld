@@ -11,7 +11,7 @@ void ResourceManager<gf::Texture, Identifier>::load(Identifier id, const gf::Fil
         std::unique_ptr<gf::Texture> resource(new gf::Texture());
         gf::FileStream stream;
         stream.open(&file);
-        image.decode(stream);
+        image.create(stream);
         if (!resource->create(image)) {
             throw std::runtime_error("ResourceManager::load - Failed to Load " + file.getName());
         }
@@ -27,7 +27,7 @@ void ResourceManager<gf::Texture, Identifier>::load(Identifier id, const gf::Fil
         std::unique_ptr<gf::Texture> resource(new gf::Texture());
         gf::FileStream stream;
         stream.open(&file);
-        image.decode(stream);
+        image.create(stream);
         if (!resource->create(image, param)) {
             throw std::runtime_error("ResourceManager::load - Failed to Load " + file.getName());
         }

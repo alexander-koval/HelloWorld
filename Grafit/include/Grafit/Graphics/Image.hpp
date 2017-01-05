@@ -7,6 +7,7 @@
 #include <Grafit/System/Types.hpp>
 
 namespace gf {
+class File;
 class IInputStream;
 class Image {
 public:
@@ -14,11 +15,11 @@ public:
 
     ~Image(void);
 
-    bool decode(gf::IInputStream& stream);
+    bool create(const gf::File& file);
 
-    bool loadFromFile(const std::string& filename);
+    bool create(gf::IInputStream& stream);
 
-    bool loadFromMemory(const void* data, std::size_t size);
+    bool create(const Uint8* buffer, std::size_t size);
 
     Vector2U getSize(void) const;
 

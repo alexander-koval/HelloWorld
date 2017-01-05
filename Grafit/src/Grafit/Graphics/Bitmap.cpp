@@ -1,12 +1,13 @@
 #include <Grafit/Graphics/Bitmap.hpp>
 #include <Grafit/Graphics/RenderTarget.hpp>
 #include <Grafit/Graphics/shaders/shaders.hpp>
+#include <Grafit/System/File.hpp>
 
 
 namespace gf {
-Bitmap::Bitmap(const std::string& filename) {
+Bitmap::Bitmap(const gf::File& file) {
     m_transform = Transform::Identity;
-    m_image.loadFromFile(filename);
+    m_image.create(file);
     m_texture.create(m_image, RectI(0, 0, 512, 512));
     m_shader.loadFromMemory(positionTexture_vert, GL_VERTEX_SHADER);
     m_shader.loadFromMemory(positionTexture_frag, GL_FRAGMENT_SHADER);
