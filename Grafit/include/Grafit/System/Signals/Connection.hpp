@@ -64,7 +64,7 @@ public:
 
     template <typename R, typename ...Args>
     Connection(Signal<R(Args...)>* signal, void(*func)(Signal<R(Args...)>*, const Connection&))
-        : m_connection(new priv::ConnectionImpl<R, Args...>(signal, func)) { }
+        : m_connection(new priv::ConnectionImpl<R, Args...>(signal, func))  { }
 
     Connection(const Connection& other)
         : m_connection(Impl::clone(other.m_connection.get())) { }

@@ -54,9 +54,10 @@ public:
     T y;
 };
 
-typedef Vector2<int>            Vector2I;
-typedef Vector2<unsigned int>   Vector2U;
-typedef Vector2<float>          Vector2F;
+using Vector2I = Vector2<int>;
+using Vector2U = Vector2<unsigned int>;
+using Vector2F = Vector2<float>;
+using Vector2D = Vector2<double>;
 
 }
 

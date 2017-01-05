@@ -8,7 +8,6 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/Grafit/modules/glm
     ${PROJECT_SOURCE_DIR}/Grafit/modules/stb
     ${PROJECT_SOURCE_DIR}/Grafit/modules/loki/include
-    ${BoostSourceDir}
 )
 
 if(APPLE)
@@ -105,9 +104,7 @@ target_link_libraries(${PROJECT_NAME}
     grafit-system
     grafit-graphics
     grafit-window
-    glfw
-    ${GLFW_LIBRARIES}
+#    glfw
+#    ${GLFW_LIBRARIES}
     ${EXTRA_LIBS}
-    ${BoostSystemLibs}
-    ${BoostFilesystemLibs}
 )

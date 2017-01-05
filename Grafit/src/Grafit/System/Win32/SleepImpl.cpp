@@ -1,5 +1,7 @@
 #include <Grafit/System/Win32/SleepImpl.hpp>
+#pragma comment (lib, "winmm.a")
 #include <windows.h>
+#include <mmsystem.h>
 
 
 namespace gf {

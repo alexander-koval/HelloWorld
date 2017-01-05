@@ -1,9 +1,9 @@
 #include <Grafit/System/Win32/SystemInfoImpl.hpp>
 #include <Grafit/System/String.hpp>
-#include <windows.h>
 #include <lmcons.h>
 #include <shlobj.h>
 #include <winsock2.h>
+#include <windows.h>
 
 namespace gf {
 namespace priv {

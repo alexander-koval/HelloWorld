@@ -4,6 +4,7 @@
 #include <Grafit/System/NonCopyable.hpp>
 #include <cstdlib>
 
+namespace gf {
 namespace priv {
     class ThreadLocalImpl;
 }
@@ -23,5 +24,7 @@ private:
 
     priv::ThreadLocalImpl* m_impl; ///< Pointer to the OS specific implementation
 };
+
+}
 
 #endif // THREADLOCAL_HPP

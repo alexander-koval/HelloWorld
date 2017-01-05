@@ -10,16 +10,11 @@ ${SRCROOT}/VideoMode.cpp
 
 source_group("" FILES ${grafit_window_source_files})
 
-add_library(grafit-window STATIC ${grafit_window_source_files})
+add_library(grafit-window SHARED ${grafit_window_source_files})
 
 target_link_libraries(grafit-window
-#    X11
-#    Xxf86vm
-#    Xrandr
-#    Xi
-#    Xinerama
-#    Xcursor
-#    pthread
+    glfw
+    grafit-graphics
     ${OPENGL_glu_LIBRARY}
     ${GLFW_LIBRARIES}
     ${EXTRA_LIBS}

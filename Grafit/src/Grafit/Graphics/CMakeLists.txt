@@ -98,7 +98,7 @@ add_shaders(shaders
 
 message("SHADER " ${shaders})
 
-add_library(grafit-graphics STATIC ${grafit_graphics_source_files} ${shaders})
+add_library(grafit-graphics SHARED ${grafit_graphics_source_files} ${shaders})
 
 if(APPLE)
 find_library(COCOA_LIBRARY Cocoa)
@@ -109,11 +109,6 @@ set(DESKTOP_LIBS X11 Xxf86vm Xrandr Xi Xinerama Xcursor pthread dl)
 endif()
 
 target_link_libraries(grafit-graphics
-#    EGL
-#    glfw
-#    GLU
-#    GL
-#    SOIL
     grafit-system
     ${DESKTOP_LIBS}
     ${OPENGL_glu_LIBRARY}

@@ -37,7 +37,6 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/Grafit/modules/glm
     ${PROJECT_SOURCE_DIR}/Grafit/modules/stb
     ${PROJECT_SOURCE_DIR}/Grafit/modules/loki/include
-    ${BoostSourceDir}
 )
 
 message("DIRS: " ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
@@ -57,7 +56,7 @@ set(CMAKE_CXX_FLAGS "-std=c++11 -DSTB_IMAGE_IMPLEMENTATION")
 
 link_directories(
     ${PROJECT_BINARY_DIR}/application/libs
-#    ${PROJECT_BINARY_DIR}/boost_1_62_0_GNU_6_2_1/stage/lib
+    ${PROJECT_SOURCE_DIR}/Grafit/extlibs/mingw
 )
 
 add_subdirectory(Grafit)

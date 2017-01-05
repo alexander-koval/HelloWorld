@@ -109,11 +109,11 @@ endif()
 
 source_group("System" FILES ${grafit_system_source_files})
 
-add_library(grafit-system STATIC ${grafit_system_source_files}
+add_library(grafit-system SHARED ${grafit_system_source_files}
                                  ${grafit_system_platform_source_files})
 
-include_directories(${BoostSourceDir})
-
 target_link_libraries(grafit-system
-    ${BoostFilesystemLibs}
+    winmm
+    boost_system-mt
+    boost_filesystem-mt
 )
