@@ -48,7 +48,7 @@ int Signal<R(Args...)>::numSlots(void) const {
     std::size_t count = 0;
     for (ConstIterator it = m_slotMap.begin(); it != m_slotMap.end(); ++it) {
         const Connection& con = it->first;
-        if (it->first.isConnected()) ++count;
+        if (con.isConnected()) ++count;
     }
     return count;
 }

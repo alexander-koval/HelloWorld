@@ -46,6 +46,7 @@ file(GLOB grafit_system_source_files
     "${INCROOT}/Signals/SlotMap.hpp"
     "${INCROOT}/Signals/SlotMap.inl"
     "${INCROOT}/Signals/Connection.hpp"
+    "${SRCROOT}/Signals/Connection.cpp"
     "${INCROOT}/Function.hpp"
     "${INCROOT}/Factory.hpp"
     "${INCROOT}/Uuid.hpp"

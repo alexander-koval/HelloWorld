@@ -171,12 +171,13 @@ int main() {
     gf::Connection& con1 = signal->connect(std::bind(&FreeFunction, std::placeholders::_1), true, 1);
     gf::Connection& con2 = signal->connect(std::bind(&FreeFunction2, std::placeholders::_1), false, 0);
 
-//    std::cout << signal->numSlots() << std::endl;
-//    signal->dispatch(4);
-//    std::cout << con1.isConnected() << std::endl;
-//    signal->disconnect(con);
-//    std::cout << signal->numSlots() << std::endl;
-//    signal->dispatch(234);
+    std::cout << signal->numSlots() << std::endl;
+    signal->dispatch(4);
+    std::cout << con1.isConnected() << std::endl;
+    signal->disconnect(con1);
+    std::cout << signal->numSlots() << std::endl;
+    signal->dispatch(234);
+
 //    gf::Signal<gf::Slot<void(*)(int)>, void(*)(int)> signal;
 //    gf::Slot slot(signal, &FreeFunction);
 //    gf::Slot<gf::Signal<Slot<void(*)(int)>, void(*)(int)>, void(*)(int)> slot;

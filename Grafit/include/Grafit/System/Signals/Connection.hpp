@@ -1,23 +1,26 @@
 #ifndef CONNECTION
 #define CONNECTION
 
-#include <list>
 #include <memory>
 #include <utility>
 #include <functional>
+#include <Grafit/System/Assert.hpp>
 
 namespace gf {
 class Connection;
+template <typename ... Args> class Signal;
 
 namespace priv {
 
-class IConnection {
+class AbstractConnection {
 public:
     virtual bool isConnected(void) = 0;
 
     virtual void disconnect(const Connection&) = 0;
 
-    virtual IConnection * clone(void) const = 0;
+    virtual AbstractConnection * clone(void) const = 0;
+
+    virtual ~AbstractConnection();
 
     template <typename U>
     static U* clone(U* object) {
@@ -29,7 +32,7 @@ public:
 };
 
 template <typename R, typename ...Args>
-class ConnectionImpl : public IConnection {
+class ConnectionImpl : public AbstractConnection {
 public:
     using DisconnectFunc = void(*)(Signal<R(Args...)>*, const Connection&);
 
@@ -58,7 +61,7 @@ public:
 class Connection : private std::less<Connection>
         , private std::equal_to<Connection> {
 public:
-    using Impl = priv::IConnection;
+    using Impl = priv::AbstractConnection;
 
     Connection(void) : m_connection() {}
 
@@ -73,11 +76,7 @@ public:
         disconnect();
     }
 
-    void disconnect(void) const {
-        if (this->isConnected()) {
-            m_connection->disconnect(*this);
-        }
-    }
+    void disconnect(void) const;
 
     bool isConnected(void) const {
         return m_connection.get() && m_connection->isConnected();
