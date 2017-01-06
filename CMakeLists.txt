@@ -42,13 +42,15 @@ include_directories(
 message("DIRS: " ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 if(APPLE)
-    include_directories(/System/Library/FRAMEWORKS)
-    find_library(COCOA_LIBRARY Cocoa)
-    find_library(OpenGL_LIBRARY OpenGL)
-    mark_as_advanced(COCOA_LIBRARY
-                      GLFW_LIBRARY
-                      OpenGL_LIBRARY)
-    set(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY})
+#    include_directories(/System/Library/FRAMEWORKS)
+#    find_library(COCOA_LIBRARY Cocoa)
+#    find_library(OpenGL_LIBRARY OpenGL)
+#    mark_as_advanced(COCOA_LIBRARY
+#                      GLFW_LIBRARY
+#                      OpenGL_LIBRARY)
+#    set(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY})
+elseif(WIN32)
+    link_directories(Grafit/extlibs/mingw)
 endif()
 
 #set(GRAFIT_ENABLE_CXX_11 ON CACHE BOOL "ISO C++11 standart")
@@ -56,8 +58,12 @@ set(CMAKE_CXX_FLAGS "-std=c++11 -DSTB_IMAGE_IMPLEMENTATION")
 
 link_directories(
     ${PROJECT_BINARY_DIR}/application/libs
-    ${PROJECT_SOURCE_DIR}/Grafit/extlibs/linux
 )
+
+#get_property(GRAFIT_LINK_DIRECTORIES DIRECTORY PROPERTY LINK_DIRECTORIES)
+#find_library(GLFW_LIBRARY
+#    NAMES glfw3.dll glfw.a libglfw.a glfw.a
+#    PATHS GRAFIT_LINK_DIRECTORIES)
 
 add_subdirectory(Grafit)
 add_subdirectory(helloworld)

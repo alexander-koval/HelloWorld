@@ -1,4 +1,3 @@
-#project(grafit-graphics)
 set(INCROOT ${PROJECT_SOURCE_DIR}/include/Grafit/Graphics)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/Grafit/Graphics)
 
@@ -99,21 +98,20 @@ add_shaders(shaders
 
 message("SHADER " ${shaders})
 
+set(GRAFIT_GRAPHICS_LIBRARY grafit-graphics)
 add_library(grafit-graphics SHARED ${grafit_graphics_source_files} ${shaders})
 
-if(APPLE)
-find_library(COCOA_LIBRARY Cocoa)
-set(DESKTOP_LIBS ${COCOA_LIBRARY})
-elseif(WIN32)
-else()
-set(DESKTOP_LIBS X11 Xxf86vm Xrandr Xi Xinerama Xcursor pthread dl)
-endif()
+#if(APPLE)
+#find_library(COCOA_LIBRARY Cocoa)
+#set(DESKTOP_LIBS ${COCOA_LIBRARY})
+#elseif(WIN32)
+#else()
+#set(DESKTOP_LIBS X11 Xxf86vm Xrandr Xi Xinerama Xcursor pthread dl)
+#endif()
 
+message(NAME " ${PROJECT_NAME}")
 target_link_libraries(grafit-graphics
-    ${GRAFIT_SYSTEM}
-    ${DESKTOP_LIBS}
+    grafit-system
     ${OPENGL_glu_LIBRARY}
     ${GLFW_LIBRARIES}
-    ${EXTRA_LIBS}
-
 )
