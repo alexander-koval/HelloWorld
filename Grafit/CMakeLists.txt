@@ -61,11 +61,11 @@ if(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" 
 endif()
 
 #set( Boost_USE_STATIC_LIBS ON CACHE BOOL "Use Boost static libraries" )
-set( GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build GLFW examples" )
-set( GLFW_BUILD_TESTS OFF CACHE BOOL "Build GLFW tests" )
-set( GLFW_BUILD_DOCS OFF CACHE BOOL "Build GLFW documentation" )
-set( GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation" )
-set( BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" )
+#set( GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build GLFW examples" )
+#set( GLFW_BUILD_TESTS OFF CACHE BOOL "Build GLFW tests" )
+#set( GLFW_BUILD_DOCS OFF CACHE BOOL "Build GLFW documentation" )
+#set( GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation" )
+#set( BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" )
 
 include_directories(src)
 include_directories(include)

@@ -49,8 +49,11 @@ if(APPLE)
 #                      GLFW_LIBRARY
 #                      OpenGL_LIBRARY)
 #    set(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY})
+    link_directories(Grafit/extlibs/osx)
 elseif(WIN32)
     link_directories(Grafit/extlibs/mingw)
+else()
+    link_directories(Grafit/extlibs/linux)
 endif()
 
 #set(GRAFIT_ENABLE_CXX_11 ON CACHE BOOL "ISO C++11 standart")

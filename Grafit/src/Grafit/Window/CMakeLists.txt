@@ -31,7 +31,7 @@ elseif(APPLE)
                                "${CORE_VIDEO_FRAMEWORK}")
     list(APPEND grafit_window_extra_libs "-framework Cocoa -framework OpenGL -framework IOKit -framework CoreFoundation -framework CoreVideo")
 else()
-    list(APPEND grafit_window_extra_libs "X11 Xxf86vm Xrandr Xi Xinerama Xcursor pthread dl")
+    list(APPEND grafit_window_extra_libs "-lX11 -lXxf86vm -lXrandr -lXi -lXinerama -lXcursor -lpthread -ldl")
 endif()
 
 find_package(OpenGL REQUIRED)
