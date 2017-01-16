@@ -80,16 +80,16 @@ void init() {
     gf::Texture& texture = textureManager.get(0);
     texture.setRepeated(true);
     sprite = new gf::Sprite(texture, gf::RectI(0, 0, 512, 512));
-    sprite->scale(0.4f, 0.6f);
-    sprite->setOrigin(sprite->getLocalBounds().width * 0.5,
-                      sprite->getLocalBounds().height * 0.5);
+//    sprite->scale(0.4f, 0.6f);
+//    sprite->setOrigin(sprite->getLocalBounds().width * 0.5,
+//                      sprite->getLocalBounds().height * 0.5);
 //    picture2->setOrigin(0.5, 0.5);
 //    picture2->setScale(2.0f, 2.0f);
     sprite->setPosition(0, 0);
     triangle = new gf::Triangle();
-    gf::View view = window->getView();
-    view.setCenter(0.5, 0.5);
-    window->setView(view);
+//    gf::View view = window->getView();
+//    view.setCenter(0.5, 0.5);
+//    window->setView(view);
 }
 
 void render() {
