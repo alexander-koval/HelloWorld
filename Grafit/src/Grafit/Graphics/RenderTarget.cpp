@@ -143,8 +143,8 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
 //        applyTexture(texture);
         applyShader(shader);
         vertices.use();
-//        Mat4f mvpView = m_projectionStack.top() * m_modelViewStack.top() * m_textureStack.top();
-        Mat4F mvpView = m_textureStack.top() * m_modelViewStack.top() * m_projectionStack.top();
+//        Mat4F mvpView = m_projectionStack.top() * m_modelViewStack.top() * m_textureStack.top();
+        Mat4F mvpView = /*m_textureStack.top() * */m_modelViewStack.top() * m_projectionStack.top();
         GF_ASSERT(shader != nullptr, "Unitialized shader pointer", nullptr);
         shader->setParameter<Shader::Uniform>("TextureMap", *texture);
         shader->setParameter<Shader::Uniform>("MVP", mvpView);
@@ -255,7 +255,7 @@ void RenderTarget::draw(const Vertex2<Vector2F, Vector2F>* vertices, unsigned in
 //    }
 }
 
-void RenderTarget::pushMatrix(MatrixMode mode) {
+void RenderTarget::popMatrix(MatrixMode mode) {
     if (mode == MatrixMode::MODELVIEW) {
         m_modelViewStack.pop();
     } else if (mode == MatrixMode::PROJECTION) {
@@ -267,7 +267,7 @@ void RenderTarget::pushMatrix(MatrixMode mode) {
     }
 }
 
-void RenderTarget::popMatrix(MatrixMode mode) {
+void RenderTarget::pushMatrix(MatrixMode mode) {
     if (mode == MatrixMode::MODELVIEW) {
         m_modelViewStack.push(m_modelViewStack.top());
     } else if (mode == MatrixMode::PROJECTION) {
@@ -281,8 +281,8 @@ void RenderTarget::popMatrix(MatrixMode mode) {
 
 void RenderTarget::pushGLStates() {
     if (activate(true)) {
-        pushMatrix(MODELVIEW);
         pushMatrix(PROJECTION);
+        pushMatrix(MODELVIEW);
         pushMatrix(TEXTURE);
     }
 }
