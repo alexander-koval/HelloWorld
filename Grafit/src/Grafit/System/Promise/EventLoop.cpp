@@ -1,0 +1,27 @@
+#include <Grafit/System/Promise/EventLoop.hpp>
+
+namespace gf {
+
+EventLoop::Queue EventLoop::queue = EventLoop::Queue();
+
+void EventLoop::enqueue(Fn&& eqf) {
+    queue.push_back(std::move(eqf));
+}
+
+size_t EventLoop::size() {
+    return queue.size();
+}
+
+void EventLoop::clear() {
+    Queue empty;
+    std::swap(queue, empty);
+}
+
+void EventLoop::update(float dt) {
+    if (!queue.empty()) {
+        queue.front()();
+        queue.erase(queue.begin());
+    }
+}
+
+}

@@ -55,6 +55,12 @@ file(GLOB grafit_system_source_files
     "${INCROOT}/ResourceManager.inl"
     "${SRCROOT}/ResourceManager.cpp"
     "${INCROOT}/Memory/smart_ptr.hpp"
+    "${INCROOT}/Promise/AsyncBase.hpp"
+    "${INCROOT}/Promise/AsyncBase.inl"
+    "${INCROOT}/Promise/Promise.hpp"
+    "${INCROOT}/Promise/Deferred.hpp"
+    "${INCROOT}/Promise/EventLoop.hpp"
+    "${SRCROOT}/Promise/EventLoop.cpp"
 )
 
 if(WIN32)

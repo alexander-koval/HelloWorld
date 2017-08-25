@@ -1,28 +1,28 @@
 #include <Grafit/Graphics/shaders/shaders.hpp>
 
 extern unsigned char shaders_v330_positioncolor_frag[];
-extern int shaders_v330_positioncolor_frag_len;
+extern size_t shaders_v330_positioncolor_frag_len;
 
 extern unsigned char shaders_v330_positioncolor_vert[];
-extern int shaders_v330_positioncolor_vert_len;
+extern size_t shaders_v330_positioncolor_vert_len;
 
 extern unsigned char shaders_v330_positiontexture_frag[];
-extern int shaders_v330_positiontexture_frag_len;
+extern size_t shaders_v330_positiontexture_frag_len;
 
 extern unsigned char shaders_v330_positiontexture_vert[];
-extern int shaders_v330_positiontexture_vert_len;
+extern size_t shaders_v330_positiontexture_vert_len;
 
 extern unsigned char shaders_dither_2x2_glsl[];
-extern int shaders_dither_2x2_glsl_len;
+extern size_t shaders_dither_2x2_glsl_len;
 
 extern unsigned char shaders_dither_4x4_glsl[];
-extern int shaders_dither_4x4_glsl_len;
+extern size_t shaders_dither_4x4_glsl_len;
 
 extern unsigned char shaders_dither_8x8_glsl[];
-extern int shaders_dither_8x8_glsl_len;
+extern size_t shaders_dither_8x8_glsl_len;
 
 extern unsigned char shaders_luma_luma_glsl[];
-extern int shaders_luma_luma_glsl_len;
+extern size_t shaders_luma_luma_glsl_len;
 
 namespace gf {
 

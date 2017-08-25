@@ -18,6 +18,10 @@
 #include <Grafit/System/Signals/Signal.hpp>
 #include <Grafit/System/Signals/Slot.hpp>
 #include <Grafit/System/ResourceManager.hpp>
+#include <Grafit/System/Function.hpp>
+#include <Grafit/System/Promise/EventLoop.hpp>
+#include <Grafit/System/Promise/Deferred.hpp>
+#include <Grafit/System/Promise/Promise.hpp>
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
@@ -140,6 +144,7 @@ void updateFPS() {
         frameCount = 0;
     }
     frameCount++;
+    gf::EventLoop::update(elapsed_seconds);
 }
 
 int main() {
@@ -177,6 +182,17 @@ int main() {
     gf::Connection& con1 = signal->connect(std::bind(&FreeFunction, std::placeholders::_1), true, 1);
     gf::Connection& con2 = signal->connect(std::bind(&FreeFunction2, std::placeholders::_1), false, 0);
 
+    gf::Deferred<gf::Window*>* deferred = new gf::Deferred<gf::Window*>();
+    gf::Promise<gf::Window*>* promise = deferred->promise();
+    gf::Promise<gf::Window*>* promise2 = promise->then([](gf::Window* window) -> gf::Window* {
+        int kkk = 1;
+        return window;
+    })->then([](gf::Window* window) -> gf::Window* {
+        int kkk = 2;
+        return window;
+    });
+    deferred->resolve(window);
+
 //    std::cout << signal->numSlots() << std::endl;
 //    signal->dispatch(4);
 //    std::cout << con1.isConnected() << std::endl;
@@ -189,7 +205,10 @@ int main() {
 //    gf::Slot<gf::Signal<Slot<void(*)(int)>, void(*)(int)>, void(*)(int)> slot;
 //    signal.add(&FreeFunction);
 
-
+    gf::Function<void()> func = gf::Function<void()>([]() {
+        std::cout << "USER_NAME:" << std::endl;
+    });
+    func();
     textureManager.load(0, file);
 
     init();
