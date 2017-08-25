@@ -2,6 +2,7 @@
 #include <sstream>
 #include <stb.h>
 #include <memory>
+#include <map>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Triangle.hpp>
 #include <Grafit/Graphics/Bitmap.hpp>
@@ -147,6 +148,12 @@ void updateFPS() {
     gf::EventLoop::update(elapsed_seconds);
 }
 
+gf::Window* getWindow(gf::Window* window) {
+    return window;
+}
+
+gf::Deferred<gf::Window*>::Ptr deferred;
+
 int main() {
 //    std::set_terminate(on_terminate);
     window = new gf::Window(VideoMode(1024, 768), "Hello World", gf::Style::Default);
@@ -182,15 +189,23 @@ int main() {
     gf::Connection& con1 = signal->connect(std::bind(&FreeFunction, std::placeholders::_1), true, 1);
     gf::Connection& con2 = signal->connect(std::bind(&FreeFunction2, std::placeholders::_1), false, 0);
 
-    gf::Deferred<gf::Window*>* deferred = new gf::Deferred<gf::Window*>();
-    gf::Promise<gf::Window*>* promise = deferred->promise();
-    gf::Promise<gf::Window*>* promise2 = promise->then([](gf::Window* window) -> gf::Window* {
-        int kkk = 1;
-        return window;
+    deferred = std::make_shared<gf::Deferred<gf::Window*>>();
+
+//    std::function<gf::Window*(gf::Window*)> deff = getWindow;
+//            [](gf::Window* window) -> gf::Window* {
+//        int kkk = 1;
+//        return window;
+//    };
+    gf::Promise<gf::Window*>::Ptr promise = deferred->promise()->then([](gf::Window* window) -> gf::Window* {
+            int kkk = 1;
+            std::cout << "PROMISE_1" << std::endl;
+            return window;
     })->then([](gf::Window* window) -> gf::Window* {
-        int kkk = 2;
-        return window;
+            int kkk = 2;
+            std::cout << "PROMISE_2" << std::endl;
+            return window;
     });
+//    gf::Promise<gf::Window*>::Ptr promise = deferred->promise()->then(deff);
     deferred->resolve(window);
 
 //    std::cout << signal->numSlots() << std::endl;
@@ -224,3 +239,4 @@ int main() {
 
     return EXIT_SUCCESS;
 }
+

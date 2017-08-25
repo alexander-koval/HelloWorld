@@ -2,24 +2,27 @@
 #define ASYNCBASE_HPP
 
 #include <vector>
+#include <memory>
 #include <functional>
 
 namespace gf {
 template <typename T, typename E>
 class AsyncBase;
+template <typename T, typename E>
+using AsyncBasePtr = std::shared_ptr<AsyncBase<T, E>>;
 
 template <typename T, typename E>
 struct AsyncLink
 {
-        AsyncBase<T, E>* async;
-        std::function<void(T)> linkf;
+    AsyncBasePtr<T, E> async;
+    std::function<void(T)> linkf;
 };
 
 template <typename T, typename E>
-class AsyncBase
+class AsyncBase : public std::enable_shared_from_this<AsyncBase<T, E>>
 {
 public:
-        AsyncBase(AsyncBase<T, E>* d = nullptr);
+        AsyncBase(AsyncBasePtr<T, E> d = AsyncBasePtr<T, E>());
 
         virtual ~AsyncBase();
 
@@ -33,24 +36,38 @@ public:
 
         bool isPending() const;
 
-        AsyncBase<T, E>* errorThen(std::function<T(E)>&& fn);
+        AsyncBasePtr<T, E> errorThen(std::function<T(E)>&& fn);
 
-        virtual AsyncBase<T, E>* then(const std::function<T(T)>& fn);
+        AsyncBasePtr<T, E> errorThen(const std::function<T(E)>& fn);
 
-        virtual void unlink(AsyncBase<T, E>* to);
+        AsyncBasePtr<T, E> then(std::function<T(T)>&& fn);
 
-        virtual bool isLinked(AsyncBase<T, E>* to);
+        AsyncBasePtr<T, E> then(const std::function<T(T)>& fn);
+
+        virtual void unlink(AsyncBasePtr<T, E> to);
+
+        virtual bool isLinked(AsyncBasePtr<T, E> to);
 
         template <typename A, typename B>
-        static void link(AsyncBase<A, E>* current, AsyncBase<B, E>* next, const std::function<B(A)>& fn);
+        static void link(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, std::function<B(A)>&& fn);
 
         template <typename A, typename B>
-        static void immediateLinkUpdate(AsyncBase<A, E>* current, AsyncBase<B, E>* next, const std::function<B(A)>& fn);
+        static void link(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, const std::function<B(A)>& fn);
+
+        template <typename A, typename B>
+        static void immediateLinkUpdate(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, std::function<B(A)>&& fn);
+
+        template <typename A, typename B>
+        static void immediateLinkUpdate(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, const std::function<B(A)>& fn);
 
         virtual void handleResolve(T value);
 
         virtual void handleError(E error);
 protected:
+        virtual AsyncBasePtr<T, E> thenImpl(std::function<T(T)>&& fn);
+
+        virtual AsyncBasePtr<T, E> thenImpl(const std::function<T(T)>& fn);
+
         void resolve(T value);
 
         void onResolve(T value);
