@@ -27,25 +27,6 @@ private:
     std::map<Identifier, std::unique_ptr<Resource>> m_resourceMap;
 };
 
-template <typename Identifier>
-class ResourceManager<gf::Texture, Identifier> {
-public:
-    void load(Identifier id, const gf::File& file);
-
-    template <typename Parameter>
-    void load(Identifier id, const gf::File& file, const Parameter& param);
-
-    gf::Texture& get(Identifier id);
-
-    const gf::Texture& get(Identifier id) const;
-
-private:
-    void insert(Identifier id, std::unique_ptr<gf::Texture> resource);
-
-private:
-    std::map<Identifier, std::unique_ptr<gf::Texture>> m_resourceMap;
-};
-
 }
 
 #include <Grafit/System/ResourceManager.inl>

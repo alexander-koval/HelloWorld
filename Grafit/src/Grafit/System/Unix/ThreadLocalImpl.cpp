@@ -4,7 +4,7 @@ namespace gf {
 namespace priv {
 
 ThreadLocalImpl::ThreadLocalImpl() {
-    pthread_key_create(&m_key, NULL);
+    pthread_key_create(&m_key, nullptr);
 }
 
 ThreadLocalImpl::~ThreadLocalImpl() {

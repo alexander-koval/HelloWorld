@@ -7,6 +7,7 @@
 #include <Grafit/Graphics/Geometry/Vector2.hpp>
 
 namespace gf {
+class File;
 class Image;
 class Texture {
 public:
@@ -21,6 +22,8 @@ public:
     ~Texture(void);
 
     bool create(Uint32 width, Uint32 height);
+
+    bool create(const File& file);
 
     bool create(const Image& image, const RectI& area = RectI());
 

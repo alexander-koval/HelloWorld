@@ -61,7 +61,7 @@ const Uint8* Image::getPixels() const {
         return &m_pixels[0];
     } else {
         std::cerr << "Trying to access the pixels of an empty image" << std::endl;
-        return NULL;
+        return nullptr;
     }
 }
 

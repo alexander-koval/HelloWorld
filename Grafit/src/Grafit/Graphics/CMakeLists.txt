@@ -1,60 +1,60 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/Grafit/Graphics)
+#set(INCROOT ${PROJECT_SOURCE_DIR}/include/Grafit/Graphics)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/Grafit/Graphics)
 
 file(GLOB grafit_graphics_source_files
-    "${INCROOT}/Shader.hpp"
+#    "${INCROOT}/Shader.hpp"
     "${SRCROOT}/Shader.cpp"
-    "${INCROOT}/OpenGL.hpp"
+#    "${INCROOT}/OpenGL.hpp"
     "${SRCROOT}/OpenGL.cpp"
-    "${INCROOT}/GL/glad.h"
-    "${INCROOT}/GL/KHR/khrplatform.h"
+#    "${INCROOT}/GL/glad.h"
+#    "${INCROOT}/GL/KHR/khrplatform.h"
     "${SRCROOT}/GL/glad.c"
-    "${INCROOT}/Triangle.hpp"
+#    "${INCROOT}/Triangle.hpp"
     "${SRCROOT}/Triangle.cpp"
-    "${INCROOT}/Image.hpp"
+#    "${INCROOT}/Image.hpp"
     "${SRCROOT}/Image.cpp"
-    "${INCROOT}/Bitmap.hpp"
+#    "${INCROOT}/Bitmap.hpp"
     "${SRCROOT}/Bitmap.cpp"
-    "${INCROOT}/Texture.hpp"
+#    "${INCROOT}/Texture.hpp"
     "${SRCROOT}/Texture.cpp"
-    "${INCROOT}/Color.hpp"
-    "${INCROOT}/Color.inl"
+#    "${INCROOT}/Color.hpp"
+#    "${INCROOT}/Color.inl"
     "${SRCROOT}/Color.cpp"
-    "${INCROOT}/Vertex.hpp"
+#    "${INCROOT}/Vertex.hpp"
     "${INCROOT}/Vertex.inl"
-    "${INCROOT}/VertexArray.hpp"
+#    "${INCROOT}/VertexArray.hpp"
     "${SRCROOT}/VertexArray.cpp"
-    "${INCROOT}/Geometry/Rect.hpp"
-    "${INCROOT}/Geometry/Rect.inl"
-    "${INCROOT}/Geometry/Mat4.hpp"
-    "${INCROOT}/Geometry/Mat4.inl"
-    "${INCROOT}/Geometry/Mat3.hpp"
-    "${INCROOT}/Geometry/Mat3.inl"
-    "${INCROOT}/Geometry/Vector2.hpp"
-    "${INCROOT}/Geometry/Vector2.inl"
-    "${INCROOT}/Geometry/Vector3.hpp"
-    "${INCROOT}/Geometry/Vector3.inl"
-    "${INCROOT}/Geometry/Math.hpp"
+#    "${INCROOT}/Geometry/Rect.hpp"
+#    "${INCROOT}/Geometry/Rect.inl"
+#    "${INCROOT}/Geometry/Mat4.hpp"
+#    "${INCROOT}/Geometry/Mat4.inl"
+#    "${INCROOT}/Geometry/Mat3.hpp"
+#    "${INCROOT}/Geometry/Mat3.inl"
+#    "${INCROOT}/Geometry/Vector2.hpp"
+#    "${INCROOT}/Geometry/Vector2.inl"
+#    "${INCROOT}/Geometry/Vector3.hpp"
+#    "${INCROOT}/Geometry/Vector3.inl"
+#    "${INCROOT}/Geometry/Math.hpp"
     "${SRCROOT}/Geometry/Math.cpp"
-    "${INCROOT}/Drawable.hpp"
-    "${INCROOT}/View.hpp"
+#    "${INCROOT}/Drawable.hpp"
+#    "${INCROOT}/View.hpp"
     "${SRCROOT}/View.cpp"
-    "${INCROOT}/Transform.hpp"
+#    "${INCROOT}/Transform.hpp"
     "${SRCROOT}/Transform.cpp"
-    "${INCROOT}/Transformable.hpp"
+#    "${INCROOT}/Transformable.hpp"
     "${SRCROOT}/Transformable.cpp"
-    "${INCROOT}/PrimitiveType.hpp"
-    "${INCROOT}/RenderTarget.hpp"
+#    "${INCROOT}/PrimitiveType.hpp"
+#    "${INCROOT}/RenderTarget.hpp"
     "${SRCROOT}/RenderTarget.cpp"
-    "${INCROOT}/RenderStates.hpp"
+#    "${INCROOT}/RenderStates.hpp"
     "${SRCROOT}/RenderStates.cpp"
-    "${INCROOT}/BlendMode.hpp"
+#    "${INCROOT}/BlendMode.hpp"
     "${SRCROOT}/BlendMode.cpp"
-    "${INCROOT}/VBO.hpp"
+#    "${INCROOT}/VBO.hpp"
     "${SRCROOT}/VBO.cpp"
-    "${INCROOT}/Sprite.hpp"
+#    "${INCROOT}/Sprite.hpp"
     "${SRCROOT}/Sprite.cpp"
-    "${INCROOT}/shaders/shaders.hpp"
+#    "${INCROOT}/shaders/shaders.hpp"
     "${SRCROOT}/shaders/shaders.cpp"
     "${SRCROOT}/shaders/v330/positioncolor.frag"
     "${SRCROOT}/shaders/v330/positioncolor.vert"
@@ -100,6 +100,8 @@ message("SHADER " ${shaders})
 
 set(GRAFIT_GRAPHICS_LIBRARY grafit-graphics)
 add_library(grafit-graphics SHARED ${grafit_graphics_source_files} ${shaders})
+#install(TARGETS ${TARGETS} ${GRAFIT_GRAPHICS_LIBRARY}
+#    LIBRARY DESTINATION lib)
 
 #if(APPLE)
 #find_library(COCOA_LIBRARY Cocoa)
@@ -109,9 +111,12 @@ add_library(grafit-graphics SHARED ${grafit_graphics_source_files} ${shaders})
 #set(DESKTOP_LIBS X11 Xxf86vm Xrandr Xi Xinerama Xcursor pthread dl)
 #endif()
 
-message(NAME " ${PROJECT_NAME}")
 target_link_libraries(grafit-graphics
     grafit-system
     ${OPENGL_glu_LIBRARY}
     ${GLFW_LIBRARIES}
 )
+
+install(TARGETS ${GRAFIT_GRAPHICS_LIBRARY}
+    ARCHIVE DESTINATION lib COMPONENT lib
+    LIBRARY DESTINATION lib COMPONENT lib)

@@ -26,14 +26,14 @@ void FileStream::open(const gf::File *file) {
 void* FileStream::read(void) {
     Uint64 size = m_file->getSize();
     char* buffer = new char[size];
-    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName());
+    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName().c_str());
     seek(0);
     m_stream.read(buffer, m_file->getSize());
     return buffer;
 }
 
 Int64 FileStream::seek(Int64 position) {
-    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName());
+    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName().c_str());
     m_stream.seekg(position, std::ios_base::beg);
     std::ios_base::iostate state = m_stream.rdstate();
     GF_ASSERT(state == std::ios_base::goodbit, "Failed to set the file position", (int)state);
@@ -41,7 +41,7 @@ Int64 FileStream::seek(Int64 position) {
 }
 
 Int64 FileStream::tell() {
-    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName());
+    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName().c_str());
     return m_stream.tellg();
 }
 

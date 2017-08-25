@@ -51,7 +51,7 @@ RenderTarget::~RenderTarget() {
 
 void RenderTarget::clear(const Color<Uint8>& color) {
     if (activate(true)) {
-        applyTexture(NULL);
+        applyTexture(nullptr);
 
         GL_CHECK(glClear(GL_COLOR_BUFFER_BIT));
         GL_CHECK(glClearColor(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f));
@@ -60,7 +60,7 @@ void RenderTarget::clear(const Color<Uint8>& color) {
 
 void RenderTarget::clear(const Color<float> &color) {
     if (activate(true)) {
-         applyTexture(NULL);
+         applyTexture(nullptr);
 
         GL_CHECK(glClear(GL_COLOR_BUFFER_BIT));
         GL_CHECK(glClearColor(color.r, color.g, color.b, color.a));
@@ -152,7 +152,7 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
                                 vertices.getIndexBuffer().getNumIndices(),
                                 GL_UNSIGNED_SHORT, 0));
         vertices.unuse();
-        applyShader(NULL);
+        applyShader(nullptr);
     }
     resetGLStates();
 }
@@ -226,7 +226,7 @@ void RenderTarget::draw(const Vertex2<Vector2F, Vector2F>* vertices, unsigned in
 //            if (!m_cache.useVertexCache)
 //                vertices = m_cache.vertexCache;
 //            else
-//                vertices = NULL;
+//                vertices = nullptr;
 //        }
 
 //        // Setup the pointers to the vertices' components
@@ -248,7 +248,7 @@ void RenderTarget::draw(const Vertex2<Vector2F, Vector2F>* vertices, unsigned in
 
 //        // Unbind the shader, if any
 //        if (states.shader)
-//            applyShader(NULL);
+//            applyShader(nullptr);
 
 //        // Update the cache
 //        m_cache.useVertexCache = useVertexCache;

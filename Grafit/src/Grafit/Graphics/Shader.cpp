@@ -58,7 +58,7 @@ void Shader::loadFromMemory(const std::string &shader, GLenum type) {
         GLint info_log_lenght;
         glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &info_log_lenght);
         GLchar* info_log = new GLchar[info_log_lenght];
-        glGetShaderInfoLog(shader_id, info_log_lenght, NULL, info_log);
+        glGetShaderInfoLog(shader_id, info_log_lenght, nullptr, info_log);
         std::cerr << "Compile Log: " << info_log << std::endl;
         delete[] info_log;
     }

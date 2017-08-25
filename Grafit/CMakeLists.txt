@@ -93,6 +93,12 @@ add_definitions(-DGLFW_EXPOSE_NATIVE_X11 -DGLFW_EXPOSE_NATIVE_GLX -DGRAFIT_SYSTE
 endif()
 
 #add_subdirectory(modules/glfw)
+add_subdirectory(modules/poco)
 add_subdirectory(src/Grafit/Graphics)
 add_subdirectory(src/Grafit/Window)
 add_subdirectory(src/Grafit/System)
+
+#install(TARGETS ${GRAFIT_SYSTEM_LIBRARY} ${GRAFIT_GRAPHICS_LIBRARY} ${GRAFIT_WINDOWS_LIBRARY}
+#    RUNTIME DESTINATION bin
+#    LIBRARY DESTINATION lib
+#    ARCHIVE DESTINATION lib)

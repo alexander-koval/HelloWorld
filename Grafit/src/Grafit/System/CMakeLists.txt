@@ -1,58 +1,58 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/Grafit/System)
+#set(INCROOT ${PROJECT_SOURCE_DIR}/include/Grafit/System)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/Grafit/System)
 
 file(GLOB grafit_system_source_files
-    "${INCROOT}/Destructable.hpp"
-    "${INCROOT}/Clock.hpp"
+#    "${INCROOT}/Destructable.hpp"
+#    "${INCROOT}/Clock.hpp"
     "${SRCROOT}/Clock.cpp"
-    "${INCROOT}/InputStream.hpp"
-    "${INCROOT}/Lock.hpp"
+#    "${INCROOT}/InputStream.hpp"
+#    "${INCROOT}/Lock.hpp"
     "${SRCROOT}/Lock.cpp"
-    "${INCROOT}/Mutex.hpp"
+#    "${INCROOT}/Mutex.hpp"
     "${SRCROOT}/Mutex.cpp"
-    "${INCROOT}/NonCopyable.hpp"
-    "${INCROOT}/Sleep.hpp"
+#    "${INCROOT}/NonCopyable.hpp"
+#    "${INCROOT}/Sleep.hpp"
     "${SRCROOT}/Sleep.cpp"
-    "${INCROOT}/String.hpp"
-    "${INCROOT}/String.inl"
+#    "${INCROOT}/String.hpp"
+#    "${INCROOT}/String.inl"
     "${SRCROOT}/String.cpp"
-    "${INCROOT}/Thread.hpp"
-    "${INCROOT}/Thread.inl"
+#    "${INCROOT}/Thread.hpp"
+#    "${INCROOT}/Thread.inl"
     "${SRCROOT}/Thread.cpp"
-    "${INCROOT}/ThreadLocal.hpp"
-    "${INCROOT}/ThreadLocalPtr.hpp"
-    "${INCROOT}/ThreadLocalPtr.inl"
+#    "${INCROOT}/ThreadLocal.hpp"
+#    "${INCROOT}/ThreadLocalPtr.hpp"
+#    "${INCROOT}/ThreadLocalPtr.inl"
     "${SRCROOT}/ThreadLocal.cpp"
-    "${INCROOT}/Time.hpp"
+#    "${INCROOT}/Time.hpp"
     "${SRCROOT}/Time.cpp"
-    "${INCROOT}/Tipes.hpp"
-    "${INCROOT}/Utf.hpp"
-    "${INCROOT}/Utf.inl"
-    "${INCROOT}/Assert.hpp"
+#    "${INCROOT}/Tipes.hpp"
+#    "${INCROOT}/Utf.hpp"
+#    "${INCROOT}/Utf.inl"
+#    "${INCROOT}/Assert.hpp"
     "${SRCROOT}/Assert.cpp"
-    "${INCROOT}/SourceInfo.hpp"
-    "${INCROOT}/PlatformMacros.hpp"
-    "${INCROOT}/File.hpp"
+#    "${INCROOT}/SourceInfo.hpp"
+#    "${INCROOT}/PlatformMacros.hpp"
+#    "${INCROOT}/File.hpp"
     "${SRCROOT}/File.cpp"
-    "${INCROOT}/FileStream.hpp"
+#    "${INCROOT}/FileStream.hpp"
     "${SRCROOT}/FileStream.cpp"
-    "${INCROOT}/SystemInfo.hpp"
+#    "${INCROOT}/SystemInfo.hpp"
     "${SRCROOT}/SystemInfo.cpp"
-    "${INCROOT}/Event.hpp"
-    "${INCROOT}/Signals/Slot.hpp"
-    "${INCROOT}/Signals/Slot.inl"
-    "${INCROOT}/Signals/Signal.hpp"
-    "${INCROOT}/Signals/Signal.inl"
-    "${INCROOT}/Signals/SlotMap.hpp"
-    "${INCROOT}/Signals/SlotMap.inl"
-    "${INCROOT}/Signals/Connection.hpp"
+#    "${INCROOT}/Event.hpp"
+#    "${INCROOT}/Signals/Slot.hpp"
+#    "${INCROOT}/Signals/Slot.inl"
+#    "${INCROOT}/Signals/Signal.hpp"
+#    "${INCROOT}/Signals/Signal.inl"
+#    "${INCROOT}/Signals/SlotMap.hpp"
+#    "${INCROOT}/Signals/SlotMap.inl"
+#    "${INCROOT}/Signals/Connection.hpp"
     "${SRCROOT}/Signals/Connection.cpp"
-    "${INCROOT}/Function.hpp"
-    "${INCROOT}/Factory.hpp"
-    "${INCROOT}/Uuid.hpp"
+#    "${INCROOT}/Function.hpp"
+#    "${INCROOT}/Factory.hpp"
+#    "${INCROOT}/Uuid.hpp"
     "${SRCROOT}/Uuid.cpp"
-    "${INCROOT}/ResourceManager.hpp"
-    "${INCROOT}/ResourceManager.inl"
+#    "${INCROOT}/ResourceManager.hpp"
+#    "${INCROOT}/ResourceManager.inl"
     "${SRCROOT}/ResourceManager.cpp"
     "${INCROOT}/Memory/smart_ptr.hpp"
     "${INCROOT}/Promise/AsyncBase.hpp"
@@ -118,6 +118,7 @@ endif()
 
 source_group("System" FILES ${grafit_system_source_files})
 
+set(GRAPHIT_SYSTEM_LIBRARY grafit-system)
 add_library(grafit-system SHARED ${grafit_system_source_files} ${grafit_system_platform_source_files})
 
 target_link_libraries(grafit-system
@@ -125,3 +126,7 @@ target_link_libraries(grafit-system
     boost_filesystem-mt
     ${grafit_system_extra_libs}
 )
+
+install(TARGETS ${GRAFIT_SYSTEM_LIBRARY}
+    ARCHIVE DESTINATION lib COMPONENT lib
+    LIBRARY DESTINATION lib COMPONENT lib)

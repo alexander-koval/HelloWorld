@@ -2,7 +2,7 @@
 #include <sstream>
 #include <stb.h>
 #include <memory>
-#include <map>
+#include <sys/wait.h>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Triangle.hpp>
 #include <Grafit/Graphics/Bitmap.hpp>
@@ -73,6 +73,20 @@ void on_terminate(void) {
 //    }
 //    std::free(stack_syms);
 //    exit(EXIT_FAILURE);
+
+    char pid_buf[30];
+    sprintf(pid_buf, "%d", getpid());
+    char name_buf[512];
+    name_buf[readlink("/proc/self/exe", name_buf, 511)]=0;
+    int child_pid = fork();
+    if (!child_pid) {
+        dup2(2,1); // redirect output to stderr
+        fprintf(stdout,"stack trace for %s pid=%s\n",name_buf,pid_buf);
+        execlp("gdb", "gdb", "--batch", "-n", "-ex", "thread", "-ex", "bt", name_buf, pid_buf, NULL);
+        abort(); /* If gdb failed to start */
+    } else {
+        waitpid(child_pid,NULL,0);
+    }
 }
 
 void init() {
@@ -155,7 +169,7 @@ gf::Window* getWindow(gf::Window* window) {
 gf::Deferred<gf::Window*>::Ptr deferred;
 
 int main() {
-//    std::set_terminate(on_terminate);
+    std::set_terminate(on_terminate);
     window = new gf::Window(VideoMode(1024, 768), "Hello World", gf::Style::Default);
     window->setView(window->getDefaultView());
     if (gladLoadGL()) {
@@ -172,9 +186,9 @@ int main() {
               << "\t TEMP_DIR: " << gf::SystemInfo::getTempDirectory() << "\n"
               << std::endl;
 
-    std::string dirpath(gf::SystemInfo::getApplicationDirectory());
-    const std::string filepath(dirpath.append(gf::File::Separator + filename1));
-    gf::File file = gf::File(filepath);
+    std::string dirPath(gf::SystemInfo::getApplicationDirectory());
+    const std::string& filePath(dirPath.append(gf::File::Separator + filename1));
+    gf::File file = gf::File(filePath);
     std::cout << "Name: " << file.getName().c_str() << "\n"
               << " Ext: " << file.getExtension().c_str() << "\n"
               << "Path: " << file.getNativePath() << "\n"

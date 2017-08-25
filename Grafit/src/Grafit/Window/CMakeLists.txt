@@ -1,10 +1,10 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/Grafit/Window)
+#set(INCROOT ${PROJECT_SOURCE_DIR}/include/Grafit/Window)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/Grafit/Window)
 
 file(GLOB grafit_window_source_files
-${INCROOT}/Window.hpp
+#${INCROOT}/Window.hpp
 ${SRCROOT}/Window.cpp
-${INCROOT}/VideoMode.hpp
+#${INCROOT}/VideoMode.hpp
 ${SRCROOT}/VideoMode.cpp
 )
 
@@ -45,6 +45,7 @@ message("GLFW " ${GLFW_LIBRARY})
 message("OPENGL_LIBRARY " ${OPENGL_LIBRARY})
 message("GLFW_LIBRARIES " ${GLFW_LIBRARIES})
 
+set(GRAPHIT_WINDOW_LIBRARY grafit-window)
 add_library(grafit-window SHARED ${grafit_window_source_files})
 
 target_link_libraries(grafit-window
@@ -54,3 +55,7 @@ target_link_libraries(grafit-window
     ${GLFW_LIBRARIES}
     ${grafit_window_extra_libs}
 )
+
+install(TARGETS ${GRAFIT_WINDOW_LIBRARY}
+    ARCHIVE DESTINATION lib COMPONENT lib
+    LIBRARY DESTINATION lib COMPONENT lib)

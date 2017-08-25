@@ -22,7 +22,7 @@ void Thread::wait() {
     if (m_impl) {
         m_impl->wait();
         delete m_impl;
-        m_impl = NULL;
+        m_impl = nullptr;
     }
 }
 
@@ -30,7 +30,7 @@ void Thread::terminate() {
     if (m_impl) {
         m_impl->terminate();
         delete m_impl;
-        m_impl = NULL;
+        m_impl = nullptr;
     }
 }
 

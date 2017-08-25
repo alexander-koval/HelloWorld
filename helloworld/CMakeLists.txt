@@ -116,3 +116,8 @@ target_link_libraries(${PROJECT_NAME}
     grafit-graphics
     grafit-window
 )
+
+install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION ./ COMPONENT ./
+    ARCHIVE DESTINATION lib COMPONENT lib
+    LIBRARY DESTINATION lib COMPONENT lib)

@@ -10,7 +10,7 @@ Sprite::Sprite(void)
     : m_shader()
     , m_indices()
     , m_vertices()
-    , m_texture(NULL)
+    , m_texture(nullptr)
     , m_textureRect()
     , m_vertexArray() {
     GLushort* id = &m_indices[0];
@@ -30,7 +30,7 @@ Sprite::Sprite(const Texture& texture)
     : m_shader()
     , m_indices()
     , m_vertices()
-    , m_texture(NULL)
+    , m_texture(nullptr)
     , m_textureRect()
     , m_vertexArray() {
     GLushort* id = &m_indices[0];
@@ -52,7 +52,7 @@ Sprite::Sprite(const Texture& texture, const RectI& rect)
     : m_shader()
     , m_indices()
     , m_vertices()
-    , m_texture(NULL)
+    , m_texture(nullptr)
     , m_textureRect()
     , m_vertexArray() {
     GLushort* id = &m_indices[0];

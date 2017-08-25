@@ -18,7 +18,7 @@ std::string getUserName(void) {
 
 std::string getUserDirectory(void) {
     WCHAR path[MAX_PATH];
-    if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_PROFILE, NULL, 0, path))) {
+    if (SUCCEEDED(SHGetFolderPathW(nullptr, CSIDL_PROFILE, nullptr, 0, path))) {
         gf::String str(path);
         return str.toAnsiString();
     }
@@ -44,7 +44,7 @@ std::string getTempDirectory(void) {
 
 std::string getApplicationDirectory(void) {
     TCHAR buffer[MAX_PATH];
-    GetModuleFileName(NULL, buffer, MAX_PATH );
+    GetModuleFileName(nullptr, buffer, MAX_PATH );
     std::string::size_type pos = std::string(buffer).find_last_of( "\\/" );
     return std::string(buffer).substr(0, pos);
 }
