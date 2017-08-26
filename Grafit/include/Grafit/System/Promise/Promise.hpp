@@ -18,7 +18,7 @@ public:
     using Ptr = std::shared_ptr<Promise<T, E>>;
     explicit Promise(AsyncBasePtr<T, E> d = AsyncBasePtr<T, E>());
 
-	bool isRejected() const;
+    bool isRejected() const;
 
     void reject(E error);
 
@@ -26,11 +26,11 @@ public:
 
     PromisePtr<T, E> then(const std::function<T(T)>& fn);
 
-	virtual void handleResolve(T value) override;
+    virtual void handleResolve(T value) override;
 
     virtual void unlink(AsyncBasePtr<T, E> to) override;
 
-	template <typename Type>
+    template <typename Type>
     static PromisePtr<Type, E> promise(Type value);
 
 protected:
@@ -111,14 +111,14 @@ template<typename T, typename E>
         if (this->isFulfilled()) {
             this->_update.erase(std::remove_if(this->_update.begin(), this->_update.end(),
 				[&to](AsyncLink<T, E>& link) {
-				return link.async == to;
+                                    AsyncBasePtr<T, E> ptr = link.async;
+                                    return ptr == to;
             }), this->_update.end());
-		}
-		else {
+        } else {
             std::logic_error e("Downstream Promise is not fullfilled");
             this->handleError(e);
-		};
-	});
+        };
+    });
 }
 
 template<typename T, typename E>

@@ -2,6 +2,7 @@
 #define DEFERRED
 
 #include <memory>
+#include <iostream>
 #include <exception>
 #include <Grafit/System/Promise/AsyncBase.hpp>
 
@@ -22,18 +23,20 @@ public:
 	}
 
     virtual PromisePtr<T, E> promise() {
-        AsyncBasePtr<T, E> this_ptr = Deferred<T, E>::shared_from_this();
+//        AsyncBasePtr<T, E> this_ptr = Deferred<T, E>::shared_from_this();
         PromisePtr<T, E> ret = std::make_shared<Promise<T, E>>();
         AsyncLink<T, E> link = {
             ret,
             [ret](T x) {
-                std::function<T(T)> fn = [](T x) { return x; };
+                std::function<T(T)> fn = [](T x) {
+                    return x;
+                };
                 ret->handleResolve(fn(x));
             }
         };
         this->_update.push_back(link);
         return ret;
-	}
+        }
 
 private:
     static T _resolve(T x) {

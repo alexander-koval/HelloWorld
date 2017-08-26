@@ -19,7 +19,8 @@ void EventLoop::clear() {
 
 void EventLoop::update(float dt) {
     if (!queue.empty()) {
-        queue.front()();
+        const Fn& fn = queue.front();
+        if (fn) { fn(); }
         queue.erase(queue.begin());
     }
 }

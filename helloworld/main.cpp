@@ -210,17 +210,38 @@ int main() {
 //        int kkk = 1;
 //        return window;
 //    };
-    gf::Promise<gf::Window*>::Ptr promise = deferred->promise()->then([](gf::Window* window) -> gf::Window* {
+    gf::Promise<gf::Window*>::Ptr promise1 = deferred->promise();
+    gf::Promise<gf::Window*>::Ptr promise = promise1->then([](gf::Window* window) -> gf::Window* {
             int kkk = 1;
             std::cout << "PROMISE_1" << std::endl;
             return window;
     })->then([](gf::Window* window) -> gf::Window* {
             int kkk = 2;
             std::cout << "PROMISE_2" << std::endl;
+            throw std::logic_error("stopping");
             return window;
+    });
+    promise->errorThen([&window](std::exception& error) {
+        std::cout << error.what() << std::endl;
+        return window;
     });
 //    gf::Promise<gf::Window*>::Ptr promise = deferred->promise()->then(deff);
     deferred->resolve(window);
+    deferred = std::make_shared<gf::Deferred<gf::Window*>>();
+    promise.reset();
+    promise1.reset();;
+//    deferred->promise()->then([](gf::Window* window) -> gf::Window* {
+//                    int kkk = 1;
+//                    std::cout << "PROMISE_1" << std::endl;
+//                    return window;
+//            })->then([](gf::Window* window) -> gf::Window* {
+//                    int kkk = 2;
+//                    std::cout << "PROMISE_2" << std::endl;
+////                    throw std::logic_error("stopping");
+//                    return window;
+//            });;
+//    deferred->resolve(window);
+//    deferred = std::make_shared<gf::Deferred<gf::Window*>>();
 
 //    std::cout << signal->numSlots() << std::endl;
 //    signal->dispatch(4);
@@ -234,10 +255,10 @@ int main() {
 //    gf::Slot<gf::Signal<Slot<void(*)(int)>, void(*)(int)>, void(*)(int)> slot;
 //    signal.add(&FreeFunction);
 
-    gf::Function<void()> func = gf::Function<void()>([]() {
-        std::cout << "USER_NAME:" << std::endl;
-    });
-    func();
+//    gf::Function<void()> func = gf::Function<void()>([]() {
+//        std::cout << "USER_NAME:" << std::endl;
+//    });
+//    func();
     textureManager.load(0, file);
 
     init();

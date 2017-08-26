@@ -10,6 +10,8 @@ template <typename T, typename E>
 class AsyncBase;
 template <typename T, typename E>
 using AsyncBasePtr = std::shared_ptr<AsyncBase<T, E>>;
+template <typename T, typename E>
+using AsyncBaseWeakPtr = std::weak_ptr<AsyncBase<T, E>>;
 
 template <typename T, typename E>
 struct AsyncLink
@@ -36,9 +38,9 @@ public:
 
         bool isPending() const;
 
-        AsyncBasePtr<T, E> errorThen(std::function<T(E)>&& fn);
+        AsyncBasePtr<T, E> errorThen(std::function<T(E&)>&& fn);
 
-        AsyncBasePtr<T, E> errorThen(const std::function<T(E)>& fn);
+        AsyncBasePtr<T, E> errorThen(const std::function<T(E&)>& fn);
 
         AsyncBasePtr<T, E> then(std::function<T(T)>&& fn);
 
@@ -62,8 +64,12 @@ public:
 
         virtual void handleResolve(T value);
 
-        virtual void handleError(E error);
+        virtual void handleError(E& error);
 protected:
+        virtual AsyncBasePtr<T, E> errorThenImpl(std::function<T(E&)>&& fn);
+
+        virtual AsyncBasePtr<T, E> errorThenImpl(const std::function<T(E&)>& fn);
+
         virtual AsyncBasePtr<T, E> thenImpl(std::function<T(T)>&& fn);
 
         virtual AsyncBasePtr<T, E> thenImpl(const std::function<T(T)>& fn);
@@ -72,7 +78,7 @@ protected:
 
         void onResolve(T value);
 
-        void onError(E value);
+        void onError(E& value);
 
 protected:
         T _val;
@@ -83,7 +89,7 @@ protected:
         E _errorVal;
         bool _errored;
         bool _errorPending;
-        std::function<T(E)> _errorMap;
+        std::function<T(E&)> _errorMap;
         std::vector<std::function<void(E)>> _error;
 };
 
