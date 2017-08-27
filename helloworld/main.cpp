@@ -210,6 +210,7 @@ int main() {
 //        int kkk = 1;
 //        return window;
 //    };
+
     gf::Promise<gf::Window*>::Ptr promise1 = deferred->promise();
     gf::Promise<gf::Window*>::Ptr promise = promise1->then([](gf::Window* window) -> gf::Window* {
             int kkk = 1;
@@ -219,29 +220,20 @@ int main() {
             int kkk = 2;
             std::cout << "PROMISE_2" << std::endl;
             throw std::logic_error("stopping");
+//            throw std::logic_error("stopping");
             return window;
-    });
-    promise->errorThen([&window](std::exception& error) {
+    })->errorThen([&window](std::exception& error) {
         std::cout << error.what() << std::endl;
         return window;
     });
-//    gf::Promise<gf::Window*>::Ptr promise = deferred->promise()->then(deff);
+    gf::Stream<gf::Window*>::Ptr stream = deferred->stream()->then([](gf::Window* window) -> gf::Window* {
+            int kkk = 1;
+            std::cout << "STREAM_1" << std::endl;
+            return window;
+    });
+
     deferred->resolve(window);
-    deferred = std::make_shared<gf::Deferred<gf::Window*>>();
-    promise.reset();
-    promise1.reset();;
-//    deferred->promise()->then([](gf::Window* window) -> gf::Window* {
-//                    int kkk = 1;
-//                    std::cout << "PROMISE_1" << std::endl;
-//                    return window;
-//            })->then([](gf::Window* window) -> gf::Window* {
-//                    int kkk = 2;
-//                    std::cout << "PROMISE_2" << std::endl;
-////                    throw std::logic_error("stopping");
-//                    return window;
-//            });;
-//    deferred->resolve(window);
-//    deferred = std::make_shared<gf::Deferred<gf::Window*>>();
+    deferred->resolve(window);
 
 //    std::cout << signal->numSlots() << std::endl;
 //    signal->dispatch(4);

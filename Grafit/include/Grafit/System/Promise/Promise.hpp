@@ -8,23 +8,30 @@
 namespace gf {
 
 template <typename T, typename E>
+class Stream;
+template <typename T, typename E>
 class Promise;
 template <typename T, typename E>
 using PromisePtr = std::shared_ptr<Promise<T, E>>;
 
 template <typename T, typename E = std::exception>
 class Promise : public AsyncBase<T, E> {
+friend class Stream<T, E>;
 public:
     using Ptr = std::shared_ptr<Promise<T, E>>;
-    explicit Promise(AsyncBasePtr<T, E> d = AsyncBasePtr<T, E>());
+    explicit Promise();
 
     bool isRejected() const;
 
-    void reject(E error);
+    void reject(E& error);
 
     PromisePtr<T, E> then(std::function<T(T)>&& fn);
 
     PromisePtr<T, E> then(const std::function<T(T)>& fn);
+
+    PromisePtr<T, E> errorThen(std::function<T(E&)>&& fn);
+
+    PromisePtr<T, E> errorThen(const std::function<T(E&)>& fn);
 
     virtual void handleResolve(T value) override;
 
@@ -39,12 +46,12 @@ protected:
     virtual AsyncBasePtr<T, E> thenImpl(const std::function<T(T)>& fn) override;
 
 protected:
-	bool _rejected;
+    bool _rejected;
 };
 
 template<typename T, typename E>
- Promise<T, E>::Promise(AsyncBasePtr<T, E> d)
-	: AsyncBase<T, E>(d)
+ Promise<T, E>::Promise()
+        : AsyncBase<T, E>()
 	, _rejected(false)
 {
 
@@ -57,9 +64,9 @@ template<typename T, typename E>
 }
 
 template<typename T, typename E>
- void Promise<T, E>::reject(E error)
+void Promise<T, E>::reject(E& error)
 {
-	_rejected = true;
+     _rejected = true;
     handleError(error);
 }
 
@@ -74,6 +81,21 @@ PromisePtr<T, E> Promise<T, E>::then(const std::function<T(T)>& fn)
 {
     return std::static_pointer_cast<Promise<T, E>>(thenImpl(fn));
 }
+
+template<typename T, typename E>
+PromisePtr<T, E> Promise<T, E>::errorThen(std::function<T(E&)>&& fn)
+{
+    AsyncBasePtr<T, E> promise = AsyncBase<T, E>::errorThenImpl(std::move(fn));
+    return std::static_pointer_cast<Promise<T, E>>(promise);
+}
+
+template<typename T, typename E>
+PromisePtr<T, E> Promise<T, E>::errorThen(const std::function<T(E&)>& fn)
+{
+    AsyncBasePtr<T, E> promise = AsyncBase<T, E>::errorThenImpl(fn);
+    return std::static_pointer_cast<Promise<T, E>>(promise);
+}
+
 
 template<typename T, typename E>
 AsyncBasePtr<T, E> Promise<T, E>::thenImpl(std::function<T(T)>&& fn)

@@ -104,7 +104,6 @@ public:
 
 private:
     std::unique_ptr<Impl> m_pimpl;
-
 };
 
 }

@@ -6,7 +6,7 @@
 
 namespace gf {
 template <typename T, typename E>
-AsyncBase<T, E>::AsyncBase(AsyncBasePtr<T, E> d)
+AsyncBase<T, E>::AsyncBase()
     : _val()
     , _resolved(false)
     , _fulfilled(false)
@@ -88,25 +88,52 @@ void AsyncBase<T, E>::handleResolve(T value)
 }
 
 template<typename T, typename E>
-void AsyncBase<T, E>::handleError(E& error)
+template<typename Error>
+void AsyncBase<T, E>::handleError(Error& error)
 {
     if (!_errorPending) {
         _errorPending = true;
         _errored = true;
-        _errorVal = error;
-        EventLoop::enqueue([this, &error]() {
-            if (this->_errorMap.operator bool()) {
-                try {
-                    this->onResolve(this->_errorMap(error));
-                } catch(E& e) {
-                    onError(e);
+        _errorVal.reset(new Error(error));
+        EventLoop::enqueue([this]() {
+            this->processError(*_errorVal);
+        });
+    }
+}
+
+template<typename T, typename E>
+void AsyncBase<T, E>::handleError(std::exception_ptr error)
+{
+    if (!_errorPending) {
+        _errorPending = true;
+        _errored = true;
+        EventLoop::enqueue([this, error]() {
+            try {
+                if (error) {
+                    std::rethrow_exception(error);
                 }
-            } else {
-                this->onError(error);
+            } catch (E& e) {
+                this->processError(e);
             }
         });
     }
 }
+
+template<typename T, typename E>
+template<typename Error>
+void AsyncBase<T, E>::processError(Error& error)
+{
+    if (this->_errorMap.operator bool()) {
+        try {
+            this->onResolve(this->_errorMap(error));
+        } catch(E& e) {
+            this->onError(e);
+        }
+    } else {
+        this->onError(error);
+    }
+}
+
 
 template<typename T, typename E>
 void AsyncBase<T, E>::resolve(T value)
@@ -118,7 +145,7 @@ void AsyncBase<T, E>::resolve(T value)
 	else {
             _resolved = true;
             _pending = true;
-        EventLoop::enqueue(std::bind(&AsyncBase<T, E>::onResolve,
+            EventLoop::enqueue(std::bind(&AsyncBase<T, E>::onResolve,
                                      AsyncBase<T, E>::shared_from_this(), value));
 }
 }
@@ -132,8 +159,9 @@ void AsyncBase<T, E>::onResolve(T value)
         if (ptr != nullptr) {
             try {
                up.linkf(value);
-            } catch(E& e) {
-               ptr->handleError(e);
+            } catch (...) {
+                std::exception_ptr e = std::current_exception();
+                ptr->handleError(e);
             }
 	}
     }
@@ -160,21 +188,21 @@ void AsyncBase<T, E>::onError(E& value)
 }
 
 template<typename T, typename E>
-AsyncBasePtr<T, E> AsyncBase<T, E>::then(std::function<T(T)>&& fn)
-{
+template<typename A>
+AsyncBasePtr<A, E> AsyncBase<T, E>::then(std::function<A(T)>&& fn) {
     return thenImpl(fn);
 }
 
 template<typename T, typename E>
-AsyncBasePtr<T, E> AsyncBase<T, E>::then(const std::function<T(T)>& fn)
-{
+template<typename A>
+AsyncBasePtr<A, E> AsyncBase<T, E>::then(const std::function<A(T)>& fn) {
     return thenImpl(fn);
 }
 
 template<typename T, typename E>
 AsyncBasePtr<T, E> AsyncBase<T, E>::thenImpl(std::function<T(T)>&& fn)
 {
-    AsyncBasePtr<T, E> ret = std::make_shared<AsyncBase<T, E>>(nullptr);// _pimpl.then<T>(fn);
+    AsyncBasePtr<T, E> ret = std::make_shared<AsyncBase<T, E>>();// _pimpl.then<T>(fn);
     AsyncBase<T, E>::link(AsyncBase<T, E>::shared_from_this(), ret, std::move(fn));
     return ret;
 }
@@ -182,7 +210,7 @@ AsyncBasePtr<T, E> AsyncBase<T, E>::thenImpl(std::function<T(T)>&& fn)
 template<typename T, typename E>
 AsyncBasePtr<T, E> AsyncBase<T, E>::thenImpl(const std::function<T(T)>& fn)
 {
-    AsyncBasePtr<T, E> ret = std::make_shared<AsyncBase<T, E>>(nullptr);// _pimpl.then<T>(fn);
+    AsyncBasePtr<T, E> ret = std::make_shared<AsyncBase<T, E>>();// _pimpl.then<T>(fn);
     AsyncBase<T, E>::link(AsyncBase<T, E>::shared_from_this(), ret, fn);
     return ret;
 }
@@ -245,7 +273,7 @@ template<typename A, typename B>
 void AsyncBase<T, E>::immediateLinkUpdate(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, std::function<B(A)>&& fn)
 {
     if (current->isErrored() && !current->isErrorPending()) {
-        //next->handleError(current->_errorVal);
+        next->handleError(current->_errorVal);
     }
     if (current->isResolved() && !current->isPending()) {
         next->handleResolve(fn(current->_val));
