@@ -5,8 +5,8 @@
 #include <Grafit/System/Promise/EventLoop.hpp>
 
 namespace gf {
-template <typename T, typename E>
-AsyncBase<T, E>::AsyncBase()
+template <typename T>
+AsyncBase<T>::AsyncBase()
     : _val()
     , _resolved(false)
     , _fulfilled(false)
@@ -20,49 +20,49 @@ AsyncBase<T, E>::AsyncBase()
 
 }
 
-template <typename T, typename E>
-AsyncBase<T, E>::~AsyncBase() {
+template <typename T>
+AsyncBase<T>::~AsyncBase() {
 	int kkk = 0;
     std::cout << "DESTROY" << std::endl;
 }
 
-template<typename T, typename E>
-bool AsyncBase<T, E>::isResolved() const
+template<typename T>
+bool AsyncBase<T>::isResolved() const
 {
 	return _resolved;
 }
 
-template<typename T, typename E>
-bool AsyncBase<T, E>::isErrored() const
+template<typename T>
+bool AsyncBase<T>::isErrored() const
 {
 	return _errored;
 }
 
-template<typename T, typename E>
-bool AsyncBase<T, E>::isErrorPending() const
+template<typename T>
+bool AsyncBase<T>::isErrorPending() const
 {
 	return _errorPending;
 }
 
-template<typename T, typename E>
-bool AsyncBase<T, E>::isFulfilled() const
+template<typename T>
+bool AsyncBase<T>::isFulfilled() const
 {
 	return _fulfilled;
 }
 
-template<typename T, typename E>
-bool AsyncBase<T, E>::isPending() const
+template<typename T>
+bool AsyncBase<T>::isPending() const
 {
 	return _pending;
 }
 
-template<typename T, typename E>
-void AsyncBase<T, E>::unlink(AsyncBasePtr<T, E> to)
+template<typename T>
+void AsyncBase<T>::unlink(AsyncBasePtr<T> to)
 {
     EventLoop::enqueue([this, to]() {
         this->_update.erase(std::remove_if(this->_update.begin(), this->_update.end(),
-            [&to](AsyncLink<T, E>& link) {
-                                if (AsyncBasePtr<T, E> ptr = link.async) {
+            [&to](AsyncLink<T>& link) {
+                                if (AsyncBasePtr<T> ptr = link.async) {
                                     return ptr == to;
                                 }
                                 return false;
@@ -70,26 +70,26 @@ void AsyncBase<T, E>::unlink(AsyncBasePtr<T, E> to)
     });
 }
 
-template<typename T, typename E>
-bool AsyncBase<T, E>::isLinked(AsyncBasePtr<T, E> to)
+template<typename T>
+bool AsyncBase<T>::isLinked(AsyncBasePtr<T> to)
 {
-    return std::any_of(this->_update.begin(), this->_update.end(), [&to](const AsyncLink<T, E>& link) {
-        if (AsyncBasePtr<T, E> ptr = link.async) {
+    return std::any_of(this->_update.begin(), this->_update.end(), [&to](const AsyncLink<T>& link) {
+        if (AsyncBasePtr<T> ptr = link.async) {
             return ptr == to;
         }
         return false;
     });
 }
 
-template<typename T, typename E>
-void AsyncBase<T, E>::handleResolve(T value)
+template<typename T>
+void AsyncBase<T>::handleResolve(T value)
 {
 	resolve(value);
 }
 
-template<typename T, typename E>
+template<typename T>
 template<typename Error>
-void AsyncBase<T, E>::handleError(Error& error)
+void AsyncBase<T>::handleError(Error& error)
 {
     if (!_errorPending) {
         _errorPending = true;
@@ -101,8 +101,8 @@ void AsyncBase<T, E>::handleError(Error& error)
     }
 }
 
-template<typename T, typename E>
-void AsyncBase<T, E>::handleError(std::exception_ptr error)
+template<typename T>
+void AsyncBase<T>::handleError(std::exception_ptr error)
 {
     if (!_errorPending) {
         _errorPending = true;
@@ -112,21 +112,21 @@ void AsyncBase<T, E>::handleError(std::exception_ptr error)
                 if (error) {
                     std::rethrow_exception(error);
                 }
-            } catch (E& e) {
+            } catch (std::exception& e) {
                 this->processError(e);
             }
         });
     }
 }
 
-template<typename T, typename E>
+template<typename T>
 template<typename Error>
-void AsyncBase<T, E>::processError(Error& error)
+void AsyncBase<T>::processError(Error& error)
 {
     if (this->_errorMap.operator bool()) {
         try {
             this->onResolve(this->_errorMap(error));
-        } catch(E& e) {
+        } catch(std::exception& e) {
             this->onError(e);
         }
     } else {
@@ -135,27 +135,27 @@ void AsyncBase<T, E>::processError(Error& error)
 }
 
 
-template<typename T, typename E>
-void AsyncBase<T, E>::resolve(T value)
+template<typename T>
+void AsyncBase<T>::resolve(T value)
 {
 	if (_pending) {
-        EventLoop::enqueue(std::bind(&AsyncBase<T, E>::resolve,
-                                     AsyncBase<T, E>::shared_from_this(), value));
+        EventLoop::enqueue(std::bind(&AsyncBase<T>::resolve,
+                                     AsyncBase<T>::shared_from_this(), value));
 	}
 	else {
             _resolved = true;
             _pending = true;
-            EventLoop::enqueue(std::bind(&AsyncBase<T, E>::onResolve,
-                                     AsyncBase<T, E>::shared_from_this(), value));
+            EventLoop::enqueue(std::bind(&AsyncBase<T>::onResolve,
+                                     AsyncBase<T>::shared_from_this(), value));
 }
 }
 
-template<typename T, typename E>
-void AsyncBase<T, E>::onResolve(T value)
+template<typename T>
+void AsyncBase<T>::onResolve(T value)
 {
     _val = value;
-    for (AsyncLink<T, E>& up : this->_update) {
-        AsyncBasePtr<T, E> ptr = up.async;
+    for (AsyncLink<T>& up : this->_update) {
+        AsyncBasePtr<T> ptr = up.async;
         if (ptr != nullptr) {
             try {
                up.linkf(value);
@@ -169,17 +169,17 @@ void AsyncBase<T, E>::onResolve(T value)
     _pending = false;
 }
 
-template<typename T, typename E>
-void AsyncBase<T, E>::onError(E& value)
+template<typename T>
+void AsyncBase<T>::onError(std::exception& value)
 {
 	if (!_error.empty()) {
-                std::for_each(_error.begin(), _error.end(), [&value](std::function<void(E)>& ef) {
+                std::for_each(_error.begin(), _error.end(), [&value](std::function<void(std::exception&)>& ef) {
 			ef(value);
 		});
 	}
 	else if (!_update.empty()) {
-		std::for_each(_update.begin(), _update.end(), [&value](AsyncLink<T, E>& link) {
-                    if (AsyncBasePtr<T, E> ptr = link.async) {
+                std::for_each(_update.begin(), _update.end(), [&value](AsyncLink<T>& link) {
+                    if (AsyncBasePtr<T> ptr = link.async) {
                         ptr->handleError(value);
                     }
 		});
@@ -187,66 +187,66 @@ void AsyncBase<T, E>::onError(E& value)
 	_errorPending = false;
 }
 
-template<typename T, typename E>
+template<typename T>
 template<typename A>
-AsyncBasePtr<A, E> AsyncBase<T, E>::then(std::function<A(T)>&& fn) {
+AsyncBasePtr<A> AsyncBase<T>::then(std::function<A(T)>&& fn) {
     return thenImpl(fn);
 }
 
-template<typename T, typename E>
+template<typename T>
 template<typename A>
-AsyncBasePtr<A, E> AsyncBase<T, E>::then(const std::function<A(T)>& fn) {
+AsyncBasePtr<A> AsyncBase<T>::then(const std::function<A(T)>& fn) {
     return thenImpl(fn);
 }
 
-template<typename T, typename E>
-AsyncBasePtr<T, E> AsyncBase<T, E>::thenImpl(std::function<T(T)>&& fn)
+template<typename T>
+AsyncBasePtr<T> AsyncBase<T>::thenImpl(std::function<T(T)>&& fn)
 {
-    AsyncBasePtr<T, E> ret = std::make_shared<AsyncBase<T, E>>();// _pimpl.then<T>(fn);
-    AsyncBase<T, E>::link(AsyncBase<T, E>::shared_from_this(), ret, std::move(fn));
+    AsyncBasePtr<T> ret = std::make_shared<AsyncBase<T>>();// _pimpl.then<T>(fn);
+    AsyncBase<T>::link(AsyncBase<T>::shared_from_this(), ret, std::move(fn));
     return ret;
 }
 
-template<typename T, typename E>
-AsyncBasePtr<T, E> AsyncBase<T, E>::thenImpl(const std::function<T(T)>& fn)
+template<typename T>
+AsyncBasePtr<T> AsyncBase<T>::thenImpl(const std::function<T(T)>& fn)
 {
-    AsyncBasePtr<T, E> ret = std::make_shared<AsyncBase<T, E>>();// _pimpl.then<T>(fn);
-    AsyncBase<T, E>::link(AsyncBase<T, E>::shared_from_this(), ret, fn);
+    AsyncBasePtr<T> ret = std::make_shared<AsyncBase<T>>();// _pimpl.then<T>(fn);
+    AsyncBase<T>::link(AsyncBase<T>::shared_from_this(), ret, fn);
     return ret;
 }
 
-template<typename T, typename E>
-AsyncBasePtr<T, E> AsyncBase<T, E>::errorThen(std::function<T(E&)>&& fn)
+template<typename T>
+AsyncBasePtr<T> AsyncBase<T>::errorThen(std::function<T(std::exception&)>&& fn)
 {
     return errorThenImpl(std::move(fn));
 }
 
-template<typename T, typename E>
-AsyncBasePtr<T, E> AsyncBase<T, E>::errorThen(const std::function<T(E&)>& fn)
+template<typename T>
+AsyncBasePtr<T> AsyncBase<T>::errorThen(const std::function<T(std::exception&)>& fn)
 {
     return errorThenImpl(fn);
 }
 
-template<typename T, typename E>
-AsyncBasePtr<T, E> AsyncBase<T, E>::errorThenImpl(std::function<T(E&)>&& fn)
+template<typename T>
+AsyncBasePtr<T> AsyncBase<T>::errorThenImpl(std::function<T(std::exception&)>&& fn)
 {
     _errorMap = std::move(fn);
-    return AsyncBase<T, E>::shared_from_this();
+    return AsyncBase<T>::shared_from_this();
 }
 
-template<typename T, typename E>
-AsyncBasePtr<T, E> AsyncBase<T, E>::errorThenImpl(const std::function<T(E&)>& fn)
+template<typename T>
+AsyncBasePtr<T> AsyncBase<T>::errorThenImpl(const std::function<T(std::exception&)>& fn)
 {
     _errorMap = fn;
-    return AsyncBase<T, E>::shared_from_this();
+    return AsyncBase<T>::shared_from_this();
 }
 
 
-template<typename T, typename E>
+template<typename T>
 template<typename A, typename B>
-void AsyncBase<T, E>::link(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, std::function<B(A)>&& fn)
+void AsyncBase<T>::link(AsyncBasePtr<A> current, AsyncBasePtr<B> next, std::function<B(A)>&& fn)
 {
-    AsyncLink<A, E> link = {
+    AsyncLink<A> link = {
         next,
         [next, fn](A x) {
             next->handleResolve(fn(x));
@@ -255,11 +255,11 @@ void AsyncBase<T, E>::link(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, 
     current->_update.push_back(link);
 }
 
-template<typename T, typename E>
+template<typename T>
 template<typename A, typename B>
-void AsyncBase<T, E>::link(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, const std::function<B(A)>& fn)
+void AsyncBase<T>::link(AsyncBasePtr<A> current, AsyncBasePtr<B> next, const std::function<B(A)>& fn)
 {
-    AsyncLink<A, E> link = {
+    AsyncLink<A> link = {
         next,
         [next, &fn](A x) {
             next->handleResolve(fn(x));
@@ -268,9 +268,9 @@ void AsyncBase<T, E>::link(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, 
     current->_update.push_back(link);
 }
 
-template<typename T, typename E>
+template<typename T>
 template<typename A, typename B>
-void AsyncBase<T, E>::immediateLinkUpdate(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, std::function<B(A)>&& fn)
+void AsyncBase<T>::immediateLinkUpdate(AsyncBasePtr<A> current, AsyncBasePtr<B> next, std::function<B(A)>&& fn)
 {
     if (current->isErrored() && !current->isErrorPending()) {
         next->handleError(current->_errorVal);
@@ -280,9 +280,9 @@ void AsyncBase<T, E>::immediateLinkUpdate(AsyncBasePtr<A, E> current, AsyncBaseP
     }
 }
 
-template<typename T, typename E>
+template<typename T>
 template<typename A, typename B>
-void AsyncBase<T, E>::immediateLinkUpdate(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, const std::function<B(A)>& fn)
+void AsyncBase<T>::immediateLinkUpdate(AsyncBasePtr<A> current, AsyncBasePtr<B> next, const std::function<B(A)>& fn)
 {
     if (current->isErrored() && !current->isErrorPending()) {
         next->handleError(current->_errorVal);

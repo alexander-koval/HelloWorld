@@ -219,7 +219,7 @@ int main() {
     })->then([](gf::Window* window) -> gf::Window* {
             int kkk = 2;
             std::cout << "PROMISE_2" << std::endl;
-            throw std::logic_error("stopping");
+            throw std::invalid_argument("stopping");
 //            throw std::logic_error("stopping");
             return window;
     })->errorThen([&window](std::exception& error) {

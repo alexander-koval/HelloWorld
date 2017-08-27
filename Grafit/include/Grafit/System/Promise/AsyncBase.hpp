@@ -7,46 +7,21 @@
 
 namespace gf {
 
-//namespace priv {
-//template <typename R, typename B, typename ... Args>
-//class ThenImpl {
-//public:
-//    using Fn = B(Args...);
-//    using ResultType = R;
-
-//    ThenImpl(const Fn& fun) : m_fun(fun) { }
-
-//    ThenImpl(Fn&& fun) : m_fun(std::move(fun)) { }
-
-//    virtual R then(std::function<B(Args...)>&& fn) = 0;
-
-//    virtual R then(const std::function<B(Args...)>& fn) = 0;
-
-//protected:
-//    Fn m_fun;
-//};
-
-//template <typename Parent, typename A, typename B>
-//class AsyncThenImpl : public Parent::Impl {
-
-//};
-//}
-
-template <typename T, typename E>
+template <typename T>
 class AsyncBase;
-template <typename T, typename E>
-using AsyncBasePtr = std::shared_ptr<AsyncBase<T, E>>;
-template <typename T, typename E>
-using AsyncBaseWeakPtr = std::weak_ptr<AsyncBase<T, E>>;
+template <typename T>
+using AsyncBasePtr = std::shared_ptr<AsyncBase<T>>;
+template <typename T>
+using AsyncBaseWeakPtr = std::weak_ptr<AsyncBase<T>>;
 
-template <typename T, typename E>
+template <typename T>
 struct AsyncLink {
-    AsyncBasePtr<T, E> async;
+    AsyncBasePtr<T> async;
     std::function<void(T)> linkf;
 };
 
-template <typename T, typename E>
-class AsyncBase : public std::enable_shared_from_this<AsyncBase<T, E>>
+template <typename T>
+class AsyncBase : public std::enable_shared_from_this<AsyncBase<T>>
 {
 public:
     AsyncBase();
@@ -63,31 +38,31 @@ public:
 
     bool isPending() const;
 
-    AsyncBasePtr<T, E> errorThen(std::function<T(E&)>&& fn);
+    AsyncBasePtr<T> errorThen(std::function<T(std::exception&)>&& fn);
 
-    AsyncBasePtr<T, E> errorThen(const std::function<T(E&)>& fn);
-
-    template <typename A>
-    AsyncBasePtr<A, E> then(std::function<A(T)>&& fn);
+    AsyncBasePtr<T> errorThen(const std::function<T(std::exception&)>& fn);
 
     template <typename A>
-    AsyncBasePtr<A, E> then(const std::function<A(T)>& fn);
+    AsyncBasePtr<A> then(std::function<A(T)>&& fn);
 
-    virtual void unlink(AsyncBasePtr<T, E> to);
+    template <typename A>
+    AsyncBasePtr<A> then(const std::function<A(T)>& fn);
 
-    virtual bool isLinked(AsyncBasePtr<T, E> to);
+    virtual void unlink(AsyncBasePtr<T> to);
 
-    template <typename A, typename B>
-    static void link(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, std::function<B(A)>&& fn);
-
-    template <typename A, typename B>
-    static void link(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, const std::function<B(A)>& fn);
+    virtual bool isLinked(AsyncBasePtr<T> to);
 
     template <typename A, typename B>
-    static void immediateLinkUpdate(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, std::function<B(A)>&& fn);
+    static void link(AsyncBasePtr<A> current, AsyncBasePtr<B> next, std::function<B(A)>&& fn);
 
     template <typename A, typename B>
-    static void immediateLinkUpdate(AsyncBasePtr<A, E> current, AsyncBasePtr<B, E> next, const std::function<B(A)>& fn);
+    static void link(AsyncBasePtr<A> current, AsyncBasePtr<B> next, const std::function<B(A)>& fn);
+
+    template <typename A, typename B>
+    static void immediateLinkUpdate(AsyncBasePtr<A> current, AsyncBasePtr<B> next, std::function<B(A)>&& fn);
+
+    template <typename A, typename B>
+    static void immediateLinkUpdate(AsyncBasePtr<A> current, AsyncBasePtr<B> next, const std::function<B(A)>& fn);
 
     virtual void handleResolve(T value);
 
@@ -96,19 +71,19 @@ public:
 
     void handleError(std::exception_ptr error);
 protected:
-    virtual AsyncBasePtr<T, E> errorThenImpl(std::function<T(E&)>&& fn);
+    virtual AsyncBasePtr<T> errorThenImpl(std::function<T(std::exception&)>&& fn);
 
-    virtual AsyncBasePtr<T, E> errorThenImpl(const std::function<T(E&)>& fn);
+    virtual AsyncBasePtr<T> errorThenImpl(const std::function<T(std::exception&)>& fn);
 
-    virtual AsyncBasePtr<T, E> thenImpl(std::function<T(T)>&& fn);
+    virtual AsyncBasePtr<T> thenImpl(std::function<T(T)>&& fn);
 
-    virtual AsyncBasePtr<T, E> thenImpl(const std::function<T(T)>& fn);
+    virtual AsyncBasePtr<T> thenImpl(const std::function<T(T)>& fn);
 
     void resolve(T value);
 
     void onResolve(T value);
 
-    void onError(E& value);
+    void onError(std::exception& value);
 
     template <typename Error>
     void processError(Error& error);
@@ -118,12 +93,12 @@ protected:
     bool _resolved;
     bool _fulfilled;
     bool _pending;
-    std::vector<AsyncLink<T, E>> _update;
-    std::unique_ptr<E> _errorVal;
+    std::vector<AsyncLink<T>> _update;
+    std::unique_ptr<std::exception> _errorVal;
     bool _errored;
     bool _errorPending;
-    std::function<T(E&)> _errorMap;
-    std::vector<std::function<void(E)>> _error;
+    std::function<T(std::exception&)> _errorMap;
+    std::vector<std::function<void(std::exception&)>> _error;
 };
 
 }

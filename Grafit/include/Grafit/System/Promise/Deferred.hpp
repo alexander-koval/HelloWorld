@@ -9,19 +9,19 @@
 #include <Grafit/System/Promise/Stream.hpp>
 
 namespace gf {
-template <typename T, typename E = std::exception>
-class Deferred : public AsyncBase<T, E> {
+template <typename T>
+class Deferred : public AsyncBase<T> {
 public:
-    using Ptr = std::shared_ptr<Deferred<T, E>>;
-    explicit Deferred() : AsyncBase<T, E>() { }
+    using Ptr = std::shared_ptr<Deferred<T>>;
+    explicit Deferred() : AsyncBase<T>() { }
 
     void resolve(T value) {
-        AsyncBase<T, E>::handleResolve(value);
+        AsyncBase<T>::handleResolve(value);
     }
 
-    virtual PromisePtr<T, E> promise() {
-        PromisePtr<T, E> ret = std::make_shared<Promise<T, E>>();
-        AsyncLink<T, E> link = {
+    virtual PromisePtr<T> promise() {
+        PromisePtr<T> ret = std::make_shared<Promise<T>>();
+        AsyncLink<T> link = {
             ret,
             [ret](T x) {
                 std::function<T(T)> fn = [](T x) {
@@ -34,9 +34,9 @@ public:
         return ret;
     }
 
-    virtual StreamPtr<T, E> stream() {
-        StreamPtr<T, E> ret = std::make_shared<Stream<T, E>>();
-        AsyncLink<T, E> link = {
+    virtual StreamPtr<T> stream() {
+        StreamPtr<T> ret = std::make_shared<Stream<T>>();
+        AsyncLink<T> link = {
             ret,
             [ret](T x) {
                 std::function<T(T)> fn = [](T x) {
