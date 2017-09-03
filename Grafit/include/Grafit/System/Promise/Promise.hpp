@@ -25,13 +25,19 @@ public:
 
     void reject(std::exception& error);
 
-    PromisePtr<T> then(std::function<T(T)>&& fn);
+    template <typename A>
+    PromisePtr<A> then(std::function<A(T)>&& fn);
 
-    PromisePtr<T> then(const std::function<T(T)>& fn);
+    template <typename A>
+    PromisePtr<A> then(const std::function<A(T)>& fn);
 
-    PromisePtr<T> errorThen(std::function<T(std::exception&)>&& fn);
+    PromisePtr<T> catchError(std::function<void(std::exception_ptr)>&& fn);
 
-    PromisePtr<T> errorThen(const std::function<T(std::exception&)>& fn);
+    PromisePtr<T> catchError(const std::function<void(std::exception_ptr)>& fn);
+
+    PromisePtr<T> errorThen(std::function<T(std::exception_ptr)>&& fn);
+
+    PromisePtr<T> errorThen(const std::function<T(std::exception_ptr)>& fn);
 
     virtual void handleResolve(T value) override;
 
@@ -39,11 +45,6 @@ public:
 
     template <typename Type>
     static PromisePtr<Type> promise(Type value);
-
-protected:
-    virtual AsyncBasePtr<T> thenImpl(std::function<T(T)>&& fn) override;
-
-    virtual AsyncBasePtr<T> thenImpl(const std::function<T(T)>& fn) override;
 
 protected:
     bool _rejected;
@@ -72,50 +73,52 @@ void Promise<T>::reject(std::exception& error)
 }
 
 template<typename T>
-PromisePtr<T> Promise<T>::then(std::function<T(T)>&& fn)
+template<typename A>
+PromisePtr<A> Promise<T>::then(std::function<A(T)>&& fn)
 {
-    return std::static_pointer_cast<Promise<T>>(thenImpl(std::move(fn)));
+    PromisePtr<A> ret = std::make_shared<Promise<A>>();
+    AsyncBase<T>::link(Promise<T>::shared_from_this(),
+                          std::static_pointer_cast<AsyncBase<A>>(ret), std::move(fn));
+    return ret;
 }
 
 template<typename T>
-PromisePtr<T> Promise<T>::then(const std::function<T(T)>& fn)
+template<typename A>
+PromisePtr<A> Promise<T>::then(const std::function<A(T)>& fn)
 {
-    return std::static_pointer_cast<Promise<T>>(thenImpl(fn));
+    PromisePtr<A> ret = std::make_shared<Promise<A>>();
+    AsyncBase<T>::link(Promise<T>::shared_from_this(),
+                          std::static_pointer_cast<AsyncBase<A>>(ret), fn);
+    return ret;
 }
 
 template<typename T>
-PromisePtr<T> Promise<T>::errorThen(std::function<T(std::exception&)>&& fn)
+PromisePtr<T> Promise<T>::catchError(std::function<void(std::exception_ptr)>&& fn)
+{
+    AsyncBasePtr<T> promise = AsyncBase<T>::catchErrorImpl(std::move(fn));
+    return std::static_pointer_cast<Promise<T>>(promise);
+}
+
+template<typename T>
+PromisePtr<T> Promise<T>::catchError(const std::function<void(std::exception_ptr)>& fn)
+{
+    AsyncBasePtr<T> promise = AsyncBase<T>::catchErrorImpl(fn);
+    return std::static_pointer_cast<Promise<T>>(promise);	
+}
+
+template<typename T>
+PromisePtr<T> Promise<T>::errorThen(std::function<T(std::exception_ptr)>&& fn)
 {
     AsyncBasePtr<T> promise = AsyncBase<T>::errorThenImpl(std::move(fn));
     return std::static_pointer_cast<Promise<T>>(promise);
 }
 
 template<typename T>
-PromisePtr<T> Promise<T>::errorThen(const std::function<T(std::exception&)>& fn)
+PromisePtr<T> Promise<T>::errorThen(const std::function<T(std::exception_ptr)>& fn)
 {
     AsyncBasePtr<T> promise = AsyncBase<T>::errorThenImpl(fn);
     return std::static_pointer_cast<Promise<T>>(promise);
 }
-
-
-template<typename T>
-AsyncBasePtr<T> Promise<T>::thenImpl(std::function<T(T)>&& fn)
-{
-    PromisePtr<T> ret = std::make_shared<Promise<T>>();
-    AsyncBase<T>::link(Promise<T>::shared_from_this(),
-                          std::static_pointer_cast<AsyncBase<T>>(ret), std::move(fn));
-    return ret;
-}
-
-template<typename T>
-AsyncBasePtr<T> Promise<T>::thenImpl(const std::function<T(T)>& fn)
-{
-    PromisePtr<T> ret = std::make_shared<Promise<T>>();
-    AsyncBase<T>::link(Promise<T>::shared_from_this(),
-                          std::static_pointer_cast<AsyncBase<T>>(ret), fn);
-    return ret;
-}
-
 
 template<typename T>
  void Promise<T>::handleResolve(T value)
@@ -134,7 +137,7 @@ template<typename T>
         if (this->isFulfilled()) {
             this->_update.erase(std::remove_if(this->_update.begin(), this->_update.end(),
                                 [&to](AsyncLink<T>& link) {
-                                    AsyncBasePtr<T> ptr = link.async;
+                                    IAsyncBasePtr ptr = link.async;
                                     return ptr == to;
             }), this->_update.end());
         } else {

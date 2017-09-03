@@ -212,21 +212,24 @@ int main() {
 //    };
 
     gf::Promise<gf::Window*>::Ptr promise1 = deferred->promise();
-    gf::Promise<gf::Window*>::Ptr promise = promise1->then([](gf::Window* window) -> gf::Window* {
+    gf::Promise<gf::Window*>::Ptr promise = promise1->then<gf::Window*>([](gf::Window* window) -> gf::Window* {
             int kkk = 1;
             std::cout << "PROMISE_1" << std::endl;
             return window;
-    })->then([](gf::Window* window) -> gf::Window* {
+    })->then<gf::Window*>([](gf::Window* window) -> gf::Window* {
             int kkk = 2;
             std::cout << "PROMISE_2" << std::endl;
             throw std::invalid_argument("stopping");
 //            throw std::logic_error("stopping");
             return window;
-    })->errorThen([&window](std::exception& error) {
-        std::cout << error.what() << std::endl;
-        return window;
+    })->catchError([](std::exception_ptr error) {
+        try {
+            std::rethrow_exception(error);
+        } catch (std::exception& e) {
+            std::cout << e.what() << std::endl;
+        }
     });
-    gf::Stream<gf::Window*>::Ptr stream = deferred->stream()->then([](gf::Window* window) -> gf::Window* {
+    gf::StreamPtr<gf::Window*> stream = deferred->stream()->then<gf::Window*>([](gf::Window* window) -> gf::Window* {
             int kkk = 1;
             std::cout << "STREAM_1" << std::endl;
             return window;

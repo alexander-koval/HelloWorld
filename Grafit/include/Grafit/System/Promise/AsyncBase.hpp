@@ -4,9 +4,13 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <Grafit/System/Promise/Any.hpp>
+#include <Grafit/System/Promise/Optional.hpp>
 
 namespace gf {
 
+class IAsyncBase;
+using IAsyncBasePtr = std::shared_ptr<IAsyncBase>;
 template <typename T>
 class AsyncBase;
 template <typename T>
@@ -16,12 +20,24 @@ using AsyncBaseWeakPtr = std::weak_ptr<AsyncBase<T>>;
 
 template <typename T>
 struct AsyncLink {
-    AsyncBasePtr<T> async;
+    IAsyncBasePtr async;
     std::function<void(T)> linkf;
 };
 
+class IAsyncBase {
+public:
+	virtual ~IAsyncBase() {};
+
+	virtual void resolveDone(Any value) = 0;
+
+	virtual void resolveFail(std::exception_ptr value) = 0;
+
+	virtual void resolveFail(std::exception& value) = 0;
+};
+
 template <typename T>
-class AsyncBase : public std::enable_shared_from_this<AsyncBase<T>>
+class AsyncBase : public IAsyncBase,
+        public std::enable_shared_from_this<AsyncBase<T>>
 {
 public:
     AsyncBase();
@@ -38,17 +54,7 @@ public:
 
     bool isPending() const;
 
-    AsyncBasePtr<T> errorThen(std::function<T(std::exception&)>&& fn);
-
-    AsyncBasePtr<T> errorThen(const std::function<T(std::exception&)>& fn);
-
-    template <typename A>
-    AsyncBasePtr<A> then(std::function<A(T)>&& fn);
-
-    template <typename A>
-    AsyncBasePtr<A> then(const std::function<A(T)>& fn);
-
-    virtual void unlink(AsyncBasePtr<T> to);
+	virtual void unlink(AsyncBasePtr<T> to);
 
     virtual bool isLinked(AsyncBasePtr<T> to);
 
@@ -70,23 +76,29 @@ public:
     void handleError(Error& error);
 
     void handleError(std::exception_ptr error);
+
+	virtual void resolveDone(Any value);
+
+	virtual void resolveFail(std::exception_ptr value);
+
+	virtual void resolveFail(std::exception& value);
+
 protected:
-    virtual AsyncBasePtr<T> errorThenImpl(std::function<T(std::exception&)>&& fn);
+	virtual AsyncBasePtr<T> catchErrorImpl(std::function<void(std::exception_ptr)>&& fn);
 
-    virtual AsyncBasePtr<T> errorThenImpl(const std::function<T(std::exception&)>& fn);
+	virtual AsyncBasePtr<T> catchErrorImpl(const std::function<void(std::exception_ptr)>& fn);
+	
+    virtual AsyncBasePtr<T> errorThenImpl(std::function<T(std::exception_ptr)>&& fn);
 
-    virtual AsyncBasePtr<T> thenImpl(std::function<T(T)>&& fn);
-
-    virtual AsyncBasePtr<T> thenImpl(const std::function<T(T)>& fn);
+    virtual AsyncBasePtr<T> errorThenImpl(const std::function<T(std::exception_ptr)>& fn);
 
     void resolve(T value);
 
     void onResolve(T value);
 
-    void onError(std::exception& value);
+    void onError(std::exception_ptr error);
 
-    template <typename Error>
-    void processError(Error& error);
+	void processError(std::exception_ptr error);
 
 protected:
     T _val;
@@ -97,8 +109,8 @@ protected:
     std::unique_ptr<std::exception> _errorVal;
     bool _errored;
     bool _errorPending;
-    std::function<T(std::exception&)> _errorMap;
-    std::vector<std::function<void(std::exception&)>> _error;
+    std::function<T(std::exception_ptr)> _errorMap;
+    std::vector<std::function<void(std::exception_ptr)>> _error;
 };
 
 }

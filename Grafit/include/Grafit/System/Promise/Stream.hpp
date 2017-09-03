@@ -5,6 +5,7 @@
 #include <exception>
 #include <functional>
 #include <Grafit/System/Promise/AsyncBase.hpp>
+#include <Grafit/System/Promise/Optional.hpp>
 
 namespace gf {
 
@@ -20,99 +21,137 @@ using StreamPtr = std::shared_ptr<Stream<T>>;
 
 template <typename T>
 class Stream : public AsyncBase<T> {
+//friend class Stream;
 public:
-    using Ptr = StreamPtr<T>;
     explicit Stream();
 
-    StreamPtr<T> then(std::function<T (T)>&& fn);
+    template <typename A>
+    StreamPtr<A> then(std::function<A(T)>&& fn);
 
-    StreamPtr<T> then(const std::function<T (T)>& fn);
+    template <typename A>
+    StreamPtr<A> then(const std::function<A(T)>& fn);
+
+    StreamPtr<T> catchError(std::function<void(std::exception)>&& fn);
+
+    StreamPtr<T> catchError(const std::function<void(std::exception)>& fn);
+
+    StreamPtr<T> errorThen(std::function<T(std::exception&)>&& fn);
+
+    StreamPtr<T> errorThen(const std::function<T(std::exception&)>& fn);
 
     template <typename Type>
     bool detachStream(StreamPtr<Type> stream);
 
-    AsyncBasePtr<T> end();
-
-protected:
-    virtual AsyncBasePtr<T> thenImpl(std::function<T(T)>&& fn) override;
-
-    virtual AsyncBasePtr<T> thenImpl(const std::function<T(T)>& fn) override;
+    StreamPtr<T> end();
 
 private:
     void handleEnd();
 
 protected:
-    PromisePtr<T> m_promise;
-    bool m_paused;
-    bool m_end;
+    PromisePtr<T> _promise;
+    bool _paused;
+    bool _end;
 };
 
 template<typename T>
 Stream<T>::Stream()
     : AsyncBase<T>()
-    , m_promise(std::make_shared<Promise<T>>())
-    , m_paused(false)
-    , m_end(false) {
+    , _promise(std::make_shared<Promise<T>>())
+    , _paused(false)
+    , _end(false) {
 
 }
 
 template<typename T>
-StreamPtr<T> Stream<T>::then(std::function<T (T)> &&fn) {
-    return std::static_pointer_cast<Stream<T>>(thenImpl(std::move(fn)));
+inline StreamPtr<T> Stream<T>::catchError(std::function<void(std::exception)>&& fn)
+{
+    AsyncBasePtr<T> promise = AsyncBase<T>::catchErrorImpl(std::move(fn));
+    return std::static_pointer_cast<Stream<T>>(promise);
 }
 
 template<typename T>
-StreamPtr<T> Stream<T>::then(const std::function<T (T)> &fn) {
-    return std::static_pointer_cast<Stream<T>>(thenImpl(fn));
+inline StreamPtr<T> Stream<T>::catchError(const std::function<void(std::exception)>& fn)
+{
+    AsyncBasePtr<T> promise = AsyncBase<T>::catchErrorImpl(fn);
+    return std::static_pointer_cast<Stream<T>>(promise);	
+}
+
+template<typename T>
+inline StreamPtr<T> Stream<T>::errorThen(std::function<T(std::exception&)>&& fn)
+{
+    AsyncBasePtr<T> promise = AsyncBase<T>::errorThenImpl(std::move(fn));
+    return std::static_pointer_cast<Stream<T>>(promise);
+}
+
+template<typename T>
+inline StreamPtr<T> Stream<T>::errorThen(const std::function<T(std::exception&)>& fn)
+{
+    AsyncBasePtr<T> promise = AsyncBase<T>::errorThenImpl(fn);
+    return std::static_pointer_cast<Stream<T>>(promise);
+}
+
+template<typename T>
+template<typename A>
+StreamPtr<A> Stream<T>::then(std::function<A(T)> &&fn) {
+    StreamPtr<A> ret = std::make_shared<Stream<A>>();
+    AsyncBase<T>::link(Stream<T>::shared_from_this(),
+                          std::static_pointer_cast<AsyncBase<A>>(ret), std::move(fn));
+    _promise->_update.push_back(AsyncLink<T>({
+        ret->_promise,
+        [ret](T x) { return ret->end(); }
+    }));
+	return ret;
+}
+
+template<typename T>
+template<typename A>
+StreamPtr<A> Stream<T>::then(const std::function<A(T)> &fn) {
+    StreamPtr<A> ret = std::make_shared<Stream<A>>();
+    AsyncBase<T>::link(Stream<T>::shared_from_this(),
+                          std::static_pointer_cast<AsyncBase<A>>(ret), fn);
+    _promise->_update.push_back(AsyncLink<T>({
+        ret->_promise,
+        [ret](T x) { return ret->end(); }
+    }));
+    return ret;
 }
 
 template<typename T>
 template<typename Type>
 bool Stream<T>::detachStream(StreamPtr<Type> stream) {
 //    std::for_each(_update.begin(), _update.end(), [this, &stream](AsyncLink<T>& link) {
-//        if (link.async == stream && this->m_promise) {
-//            std::vector<AsyncLink<T>>& update = this->m_promise->_update;
+//        if (link.async == stream && this->_promise) {
+//            std::vector<AsyncLink<T>>& update = this->_promise->_update;
 //            update.erase(update.begin())
 //        }
 //    });
     return false;
 }
 
-template<typename T>
-AsyncBasePtr<T> Stream<T>::thenImpl(std::function<T(T)>&& fn)
-{
-    StreamPtr<T> ret = std::make_shared<Stream<T>>();
-    AsyncBase<T>::link(Stream<T>::shared_from_this(),
-                          std::static_pointer_cast<AsyncBase<T>>(ret), std::move(fn));
-    AsyncLink<T> link = {
-        ret->m_promise,
-        [ret](T x) {
-            std::function<AsyncBasePtr<T>(T)> fn = [ret](T x) {
-                return ret->end();
-            };
-        }
-    };
-    m_promise->_update.push_back(link);
-    return ret;
-}
-
-template<typename T>
-AsyncBasePtr<T> Stream<T>::thenImpl(const std::function<T(T)>& fn) {
-    StreamPtr<T> ret = std::make_shared<Stream<T>>();
-    AsyncBase<T>::link(Stream<T>::shared_from_this(),
-                          std::static_pointer_cast<AsyncBase<T>>(ret), fn);
-    return ret;
-}
-
 template <typename T>
 void Stream<T>::handleEnd() {
-
+	if (this->isPending()) {
+                EventLoop::enqueue(std::bind(&Stream<T>::handleEnd, this));
+	}
+	else if (_promise->isResolved()) {
+		return;
+	}
+	else {
+		_end = true;
+                if (AsyncBase<T>::isResolved()) {
+                        _promise->handleResolve(AsyncBase<T>::_val);
+		}
+		std::vector<AsyncLink<T>> newUpdate;
+                std::swap(AsyncBase<T>::_update, newUpdate);
+		std::vector<std::function<void(std::exception_ptr)>> newError;
+                std::swap(AsyncBase<T>::_error, newError);
+	}
 }
 
 template <typename T>
-AsyncBasePtr<T> Stream<T>::end() {
+StreamPtr<T> Stream<T>::end() {
     EventLoop::enqueue(std::bind(&Stream<T>::handleEnd, this));
-    return Stream<T>::shared_from_this();
+    return std::static_pointer_cast<Stream<T>>(Stream<T>::shared_from_this());
 }
 
 }

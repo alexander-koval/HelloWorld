@@ -10,6 +10,11 @@
 
 namespace gf {
 template <typename T>
+class Deferred;
+template <typename T>
+using DeferredPtr = std::shared_ptr<Deferred<T>>;
+
+template <typename T>
 class Deferred : public AsyncBase<T> {
 public:
     using Ptr = std::shared_ptr<Deferred<T>>;
@@ -19,7 +24,7 @@ public:
         AsyncBase<T>::handleResolve(value);
     }
 
-    virtual PromisePtr<T> promise() {
+    PromisePtr<T> promise() {
         PromisePtr<T> ret = std::make_shared<Promise<T>>();
         AsyncLink<T> link = {
             ret,
@@ -34,7 +39,7 @@ public:
         return ret;
     }
 
-    virtual StreamPtr<T> stream() {
+    StreamPtr<T> stream() {
         StreamPtr<T> ret = std::make_shared<Stream<T>>();
         AsyncLink<T> link = {
             ret,
