@@ -1,9 +1,9 @@
 #include <Grafit/System/ThreadLocal.hpp>
 
 #if defined(GRAFIT_SYSTEM_WINDOWS)
-    #include <Grafit/System/Win32/ThreadLocalImpl.hpp>
+    #include "Win32/ThreadLocalImpl.hpp"
 #else
-    #include <Grafit/System/Unix/ThreadLocalImpl.hpp>
+    #include "Unix/ThreadLocalImpl.hpp"
 #endif
 
 namespace gf {

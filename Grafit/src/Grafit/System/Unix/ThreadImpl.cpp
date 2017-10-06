@@ -1,4 +1,4 @@
-#include <Grafit/System/Unix/ThreadImpl.hpp>
+#include "ThreadImpl.hpp"
 #include <Grafit/System/Thread.hpp>
 #include <iostream>
 #include <cassert>

@@ -30,8 +30,8 @@ if(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" 
         option(GRAFIT_ENABLE_CXX_0X "Enable C++ 0x" OFF)
         option(GRAFIT_ENABLE_CXX_11 "Enable C++ 11" OFF)
         option(GRAFIT_ENABLE_CXX_1Y "Enable C++ 1y" OFF)
-        option(GRAFIT_ENABLE_CXX_14 "Enable C++ 14" OFF)
-        option(GRAFIT_ENABLE_CXX_17 "Enable C++ 17" ON)
+        option(GRAFIT_ENABLE_CXX_14 "Enable C++ 14" ON)
+        option(GRAFIT_ENABLE_CXX_17 "Enable C++ 17" OFF)
 
         if(GRAFIT_ENABLE_CXX_17)
                 set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++17")
@@ -67,7 +67,7 @@ endif()
 #set( GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation" )
 #set( BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" )
 
-include_directories(src)
+#include_directories(src)
 include_directories(include)
 include_directories(extlibs/include)
 include_directories(modules/glfw/include)
@@ -93,7 +93,7 @@ add_definitions(-DGLFW_EXPOSE_NATIVE_X11 -DGLFW_EXPOSE_NATIVE_GLX -DGRAFIT_SYSTE
 endif()
 
 #add_subdirectory(modules/glfw)
-add_subdirectory(modules/poco)
+#add_subdirectory(modules/poco)
 add_subdirectory(src/Grafit/Graphics)
 add_subdirectory(src/Grafit/Window)
 add_subdirectory(src/Grafit/System)

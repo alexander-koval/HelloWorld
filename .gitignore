@@ -2,4 +2,4 @@
 /build/
 /projects/glfw/
 /projects/SOIL/
-CMakeLists.txt.user
+CMakeLists.txt.user*

@@ -1,4 +1,4 @@
-#include <Grafit/System/Unix/SystemInfoImpl.hpp>
+#include "SystemInfoImpl.hpp"
 #include <cstdlib>
 #include <unistd.h>
 #include <limits.h>

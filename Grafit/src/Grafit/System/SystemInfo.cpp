@@ -1,11 +1,11 @@
 #include <Grafit/System/SystemInfo.hpp>
 
 #if defined(GRAFIT_SYSTEM_WINDOWS)
-    #include <Grafit/System/Win32/SystemInfoImpl.hpp>
+    #include "Win32/SystemInfoImpl.hpp"
 #elif defined(GRAFIT_SYSTEM_MACOS)
-    #include <Grafit/System/OSX/SystemInfoImpl.hpp>
+    #include "OSX/SystemInfoImpl.hpp"
 #else
-    #include <Grafit/System/Unix/SystemInfoImpl.hpp>
+    #include "Unix/SystemInfoImpl.hpp"
 #endif
 
 namespace gf {

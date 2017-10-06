@@ -72,14 +72,14 @@ file(GLOB grafit_graphics_source_files
 source_group("Graphics" FILES ${grafit_graphics_source_files})
 
 # find external libraries
-if(NOT SFML_OPENGL_ES)
-    find_package(OpenGL REQUIRED)
+#if(NOT SFML_OPENGL_ES)
+#    find_package(OpenGL REQUIRED)
 #    find_package(GLEW REQUIRED)
-    if(SFML_OS_LINUX)
-        find_package(X11 REQUIRED)
-    endif()
+#    if(SFML_OS_LINUX)
+#        find_package(X11 REQUIRED)
+#    endif()
     include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_PATH} ${JPEG_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
-endif()
+#endif()
 
 #set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${PROJECT_SOURCE_DIR}/extlibs/SOIL/src")
 #set(LIBSOIL_LIBDIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")

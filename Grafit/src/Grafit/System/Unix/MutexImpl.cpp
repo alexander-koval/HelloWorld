@@ -1,4 +1,4 @@
-#include <Grafit/System/Unix/MutexImpl.hpp>
+#include "MutexImpl.hpp"
 
 namespace gf {
 namespace priv {

@@ -1,4 +1,4 @@
-#include <Grafit/System/Unix/ThreadLocalImpl.hpp>
+#include "ThreadLocalImpl.hpp"
 
 namespace gf {
 namespace priv {

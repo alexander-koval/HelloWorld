@@ -23,6 +23,8 @@
 #include <Grafit/System/Promise/EventLoop.hpp>
 #include <Grafit/System/Promise/Deferred.hpp>
 #include <Grafit/System/Promise/Promise.hpp>
+#include <Grafit/System/String.hpp>
+#include <execinfo.h>
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
@@ -65,28 +67,54 @@ void FreeFunction2(int value1) {
 }
 
 void on_terminate(void) {
-//    void* trace_elems[20];
-//    int trace_elem_count(backtrace(trace_elems, 20));
-//    char** stack_syms(backtrace_symbols(trace_elems, trace_elem_count));
-//    for (int i = 0; i < trace_elem_count; ++i) {
-//        std::cout << stack_syms[i] << "\n";
-//    }
-//    std::free(stack_syms);
-//    exit(EXIT_FAILURE);
+       std::string result;
 
-    char pid_buf[30];
-    sprintf(pid_buf, "%d", getpid());
-    char name_buf[512];
-    name_buf[readlink("/proc/self/exe", name_buf, 511)]=0;
-    int child_pid = fork();
-    if (!child_pid) {
-        dup2(2,1); // redirect output to stderr
-        fprintf(stdout,"stack trace for %s pid=%s\n",name_buf,pid_buf);
-        execlp("gdb", "gdb", "--batch", "-n", "-ex", "thread", "-ex", "bt", name_buf, pid_buf, NULL);
-        abort(); /* If gdb failed to start */
-    } else {
-        waitpid(child_pid,NULL,0);
-    }
+       #if GRAFIT_SYSTEM_WINDOWS
+        HANDLE process = GetCurrentProcess();
+        SymInitialize (process, nullptr, TRUE);
+
+        void* stack[128];
+        int frames = (int) CaptureStackBackTrace (0, numElementsInArray (stack), stack, nullptr);
+
+        HeapBlock<SYMBOL_INFO> symbol;
+        symbol.calloc (sizeof (SYMBOL_INFO) + 256, 1);
+        symbol->MaxNameLen = 255;
+        symbol->SizeOfStruct = sizeof (SYMBOL_INFO);
+
+        for (int i = 0; i < frames; ++i)
+        {
+            DWORD64 displacement = 0;
+
+            if (SymFromAddr (process, (DWORD64) stack[i], &displacement, symbol))
+            {
+                result << i << ": ";
+
+                IMAGEHLP_MODULE64 moduleInfo;
+                zerostruct (moduleInfo);
+                moduleInfo.SizeOfStruct = sizeof (moduleInfo);
+
+                if (::SymGetModuleInfo64 (process, symbol->ModBase, &moduleInfo))
+                    result << moduleInfo.ModuleName << ": ";
+
+                result << symbol->Name << " + 0x" << String::toHexString ((int64) displacement) << newLine;
+            }
+        }
+
+       #else
+        void* stack[128];
+        int frames = backtrace (stack, 128);
+        char** frameStrings = backtrace_symbols (stack, frames);
+
+        for (int i = 0; i < frames; ++i) {
+            result += frameStrings[i];
+            result += "\n";
+        }
+
+        ::free (frameStrings);
+       #endif
+
+        std::cout << result << std::endl;
+//        return result;
 }
 
 void init() {
@@ -192,7 +220,6 @@ int main() {
     std::cout << "Name: " << file.getName().c_str() << "\n"
               << " Ext: " << file.getExtension().c_str() << "\n"
               << "Path: " << file.getNativePath() << "\n"
-              << "Type: " << file.getType() << "\n"
               << "Size: " << file.getSize() << std::endl;
 //    gf::FileStream* stream = new gf::FileStream(file);
 //    stream->read();

@@ -34,6 +34,7 @@ file(GLOB grafit_system_source_files
 #    "${INCROOT}/PlatformMacros.hpp"
 #    "${INCROOT}/File.hpp"
     "${SRCROOT}/File.cpp"
+    "${SRCROOT}/Path.cpp"
 #    "${INCROOT}/FileStream.hpp"
     "${SRCROOT}/FileStream.cpp"
 #    "${INCROOT}/SystemInfo.hpp"
@@ -112,6 +113,8 @@ else()
         "${SRCROOT}/Unix/ThreadLocalImpl.cpp"
         "${SRCROOT}/Unix/SystemInfoImpl.hpp"
         "${SRCROOT}/Unix/SystemInfoImpl.cpp"
+        "${SRCROOT}/Unix/FileImpl.hpp"
+        "${SRCROOT}/Unix/FileImpl.cpp"
     )
     source_group("Unix" FILES ${grafit_system_platform_source_files})
 endif()

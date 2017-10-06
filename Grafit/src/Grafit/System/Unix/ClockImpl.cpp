@@ -1,4 +1,4 @@
-#include <Grafit/System/Unix/ClockImpl.hpp>
+#include "ClockImpl.hpp"
 #if defined(GRAFIT_SYSTEM_MACOS) || defined(GRAFIT_SYSTEM_IOS)
     #include <mach/mach_time.h>
 #else
