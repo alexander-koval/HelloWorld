@@ -112,9 +112,10 @@ else()
 endif()
 
 target_link_libraries(${PROJECT_NAME}
-    grafit-system
-    grafit-graphics
-    grafit-window
+    grafit
+#    grafit-system
+#    grafit-graphics
+#    grafit-window
 )
 
 install(TARGETS ${PROJECT_NAME}

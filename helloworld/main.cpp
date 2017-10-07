@@ -75,11 +75,11 @@ void on_terminate(void) {
        std::string result;
 
        #if defined (WIN32)
-        HANDLE process = GetCurrentProcess();
+//        HANDLE process = GetCurrentProcess();
 //        SymInitialize (process, nullptr, TRUE);
 
-        void* stack[128];
-        int frames = (int) CaptureStackBackTrace (0, 128, stack, nullptr);
+//        void* stack[128];
+//        int frames = (int) CaptureStackBackTrace (0, 128, stack, nullptr);
 
 //        HeapBlock<SYMBOL_INFO> symbol;
 //        symbol.calloc (sizeof (SYMBOL_INFO) + 256, 1);

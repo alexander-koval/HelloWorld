@@ -123,15 +123,15 @@ endif()
 
 source_group("System" FILES ${grafit_system_source_files})
 
-set(GRAPHIT_SYSTEM_LIBRARY grafit-system)
-add_library(grafit-system SHARED ${grafit_system_source_files} ${grafit_system_platform_source_files})
+#set(GRAPHIT_SYSTEM_LIBRARY grafit-system)
+#add_library(grafit-system SHARED ${grafit_system_source_files} ${grafit_system_platform_source_files})
 
-target_link_libraries(grafit-system
-#    boost_system-mt
-#    boost_filesystem-mt
-    ${grafit_system_extra_libs}
-)
+#target_link_libraries(grafit-system
+##    boost_system-mt
+##    boost_filesystem-mt
+#    ${grafit_system_extra_libs}
+#)
 
-install(TARGETS ${GRAFIT_SYSTEM_LIBRARY}
-    ARCHIVE DESTINATION lib COMPONENT lib
-    LIBRARY DESTINATION lib COMPONENT lib)
+#install(TARGETS ${GRAFIT_SYSTEM_LIBRARY}
+#    ARCHIVE DESTINATION lib COMPONENT lib
+#    LIBRARY DESTINATION lib COMPONENT lib)

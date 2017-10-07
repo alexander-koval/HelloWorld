@@ -115,7 +115,8 @@ void Window::setTitle(const std::string &title) {
 }
 
 void Window::setIcon(unsigned int width, unsigned int height, const Uint8 *pixels) {
-    //TODO Implement window icon
+//    GLFWimage
+//    glfwSetWindowIcon(m_window, 1, )
 }
 
 void Window::setVisible(bool visible) {

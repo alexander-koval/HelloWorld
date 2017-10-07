@@ -13,11 +13,11 @@ else(DEBUG_MODE)
     set(CMAKE_BUILD_TYPE Release)
 endif(DEBUG_MODE)
 
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
-#    ${PROJECT_BINARY_DIR}/application/libs
-#    CACHE PATH
-#    "Single Directory for all Libraries."
-#)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
+    ${PROJECT_BINARY_DIR}/helloworld/libs
+    CACHE PATH
+    "Single Directory for all Libraries."
+)
 
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
 #    ${PROJECT_BINARY_DIR}/application
@@ -25,11 +25,11 @@ endif(DEBUG_MODE)
 #    "Single Directory for all Executables."
 #)
 
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
-#    ${PROJECT_BINARY_DIR}/application/libs
-#    CACHE PATH
-#    "Single Directory for all Libraries."
-#)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
+    ${PROJECT_BINARY_DIR}/helloworld/libs
+    CACHE PATH
+    "Single Directory for all Libraries."
+)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/Grafit/extlibs/include

@@ -61,11 +61,11 @@ if(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" 
 endif()
 
 #set( Boost_USE_STATIC_LIBS ON CACHE BOOL "Use Boost static libraries" )
-#set( GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build GLFW examples" )
-#set( GLFW_BUILD_TESTS OFF CACHE BOOL "Build GLFW tests" )
-#set( GLFW_BUILD_DOCS OFF CACHE BOOL "Build GLFW documentation" )
-#set( GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation" )
-#set( BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" )
+set( GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build GLFW examples" )
+set( GLFW_BUILD_TESTS OFF CACHE BOOL "Build GLFW tests" )
+set( GLFW_BUILD_DOCS OFF CACHE BOOL "Build GLFW documentation" )
+set( GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation" )
+set( BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" )
 
 #include_directories(src)
 include_directories(include)
@@ -92,11 +92,12 @@ else()
 add_definitions(-DGLFW_EXPOSE_NATIVE_X11 -DGLFW_EXPOSE_NATIVE_GLX -DGRAFIT_SYSTEM_LINUX)
 endif()
 
-#add_subdirectory(modules/glfw)
+add_subdirectory(modules/glfw)
 #add_subdirectory(modules/poco)
-add_subdirectory(src/Grafit/Graphics)
-add_subdirectory(src/Grafit/Window)
-add_subdirectory(src/Grafit/System)
+add_subdirectory(src/Grafit)
+#add_subdirectory(src/Grafit/Graphics)
+#add_subdirectory(src/Grafit/Window)
+#add_subdirectory(src/Grafit/System)
 
 #install(TARGETS ${GRAFIT_SYSTEM_LIBRARY} ${GRAFIT_GRAPHICS_LIBRARY} ${GRAFIT_WINDOWS_LIBRARY}
 #    RUNTIME DESTINATION bin

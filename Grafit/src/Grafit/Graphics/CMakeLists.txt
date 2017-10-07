@@ -69,7 +69,7 @@ file(GLOB grafit_graphics_source_files
 
 #include_directories(${INCROOT})
 
-source_group("Graphics" FILES ${grafit_graphics_source_files})
+#source_group("Graphics" FILES ${grafit_graphics_source_files})
 
 # find external libraries
 #if(NOT SFML_OPENGL_ES)
@@ -78,7 +78,7 @@ source_group("Graphics" FILES ${grafit_graphics_source_files})
 #    if(SFML_OS_LINUX)
 #        find_package(X11 REQUIRED)
 #    endif()
-    include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_PATH} ${JPEG_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
+#    include_directories(${FREETYPE_INCLUDE_DIRS} ${GLEW_INCLUDE_PATH} ${JPEG_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
 #endif()
 
 #set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${PROJECT_SOURCE_DIR}/extlibs/SOIL/src")
@@ -98,8 +98,9 @@ add_shaders(shaders
 
 message("SHADER " ${shaders})
 
-set(GRAFIT_GRAPHICS_LIBRARY grafit-graphics)
-add_library(grafit-graphics SHARED ${grafit_graphics_source_files} ${shaders})
+#set(GRAFIT_GRAPHICS_LIBRARY grafit-graphics)
+#add_library(grafit-graphics SHARED ${grafit_graphics_source_files} ${shaders})
+
 #install(TARGETS ${TARGETS} ${GRAFIT_GRAPHICS_LIBRARY}
 #    LIBRARY DESTINATION lib)
 
@@ -111,12 +112,12 @@ add_library(grafit-graphics SHARED ${grafit_graphics_source_files} ${shaders})
 #set(DESKTOP_LIBS X11 Xxf86vm Xrandr Xi Xinerama Xcursor pthread dl)
 #endif()
 
-target_link_libraries(grafit-graphics
-    grafit-system
-    ${OPENGL_glu_LIBRARY}
-    ${GLFW_LIBRARIES}
-)
+#target_link_libraries(grafit-graphics
+#    grafit-system
+#    ${OPENGL_glu_LIBRARY}
+#    ${GLFW_LIBRARIES}
+#)
 
-install(TARGETS ${GRAFIT_GRAPHICS_LIBRARY}
-    ARCHIVE DESTINATION lib COMPONENT lib
-    LIBRARY DESTINATION lib COMPONENT lib)
+#install(TARGETS ${GRAFIT_GRAPHICS_LIBRARY}
+#    ARCHIVE DESTINATION lib COMPONENT lib
+#    LIBRARY DESTINATION lib COMPONENT lib)
