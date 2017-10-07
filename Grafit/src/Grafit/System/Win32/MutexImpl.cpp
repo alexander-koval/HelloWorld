@@ -1,4 +1,4 @@
-#include <Grafit/System/Win32/MutexImpl.hpp>
+#include "MutexImpl.hpp"
 
 
 namespace gf {

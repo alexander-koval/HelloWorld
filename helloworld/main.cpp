@@ -2,7 +2,6 @@
 #include <sstream>
 #include <stb.h>
 #include <memory>
-#include <sys/wait.h>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Triangle.hpp>
 #include <Grafit/Graphics/Bitmap.hpp>
@@ -24,7 +23,13 @@
 #include <Grafit/System/Promise/Deferred.hpp>
 #include <Grafit/System/Promise/Promise.hpp>
 #include <Grafit/System/String.hpp>
+
+#ifdef WIN32
+#include <imagehlp.h>
+#else
+#include <sys/wait.h>
 #include <execinfo.h>
+#endif
 
 static const int WIDTH = 1280;
 static const int HEIGHT = 960;
@@ -69,36 +74,36 @@ void FreeFunction2(int value1) {
 void on_terminate(void) {
        std::string result;
 
-       #if GRAFIT_SYSTEM_WINDOWS
+       #if defined (WIN32)
         HANDLE process = GetCurrentProcess();
-        SymInitialize (process, nullptr, TRUE);
+//        SymInitialize (process, nullptr, TRUE);
 
         void* stack[128];
-        int frames = (int) CaptureStackBackTrace (0, numElementsInArray (stack), stack, nullptr);
+        int frames = (int) CaptureStackBackTrace (0, 128, stack, nullptr);
 
-        HeapBlock<SYMBOL_INFO> symbol;
-        symbol.calloc (sizeof (SYMBOL_INFO) + 256, 1);
-        symbol->MaxNameLen = 255;
-        symbol->SizeOfStruct = sizeof (SYMBOL_INFO);
+//        HeapBlock<SYMBOL_INFO> symbol;
+//        symbol.calloc (sizeof (SYMBOL_INFO) + 256, 1);
+//        symbol->MaxNameLen = 255;
+//        symbol->SizeOfStruct = sizeof (SYMBOL_INFO);
 
-        for (int i = 0; i < frames; ++i)
-        {
-            DWORD64 displacement = 0;
+//        for (int i = 0; i < frames; ++i)
+//        {
+//            DWORD64 displacement = 0;
 
-            if (SymFromAddr (process, (DWORD64) stack[i], &displacement, symbol))
-            {
-                result << i << ": ";
+//            if (SymFromAddr (process, (DWORD64) stack[i], &displacement, symbol))
+//            {
+//                result << i << ": ";
 
-                IMAGEHLP_MODULE64 moduleInfo;
-                zerostruct (moduleInfo);
-                moduleInfo.SizeOfStruct = sizeof (moduleInfo);
+//                IMAGEHLP_MODULE64 moduleInfo;
+//                zerostruct (moduleInfo);
+//                moduleInfo.SizeOfStruct = sizeof (moduleInfo);
 
-                if (::SymGetModuleInfo64 (process, symbol->ModBase, &moduleInfo))
-                    result << moduleInfo.ModuleName << ": ";
+//                if (::SymGetModuleInfo64 (process, symbol->ModBase, &moduleInfo))
+//                    result << moduleInfo.ModuleName << ": ";
 
-                result << symbol->Name << " + 0x" << String::toHexString ((int64) displacement) << newLine;
-            }
-        }
+//                result << symbol->Name << " + 0x" << String::toHexString ((int64) displacement) << newLine;
+//            }
+//        }
 
        #else
         void* stack[128];
@@ -221,8 +226,9 @@ int main() {
               << " Ext: " << file.getExtension().c_str() << "\n"
               << "Path: " << file.getNativePath() << "\n"
               << "Size: " << file.getSize() << std::endl;
-//    gf::FileStream* stream = new gf::FileStream(file);
-//    stream->read();
+    gf::FileStream* fileStream = new gf::FileStream();
+    fileStream->open(&file);
+    fileStream->read();
 
     window->setVerticalSyncEnabled(true);
 

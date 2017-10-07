@@ -37,8 +37,10 @@ endif()
 find_package(OpenGL REQUIRED)
 
 get_property(GRAFIT_LINK_DIRECTORIES DIRECTORY PROPERTY LINK_DIRECTORIES)
+#set(GRAFIT_LINK_DIRECTORIES /home/alexander/Workspace/C++/GLFW/HelloWorld/Grafit/extlibs/mingw/)
+message("DIR" ${GRAFIT_LINK_DIRECTORIES})
 find_library(GLFW_LIBRARY
-    NAMES glfw3.a libglfw3.a
+    NAMES glfw3.a libglfw3.a glfw3.dll
     PATHS ${GRAFIT_LINK_DIRECTORIES})
 
 message("GLFW " ${GLFW_LIBRARY})

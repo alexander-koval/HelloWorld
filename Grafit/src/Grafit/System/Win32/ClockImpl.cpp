@@ -1,4 +1,4 @@
-#include <Grafit/System/Win32/ClockImpl.hpp>
+#include "ClockImpl.hpp"
 #include <windows.h>
 
 namespace {

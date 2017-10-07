@@ -79,6 +79,8 @@ if(WIN32)
         "${SRCROOT}/Win32/ThreadLocalImpl.cpp"
         "${SRCROOT}/Win32/SystemInfoImpl.hpp"
         "${SRCROOT}/Win32/SystemInfoImpl.cpp"
+        "${SRCROOT}/Win32/FileImpl.hpp"
+        "${SRCROOT}/Win32/FileImpl.cpp"
     )
     source_group("Win32" FILES ${grafit_system_platform_source_files})
 elseif(APPLE)
@@ -125,8 +127,8 @@ set(GRAPHIT_SYSTEM_LIBRARY grafit-system)
 add_library(grafit-system SHARED ${grafit_system_source_files} ${grafit_system_platform_source_files})
 
 target_link_libraries(grafit-system
-    boost_system-mt
-    boost_filesystem-mt
+#    boost_system-mt
+#    boost_filesystem-mt
     ${grafit_system_extra_libs}
 )
 

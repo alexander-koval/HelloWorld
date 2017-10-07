@@ -1,4 +1,4 @@
-#include <Grafit/System/Win32/SystemInfoImpl.hpp>
+#include "SystemInfoImpl.hpp"
 #include <Grafit/System/String.hpp>
 #include <lmcons.h>
 #include <shlobj.h>
