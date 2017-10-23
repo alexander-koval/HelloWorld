@@ -60,18 +60,12 @@ if(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" 
         endif()
 endif()
 
-#set( Boost_USE_STATIC_LIBS ON CACHE BOOL "Use Boost static libraries" )
-set( GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build GLFW examples" )
-set( GLFW_BUILD_TESTS OFF CACHE BOOL "Build GLFW tests" )
-set( GLFW_BUILD_DOCS OFF CACHE BOOL "Build GLFW documentation" )
-set( GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation" )
-set( BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" )
-
 #include_directories(src)
 include_directories(include)
 include_directories(extlibs/include)
 include_directories(modules/glfw/include)
 include_directories(modules/stb/)
+include_directories(modules/glm)
 
 if(WIN32)
     link_directories(extlibs/mingw)
@@ -93,11 +87,33 @@ add_definitions(-DGLFW_EXPOSE_NATIVE_X11 -DGLFW_EXPOSE_NATIVE_GLX -DGRAFIT_SYSTE
 endif()
 
 add_subdirectory(modules/glfw)
+#add_subdirectory(modules/physfs)
 #add_subdirectory(modules/poco)
 add_subdirectory(src/Grafit)
 #add_subdirectory(src/Grafit/Graphics)
 #add_subdirectory(src/Grafit/Window)
 #add_subdirectory(src/Grafit/System)
+
+#set( Boost_USE_STATIC_LIBS ON CACHE BOOL "Use Boost static libraries" )
+set( GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build GLFW examples" )
+set( GLFW_BUILD_TESTS OFF CACHE BOOL "Build GLFW tests" )
+set( GLFW_BUILD_DOCS OFF CACHE BOOL "Build GLFW documentation" )
+set( GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation" )
+set( BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" )
+
+
+set(PHYSFS_ARCHIVE_ZIP TRUE CACHE BOOL "Enable ZIP support")
+set(PHYSFS_ARCHIVE_7Z TRUE CACHE BOOL "Enable 7zip support")
+set(PHYSFS_ARCHIVE_GRP FALSE CACHE BOOL "Enable Build Engine GRP support")
+set(PHYSFS_ARCHIVE_WAD FALSE CACHE BOOL "Enable Doom WAD support")
+set(PHYSFS_ARCHIVE_HOG FALSE CACHE BOOL "Enable Descent I/II HOG support")
+set(PHYSFS_ARCHIVE_MVL FALSE CACHE BOOL "Enable Descent I/II MVL support")
+set(PHYSFS_ARCHIVE_QPAK FALSE CACHE BOOL "Enable Quake I/II QPAK support")
+set(PHYSFS_ARCHIVE_SLB FALSE CACHE BOOL "Enable I-War / Independence War SLB support")
+set(PHYSFS_ARCHIVE_ISO9660 FALSE CACHE BOOL "Enable ISO9660 support")
+set(PHYSFS_ARCHIVE_VDF FALSE CACHE BOOL "Enable Gothic I/II VDF archive support")
+set(PHYSFS_BUILD_STATIC TRUE CACHE BOOL "Build static library")
+set(PHYSFS_BUILD_SHARED FALSE CACHE BOOL "Build shared library")
 
 #install(TARGETS ${GRAFIT_SYSTEM_LIBRARY} ${GRAFIT_GRAPHICS_LIBRARY} ${GRAFIT_WINDOWS_LIBRARY}
 #    RUNTIME DESTINATION bin

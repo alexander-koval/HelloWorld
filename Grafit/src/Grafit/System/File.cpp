@@ -25,7 +25,7 @@ File::File(const Path& path)
 }
 
 File::~File(void) {
-
+    delete m_pimpl;
 }
 
 bool File::isExist(void) const {
@@ -66,6 +66,10 @@ Uint64 File::getSize(void) const {
 
 float File::getSpaceAvailable(void) const {
     return m_pimpl->freeSpaceImpl();
+}
+
+void File::remove() {
+    m_pimpl->removeImpl();
 }
 
 }

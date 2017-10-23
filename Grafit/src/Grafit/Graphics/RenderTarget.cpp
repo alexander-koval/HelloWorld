@@ -148,9 +148,10 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
         GF_ASSERT(shader != nullptr, "Unitialized shader pointer", nullptr);
         shader->setParameter<Shader::Uniform>("TextureMap", *texture);
         shader->setParameter<Shader::Uniform>("MVP", mvpView);
+//        shader->setParameter<Shader::Uniform>("TextureSize", texture->getSize().x, texture->getSize().y);
         GL_CHECK(glDrawElements(type,
                                 vertices.getIndexBuffer().getNumIndices(),
-                                GL_UNSIGNED_SHORT, 0));
+                                GL_UNSIGNED_SHORT, nullptr));
         vertices.unuse();
         applyShader(nullptr);
     }

@@ -5,7 +5,7 @@
 #include <Grafit/System/Destructable.hpp>
 
 namespace gf {
-class IInputStream : public Destructable {
+class InputStream : public Destructable {
 public:
     virtual void* read(void) = 0;
 

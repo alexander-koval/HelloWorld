@@ -43,12 +43,14 @@ file(GLOB grafit_system_source_files
     "${SRCROOT}/System/Assert.cpp"
     "${SRCROOT}/System/File.cpp"
     "${SRCROOT}/System/Path.cpp"
-    "${SRCROOT}/System/FileStream.cpp"
     "${SRCROOT}/System/SystemInfo.cpp"
     "${SRCROOT}/System/Signals/Connection.cpp"
     "${SRCROOT}/System/Uuid.cpp"
+    "${SRCROOT}/System/RefCounter.cpp"
     "${SRCROOT}/System/ResourceManager.cpp"
     "${SRCROOT}/System/Promise/EventLoop.cpp"
+    "${SRCROOT}/System/IO/FileStream.cpp"
+    "${SRCROOT}/System/IO/FileSystem.cpp"
 )
 
 if(WIN32)
@@ -143,9 +145,9 @@ endif()
 find_package(OpenGL REQUIRED)
 
 get_property(GRAFIT_LINK_DIRECTORIES DIRECTORY PROPERTY LINK_DIRECTORIES)
-#find_library(GLFW_LIBRARY
-#    NAMES glfw3.a libglfw3.a
-#    PATHS ${GRAFIT_LINK_DIRECTORIES})
+find_library(GLFW_LIBRARY
+    NAMES glfw3.a libglfw3.a
+    PATHS ${GRAFIT_LINK_DIRECTORIES})
 
 message("GLFW " ${GLFW_LIBRARY})
 message("OPENGL_LIBRARY " ${OPENGL_LIBRARY})
@@ -161,6 +163,7 @@ add_shaders(shaders
                 Graphics/shaders/dither/4x4.glsl
                 Graphics/shaders/dither/8x8.glsl
                 Graphics/shaders/hsv2rgb/hsv2rgb.glsl
+                Graphics/shaders/water/water2d.glsl
             )
 
 message("SHADER " ${shaders})
@@ -172,8 +175,7 @@ add_library(grafit STATIC
     ${grafit_system_platform_source_files}
     ${grafit_graphics_source_files}
     ${grafit_window_source_files}
-    ${shaders}
-    )
+    ${shaders})
 target_link_libraries(grafit
     ${GLFW_LIBRARY}
     ${OPENGL_glu_LIBRARY}

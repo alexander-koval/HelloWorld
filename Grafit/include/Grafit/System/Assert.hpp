@@ -38,6 +38,8 @@ public:
 
     Assert& variable(const char* const name, short value);
 
+    Assert& variable(const char* const name, unsigned short value);
+
     Assert& variable(const char* const name, int value);
 
     Assert& variable(const char* const name, long value);

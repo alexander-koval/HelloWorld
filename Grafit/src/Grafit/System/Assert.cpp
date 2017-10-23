@@ -46,6 +46,11 @@ Assert& Assert::variable(const char* const name, short value) {
     return *this;
 }
 
+Assert&Assert::variable(const char* const name, unsigned short value) {
+    m_os << "\n\t" << name << " " << value;
+    return *this;
+}
+
 Assert& Assert::variable(const char* const name, int value) {
     m_os << "\n\tVariable: " << name << " " << value;
     return *this;

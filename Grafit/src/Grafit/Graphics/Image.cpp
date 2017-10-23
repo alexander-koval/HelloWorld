@@ -1,6 +1,6 @@
 #include <Grafit/Graphics/Bitmap.hpp>
-#include <Grafit/System/FileStream.hpp>
-#include <Grafit/System/InputStream.hpp>
+#include <Grafit/System/IO/FileStream.hpp>
+#include <Grafit/System/IO/InputStream.hpp>
 #include <Grafit/System/Assert.hpp>
 #include <Grafit/System/File.hpp>
 #include <stb_image.h>
@@ -18,14 +18,14 @@ Image::~Image(void) {
 
 bool Image::create(const File &file) {
     if (file.isExist() && file.isRegularFile()) {
-        gf::FileStream stream;
+        gf::FileInputStream stream;
         stream.open(&file);
         return create(stream);
     }
     return false;
 }
 
-bool Image::create(gf::IInputStream &stream) {
+bool Image::create(gf::InputStream &stream) {
     const Uint8* buffer = static_cast<const Uint8*>(stream.read());
     return create(buffer, stream.getSize());
 }

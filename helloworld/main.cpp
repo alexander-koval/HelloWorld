@@ -12,7 +12,7 @@
 #include <Grafit/System/Assert.hpp>
 #include <Grafit/System/SystemInfo.hpp>
 #include <Grafit/System/File.hpp>
-#include <Grafit/System/FileStream.hpp>
+#include <Grafit/System/IO/FileStream.hpp>
 #include <Grafit/Graphics/Sprite.hpp>
 #include <Grafit/Graphics/Geometry/Rect.hpp>
 #include <Grafit/System/Signals/Signal.hpp>
@@ -23,6 +23,10 @@
 #include <Grafit/System/Promise/Deferred.hpp>
 #include <Grafit/System/Promise/Promise.hpp>
 #include <Grafit/System/String.hpp>
+
+#include <Grafit/Graphics/shaders/shaders.hpp>
+#include <Grafit/System/IO/FileSystem.hpp>
+
 
 #ifdef WIN32
 #include <imagehlp.h>
@@ -219,6 +223,7 @@ int main() {
               << "\t TEMP_DIR: " << gf::SystemInfo::getTempDirectory() << "\n"
               << std::endl;
 
+    gf::FileSystemPtr fs(new gf::FileSystem(gf::SystemInfo::getApplicationDirectory()));
     std::string dirPath(gf::SystemInfo::getApplicationDirectory());
     const std::string& filePath(dirPath.append(gf::File::Separator + filename1));
     gf::File file = gf::File(filePath);
@@ -226,7 +231,7 @@ int main() {
               << " Ext: " << file.getExtension().c_str() << "\n"
               << "Path: " << file.getNativePath() << "\n"
               << "Size: " << file.getSize() << std::endl;
-    gf::FileStream* fileStream = new gf::FileStream();
+    gf::FileInputStream* fileStream = new gf::FileInputStream();
     fileStream->open(&file);
     fileStream->read();
 
@@ -288,6 +293,8 @@ int main() {
 //    });
 //    func();
     textureManager.load(0, file);
+
+    gf::dump();
 
     init();
     gf::Clock clock;

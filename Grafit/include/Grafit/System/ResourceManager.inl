@@ -1,6 +1,6 @@
 #include <Grafit/System/Assert.hpp>
 #include <Grafit/System/File.hpp>
-#include <Grafit/System/FileStream.hpp>
+#include <Grafit/System/IO/FileStream.hpp>
 #include <Grafit/Graphics/Texture.hpp>
 
 namespace gf {

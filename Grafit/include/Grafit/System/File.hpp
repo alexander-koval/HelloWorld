@@ -36,6 +36,8 @@ public:
 
     float getSpaceAvailable(void) const;
 
+    void remove();
+
 public:
     static const char Separator;
 

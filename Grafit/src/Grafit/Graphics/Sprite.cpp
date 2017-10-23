@@ -21,6 +21,11 @@ Sprite::Sprite(void)
     m_vertexArray.create<VertexBuffer>(sizeof(Vertex), 4);
     m_vertexArray.create<IndexBuffer>(sizeof(GLushort), 6);
 
+    m_shader.loadFromMemory(luma_glsl, GL_FRAGMENT_SHADER);
+    m_shader.loadFromMemory(dither2x2_glsl, GL_FRAGMENT_SHADER);
+    m_shader.loadFromMemory(dither4x4_glsl, GL_FRAGMENT_SHADER);
+    m_shader.loadFromMemory(dither8x8_glsl, GL_FRAGMENT_SHADER);
+    m_shader.loadFromMemory(water2d_glsl, GL_FRAGMENT_SHADER);
     m_shader.loadFromMemory(positionTexture_vert, GL_VERTEX_SHADER);
     m_shader.loadFromMemory(positionTexture_frag, GL_FRAGMENT_SHADER);
     GL_CHECK(m_shader.link());
@@ -42,6 +47,10 @@ Sprite::Sprite(const Texture& texture)
     m_vertexArray.create<IndexBuffer>(sizeof(GLushort), 6);
 
     m_shader.loadFromMemory(positionTexture_vert, GL_VERTEX_SHADER);
+    m_shader.loadFromMemory(luma_glsl, GL_FRAGMENT_SHADER);
+    m_shader.loadFromMemory(dither2x2_glsl, GL_FRAGMENT_SHADER);
+    m_shader.loadFromMemory(dither4x4_glsl, GL_FRAGMENT_SHADER);
+    m_shader.loadFromMemory(dither8x8_glsl, GL_FRAGMENT_SHADER);
     m_shader.loadFromMemory(positionTexture_frag, GL_FRAGMENT_SHADER);
     GL_CHECK(m_shader.link());
 
@@ -64,6 +73,10 @@ Sprite::Sprite(const Texture& texture, const RectI& rect)
     m_vertexArray.create<IndexBuffer>(sizeof(GLushort), 6);
 
     m_shader.loadFromMemory(positionTexture_vert, GL_VERTEX_SHADER);
+    m_shader.loadFromMemory(luma_glsl, GL_FRAGMENT_SHADER);
+    m_shader.loadFromMemory(dither2x2_glsl, GL_FRAGMENT_SHADER);
+    m_shader.loadFromMemory(dither4x4_glsl, GL_FRAGMENT_SHADER);
+    m_shader.loadFromMemory(dither8x8_glsl, GL_FRAGMENT_SHADER);
     m_shader.loadFromMemory(positionTexture_frag, GL_FRAGMENT_SHADER);
     GL_CHECK(m_shader.link());
 

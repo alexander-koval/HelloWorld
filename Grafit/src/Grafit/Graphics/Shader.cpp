@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
+#include <Grafit/Graphics/shaders/sharer_printf.hpp>
 
 namespace {
 GLint getMaxTextureUnits(void) {
@@ -49,7 +50,8 @@ void Shader::loadFromMemory(const std::string &shader, GLenum type) {
     GLuint shader_id = 0;
     GL_CHECK(shader_id = glCreateShader(type));
     const char* tmp = shader.c_str();
-    GL_CHECK(glShaderSource(shader_id, 1, &tmp, 0));
+
+    GL_CHECK(glShaderSource(shader_id, 1, &tmp, nullptr));
 
     GLint status = 0;
     GL_CHECK(glCompileShader(shader_id));
