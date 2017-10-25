@@ -27,12 +27,12 @@ Triangle::Triangle() {
     m_indices[2] = 2;
 
     m_vertexArray.initialize();
-    m_vertexArray.create<VertexBuffer>(sizeof(Vertex), 3);
-    m_vertexArray.create<IndexBuffer>(sizeof(GLushort), 3);
+    m_vertexArray.createVertices(sizeof(Vertex), 3);
+    m_vertexArray.createIndices(sizeof(GLushort), 3);
 
     m_vertexArray.use();
-    m_vertexArray.update<VertexBuffer>(&m_vertices[0], 3, 0);
-    m_vertexArray.update<IndexBuffer>(&m_indices[0], 3, 0);
+    m_vertexArray.updateVertices(&m_vertices[0], 3, 0);
+    m_vertexArray.updateIndices(&m_indices[0], 3, 0);
     m_shader.setAttribute("VertexPosition", m_vertexArray.getVertexBuffer(), 2, GL_FLOAT, GL_FALSE, nullptr);
     m_shader.setAttribute("VertexColor", m_vertexArray.getVertexBuffer(), 3, GL_FLOAT, GL_FALSE,
                                              (const GLvoid*)offsetof(Vertex, value2));

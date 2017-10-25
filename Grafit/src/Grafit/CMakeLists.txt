@@ -24,11 +24,11 @@ file(GLOB grafit_graphics_source_files
     "${SRCROOT}/Graphics/shaders/v330/positioncolor.vert"
     "${SRCROOT}/Graphics/shaders/v330/positiontexture.frag"
     "${SRCROOT}/Graphics/shaders/v330/positiontexture.vert"
-    "${SRCROOT}/Graphics/shaders/luma/luma.glsl"
-    "${SRCROOT}/Graphics/shaders/dither/2x2.glsl"
-    "${SRCROOT}/Graphics/shaders/dither/4x4.glsl"
-    "${SRCROOT}/Graphics/shaders/dither/8x8.glsl"
-    "${SRCROOT}/Graphics/shaders/hsv2rgb/hsv2rgb.glsl"
+    "${SRCROOT}/Graphics/shaders/v330/luma/luma.frag"
+    "${SRCROOT}/Graphics/shaders/v330/dither/2x2.frag"
+    "${SRCROOT}/Graphics/shaders/v330/dither/4x4.frag"
+    "${SRCROOT}/Graphics/shaders/v330/dither/8x8.frag"
+    "${SRCROOT}/Graphics/shaders/v330/hsv2rgb/hsv2rgb.frag"
 )
 
 file(GLOB grafit_system_source_files
@@ -158,12 +158,12 @@ add_shaders(shaders
                 Graphics/shaders/v330/positioncolor.vert
                 Graphics/shaders/v330/positiontexture.frag
                 Graphics/shaders/v330/positiontexture.vert
-                Graphics/shaders/luma/luma.glsl
-                Graphics/shaders/dither/2x2.glsl
-                Graphics/shaders/dither/4x4.glsl
-                Graphics/shaders/dither/8x8.glsl
-                Graphics/shaders/hsv2rgb/hsv2rgb.glsl
-                Graphics/shaders/water/water2d.glsl
+                Graphics/shaders/v330/luma/luma.frag
+                Graphics/shaders/v330/dither/2x2.frag
+                Graphics/shaders/v330/dither/4x4.frag
+                Graphics/shaders/v330/dither/8x8.frag
+#                Graphics/shaders/v330/hsv2rgb/hsv2rgb.frag
+                Graphics/shaders/v330/water/water2d.frag
             )
 
 message("SHADER " ${shaders})

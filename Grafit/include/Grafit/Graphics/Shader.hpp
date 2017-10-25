@@ -81,7 +81,7 @@ public:
 
     GLuint getAttributeID(const std::string& attribute) const;
 
-    void relese(void);
+    void release(void);
 
     struct Attribute {
         Attribute(const Shader& shader, const char* name);

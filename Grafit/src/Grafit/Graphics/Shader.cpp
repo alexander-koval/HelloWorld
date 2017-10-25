@@ -34,12 +34,12 @@ Shader::Shader(void)
 
 Shader::~Shader() {
     unuse();
-    relese();
+    release();
     m_attributes.clear();
     m_uniforms.clear();
 }
 
-void Shader::relese(void) {
+void Shader::release(void) {
     if (m_programID != 0) {
         GL_CHECK(glDeleteProgram(m_programID));
         m_programID = 0;

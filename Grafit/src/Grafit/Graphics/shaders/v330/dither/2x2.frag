@@ -1,3 +1,5 @@
+#version 330 core
+
 float luma(vec3 color);
 float luma(vec4 color);
 

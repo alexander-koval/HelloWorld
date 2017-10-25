@@ -23,7 +23,7 @@ void main(void)
 //    vec2 shifted = radius* vec2(cos(angle), sin(angle));
 //    FragColor = texture(TextureMap, (shifted + 0.5));
 
-    vec4 color = texture2D(TextureMap, TexCoord);
+    vec4 color = texture(TextureMap, TexCoord);
 //    float brightness = luma(color);
 //    FragColor = vec4(vec3(brightness), 1.0);
 //    water2d(gl_FragCoord.xy, color);
