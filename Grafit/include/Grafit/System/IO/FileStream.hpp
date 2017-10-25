@@ -2,23 +2,26 @@
 #define FILESTREAM_HPP
 
 #include <string>
-#include <Grafit/System/IO/InputStream.hpp>
+#include <Grafit/System/IO/IOStream.hpp>
 #include <Grafit/System/NonCopyable.hpp>
 #include <Grafit/System/SmartPtr.hpp>
+#include <Grafit/System/RefCounter.hpp>
 #include <fstream>
 
 namespace gf {
 class File;
 
-class FileInputStream : public InputStream, NonCopyable {
+class FileStream : public IOStream, public NonCopyable {
 public:
-    FileInputStream();
+    FileStream();
 
-    virtual ~FileInputStream() override;
+    virtual ~FileStream() override;
 
     void open(const gf::File* file);
 
-    virtual void* read(void) override;
+    virtual void write(char* buffer, size_t size) override;
+
+    virtual char* read(void) override;
 
     virtual Int64 seek(Int64 position) override;
 
@@ -30,6 +33,8 @@ private:
     const gf::File* m_file;
     std::fstream m_stream;
 };
+
+using FileSreamPtr = gf::SmartPtr<FileStream>;
 
 }
 

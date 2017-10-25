@@ -8,7 +8,7 @@
 
 namespace gf {
 class File;
-class InputStream;
+class IOStream;
 class Image {
 public:
     Image(void);
@@ -17,7 +17,7 @@ public:
 
     bool create(const gf::File& file);
 
-    bool create(gf::InputStream& stream);
+    bool create(gf::IOStream& stream);
 
     bool create(const Uint8* buffer, std::size_t size);
 

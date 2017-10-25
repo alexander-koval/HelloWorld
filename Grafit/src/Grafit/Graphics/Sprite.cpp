@@ -25,8 +25,8 @@ Sprite::Sprite(void)
     m_shader.loadFromMemory(dither2x2_frag, GL_FRAGMENT_SHADER);
     m_shader.loadFromMemory(dither4x4_frag, GL_FRAGMENT_SHADER);
     m_shader.loadFromMemory(dither8x8_frag, GL_FRAGMENT_SHADER);
-    m_shader.loadFromMemory(positionTexture_vert, GL_VERTEX_SHADER);
     m_shader.loadFromMemory(positionTexture_frag, GL_FRAGMENT_SHADER);
+    m_shader.loadFromMemory(positionTexture_vert, GL_VERTEX_SHADER);
     GL_CHECK(m_shader.link());
 }
 

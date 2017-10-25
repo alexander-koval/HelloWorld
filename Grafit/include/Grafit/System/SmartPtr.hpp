@@ -1,6 +1,8 @@
 #ifndef SMART_PTR_HPP
 #define SMART_PTR_HPP
 
+#include <cassert>
+
 namespace gf {
 
 template <typename T>
@@ -12,6 +14,7 @@ template <typename T>
 inline void smart_ptr_release(T* p) {
     intrusive_ptr_release(p);
 }
+
 
 template<typename T>
 class SmartPtr {
@@ -187,6 +190,12 @@ void SmartPtr<T>::swap(SmartPtr& other) {
     T* tmp = px;
     px = other.px;
     other.px = tmp;
+}
+
+template<typename T, typename T1>
+inline SmartPtr<T> smart_pointer_cast(const SmartPtr<T1>& r) noexcept {
+    using _Sp = SmartPtr<T>;
+    return _Sp(static_cast<typename _Sp::ValueType*>(r.get()));
 }
 
 }

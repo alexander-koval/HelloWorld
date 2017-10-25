@@ -4,17 +4,17 @@
 
 namespace gf {
 
-FileInputStream::FileInputStream() : m_file(nullptr) {
+FileStream::FileStream() : m_file(nullptr) {
 
 }
 
-FileInputStream::~FileInputStream() {
+FileStream::~FileStream() {
     if (m_stream.is_open()) {
         m_stream.close();
     }
 }
 
-void FileInputStream::open(const gf::File *file) {
+void FileStream::open(const gf::File *file) {
     m_file = file;
     if (m_stream.is_open()) {
         m_stream.close();
@@ -23,13 +23,13 @@ void FileInputStream::open(const gf::File *file) {
     m_stream.open(name, std::ios_base::binary | std::ios_base::in);
 }
 
-//void FileInputStream::write(char* buffer, std::size_t size) {
-//    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName().c_str());
-//    m_stream.write(buffer, static_cast<std::streamsize>(size));
-//    m_stream.flush();
-//}
+void FileStream::write(char* buffer, std::size_t size) {
+    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName().c_str());
+    m_stream.write(buffer, static_cast<std::streamsize>(size));
+    m_stream.flush();
+}
 
-void* FileInputStream::read(void) {
+char* FileStream::read(void) {
     Uint64 size = m_file->getSize();
     char* buffer = new char[size];
     GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName().c_str());
@@ -38,7 +38,7 @@ void* FileInputStream::read(void) {
     return buffer;
 }
 
-Int64 FileInputStream::seek(Int64 position) {
+Int64 FileStream::seek(Int64 position) {
     GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName().c_str());
     m_stream.seekg(position, std::ios_base::beg);
     std::ios_base::iostate state = m_stream.rdstate();
@@ -46,12 +46,12 @@ Int64 FileInputStream::seek(Int64 position) {
     return tell();
 }
 
-Int64 FileInputStream::tell() {
+Int64 FileStream::tell() {
     GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName().c_str());
     return m_stream.tellg();
 }
 
-Int64 FileInputStream::getSize() {
+Int64 FileStream::getSize() {
     if (m_stream.is_open()) {
         Int64 position = tell();
         m_stream.seekg(0, std::ios_base::end);

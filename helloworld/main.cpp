@@ -24,6 +24,8 @@
 #include <Grafit/System/Promise/Promise.hpp>
 #include <Grafit/System/String.hpp>
 
+#include <Grafit/System/SmartPtr.hpp>
+#include <Grafit/System/IO/FileStream.hpp>
 #include <Grafit/Graphics/shaders/shaders.hpp>
 #include <Grafit/System/IO/FileSystem.hpp>
 
@@ -225,15 +227,16 @@ int main() {
 
     gf::FileSystemPtr fs(new gf::FileSystem(gf::SystemInfo::getApplicationDirectory()));
     std::string dirPath(gf::SystemInfo::getApplicationDirectory());
+    gf::SmartPtr<gf::IOStream> fstream(fs->open(filename1));
+    char* data = fstream->read();
+    fs.reset();
+
     const std::string& filePath(dirPath.append(gf::File::Separator + filename1));
     gf::File file = gf::File(filePath);
     std::cout << "Name: " << file.getName().c_str() << "\n"
               << " Ext: " << file.getExtension().c_str() << "\n"
               << "Path: " << file.getNativePath() << "\n"
               << "Size: " << file.getSize() << std::endl;
-    gf::FileInputStream* fileStream = new gf::FileInputStream();
-    fileStream->open(&file);
-    fileStream->read();
 
     window->setVerticalSyncEnabled(true);
 
