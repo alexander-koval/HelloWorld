@@ -137,7 +137,7 @@ void Sprite::updatePositions(void) {
     m_vertexArray.use();
     m_vertexArray.update<VertexBuffer>(&m_vertices[0], 4, 0);
     m_vertexArray.update<IndexBuffer>(&m_indices[0], 6, 0);
-    m_shader.setParameter<Shader::Attribute>("VertexPosition", m_vertexArray.getVertexBuffer(), 2, GL_FLOAT, GL_FALSE, 0);
+    m_shader.setAttribute("VertexPosition", m_vertexArray.getVertexBuffer(), 2, GL_FLOAT, GL_FALSE, nullptr);
     m_vertexArray.unuse();
 }
 
@@ -155,7 +155,7 @@ void Sprite::updateTexCoords(void) {
     m_vertexArray.use();
     m_vertexArray.update<VertexBuffer>(&m_vertices[0], 4, 0);
     m_vertexArray.update<IndexBuffer>(&m_indices[0], 6, 0);
-        m_shader.setParameter<Shader::Attribute>("VertexTexCoord", m_vertexArray.getVertexBuffer(), 2, GL_FLOAT, GL_FALSE,
+        m_shader.setAttribute("VertexTexCoord", m_vertexArray.getVertexBuffer(), 2, GL_FLOAT, GL_FALSE,
                                              (const GLvoid*)offsetof(Vertex, value2));
     m_vertexArray.unuse();
 }

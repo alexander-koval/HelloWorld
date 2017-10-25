@@ -1,3 +1,7 @@
+#version 330 core
+
+uniform float Time;
+
 float luma(vec3 color);
 float luma(vec4 color);
 

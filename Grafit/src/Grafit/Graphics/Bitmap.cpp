@@ -17,10 +17,10 @@ Bitmap::Bitmap(const gf::File& file) {
     m_shader.loadFromMemory(positionTexture_frag, GL_FRAGMENT_SHADER);
     GL_CHECK(m_shader.link());
     GL_CHECK(m_shader.use());
-    GL_CHECK(m_shader.setParameter<Shader::Uniform>("MVP"));
-    GL_CHECK(m_shader.setParameter<Shader::Uniform>("TextureMap", 0));
-    GL_CHECK(m_shader.setParameter<Shader::Attribute>("VertexPosition"));
-    GL_CHECK(m_shader.setParameter<Shader::Attribute>("VertexTexCoord"));
+    GL_CHECK(m_shader.setUniform("MVP"));
+    GL_CHECK(m_shader.setUniform("TextureMap", 0));
+    GL_CHECK(m_shader.setAttribute("VertexPosition"));
+    GL_CHECK(m_shader.setAttribute("VertexTexCoord"));
     GL_CHECK(m_shader.unuse());
 
     m_vertices[0].value1 = Vector2F(0.0f, 0.0f);
@@ -49,8 +49,8 @@ Bitmap::Bitmap(const gf::File& file) {
     m_vertexArray.use();
     m_vertexArray.update<VertexBuffer>(&m_vertices[0], 4, 0);
     m_vertexArray.update<IndexBuffer>(&m_indices[0], 6, 0);
-    m_shader.setParameter<Shader::Attribute>("VertexPosition", m_vertexArray.getVertexBuffer(), 2, GL_FLOAT, GL_FALSE, 0);
-    m_shader.setParameter<Shader::Attribute>("VertexTexCoord", m_vertexArray.getVertexBuffer(), 2, GL_FLOAT, GL_FALSE,
+    m_shader.setAttribute("VertexPosition", m_vertexArray.getVertexBuffer(), 2, GL_FLOAT, GL_FALSE, nullptr);
+    m_shader.setAttribute("VertexTexCoord", m_vertexArray.getVertexBuffer(), 2, GL_FLOAT, GL_FALSE,
                                              (const GLvoid*)offsetof(Vertex, value2));
     m_vertexArray.unuse();
 }
@@ -59,7 +59,7 @@ void Bitmap::render(Mat4F mvpView) {
     m_shader.use();
     m_vertexArray.use();
     mvpView = mvpView * getTransform().getMatrix();
-    m_shader.setParameter<Shader::Uniform>("MVP", mvpView);
+    m_shader.setUniform("MVP", mvpView);
     GL_CHECK(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0));
     m_vertexArray.unuse();
     m_shader.unuse();

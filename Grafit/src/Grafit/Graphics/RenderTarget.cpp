@@ -11,7 +11,6 @@
 namespace {
     Uint32 factorToGlConstant(gf::BlendMode::Factor blendFactor) {
         switch (blendFactor) {
-            default:
             case gf::BlendMode::Zero:             return GL_ZERO;
             case gf::BlendMode::One:              return GL_ONE;
             case gf::BlendMode::SrcColor:         return GL_SRC_COLOR;
@@ -27,7 +26,6 @@ namespace {
 
     Uint32 equationToGlConstant(gf::BlendMode::Equation blendEquation) {
         switch (blendEquation) {
-            default:
             case gf::BlendMode::Add:             return GL_FUNC_ADD;
             case gf::BlendMode::Subtract:        return GL_FUNC_SUBTRACT;
         }
@@ -146,8 +144,9 @@ void RenderTarget::draw(const VertexArray& vertices, PrimitiveType type, const R
 //        Mat4F mvpView = m_projectionStack.top() * m_modelViewStack.top() * m_textureStack.top();
         Mat4F mvpView = /*m_textureStack.top() * */m_modelViewStack.top() * m_projectionStack.top();
         GF_ASSERT(shader != nullptr, "Unitialized shader pointer", nullptr);
-        shader->setParameter<Shader::Uniform>("TextureMap", *texture);
-        shader->setParameter<Shader::Uniform>("MVP", mvpView);
+        shader->setUniform("TextureMap", *texture);
+        shader->setUniform("MVP", mvpView);
+//        shader->setParameter<Shader::Uniform>("Time", .1f);
 //        shader->setParameter<Shader::Uniform>("TextureSize", texture->getSize().x, texture->getSize().y);
         GL_CHECK(glDrawElements(type,
                                 vertices.getIndexBuffer().getNumIndices(),
