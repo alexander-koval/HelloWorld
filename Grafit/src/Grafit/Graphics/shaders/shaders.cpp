@@ -40,7 +40,7 @@ std::string luma_frag = std::string(reinterpret_cast<char*>(&Graphics_shaders_v3
 std::string dither2x2_frag = std::string(reinterpret_cast<char*>(&Graphics_shaders_v330_dither_2x2_frag[0]), Graphics_shaders_v330_dither_2x2_frag_len);
 std::string dither4x4_frag = std::string(reinterpret_cast<char*>(&Graphics_shaders_v330_dither_4x4_frag[0]), Graphics_shaders_v330_dither_4x4_frag_len);
 std::string dither8x8_frag = std::string(reinterpret_cast<char*>(&Graphics_shaders_v330_dither_8x8_frag[0]), Graphics_shaders_v330_dither_8x8_frag_len);
-std::string water2d_frag = std::string(reinterpret_cast<char*>(&Graphics_shaders_v330_water_water2d_frag[0]), Graphics_shaders_v330_water_water2d_frag_len);
+//std::string water2d_frag = std::string(reinterpret_cast<char*>(&Graphics_shaders_v330_water_water2d_frag[0]), Graphics_shaders_v330_water_water2d_frag_len);
 
 void dump() {
 

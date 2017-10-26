@@ -7,9 +7,6 @@
 [submodule "Grafit/modules/stb"]
 	path = Grafit/modules/stb
 	url = https://github.com/nothings/stb.git
-[submodule "Grafit/modules/loki"]
-	path = Grafit/modules/loki
-	url = https://github.com/snaewe/loki-lib.git
 [submodule "Grafit/modules/physfs"]
 	path = Grafit/modules/physfs
 	url = https://github.com/criptych/physfs.git
