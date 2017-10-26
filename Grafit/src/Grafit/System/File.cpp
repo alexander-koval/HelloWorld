@@ -13,14 +13,26 @@ namespace gf {
 
 const char File::Separator = Path::separator();
 
+File::File()
+: m_pimpl(new FileImpl()) {
+
+}
+
+File::File(const File& that) {
+    m_pimpl = that.m_pimpl;
+}
+
+File::File(File&& that) {
+    m_pimpl = that.m_pimpl;
+}
+
 File::File(const std::string& path)
-    : m_pimpl(new FileImpl(path)) {
+: m_pimpl(new FileImpl(path)) {
 
 }
 
 File::File(const Path& path)
-    : m_pimpl(new FileImpl(path.toString()))
-{
+: m_pimpl(new FileImpl(path.toString())) {
 
 }
 
@@ -66,6 +78,10 @@ Uint64 File::getSize(void) const {
 
 float File::getSpaceAvailable(void) const {
     return m_pimpl->freeSpaceImpl();
+}
+
+void File::swap(File&& that) {
+    std::swap(m_pimpl, that.m_pimpl);
 }
 
 void File::remove() {

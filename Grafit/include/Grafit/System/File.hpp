@@ -10,9 +10,15 @@ class FileImpl;
 
 class File {
 public:
+    File();
+
     File(const std::string& path);
 
     File(const Path& path);
+
+    File(const File& that);
+
+    File(File&& that);
 
     ~File(void);
 
@@ -38,12 +44,15 @@ public:
 
     void remove();
 
+    void swap(File&& that);
+
 public:
     static const char Separator;
 
 private:
     FileImpl* m_pimpl;
 };
+
 
 } // namespace gf
 

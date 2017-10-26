@@ -6,6 +6,7 @@
 #include <Grafit/System/NonCopyable.hpp>
 #include <Grafit/System/SmartPtr.hpp>
 #include <Grafit/System/RefCounter.hpp>
+#include <Grafit/System/File.hpp>
 #include <fstream>
 
 namespace gf {
@@ -17,7 +18,9 @@ public:
 
     virtual ~FileStream() override;
 
-    void open(const gf::File* file);
+    void open(gf::File&& file);
+
+    void open(const gf::File& file);
 
     virtual void write(char* buffer, size_t size) override;
 
@@ -30,11 +33,12 @@ public:
     virtual Int64 getSize(void) override;
 
 private:
-    const gf::File* m_file;
+    Uint64 m_size;
+    std::string m_path;
     std::fstream m_stream;
 };
 
-using FileSreamPtr = gf::SmartPtr<FileStream>;
+using FileSreamPtr = SharedPtr<FileStream>;
 
 }
 

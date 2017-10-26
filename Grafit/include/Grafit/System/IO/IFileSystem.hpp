@@ -17,11 +17,11 @@ public:
 
     virtual bool exists(const std::string& filename) const = 0;
 
-    virtual SmartPtr<IOStream> openRead(const std::string& filename) = 0;
+    virtual SharedPtr<IOStream> openRead(const std::string& filename) = 0;
 
-    virtual SmartPtr<IOStream> openWrite(const std::string& filename) = 0;
+    virtual SharedPtr<IOStream> openWrite(const std::string& filename) = 0;
 
-    virtual SmartPtr<IOStream> open(const std::string& filename) = 0;
+    virtual SharedPtr<IOStream> open(const std::string& filename) = 0;
 
     virtual void remove(const std::string& filename) = 0;
 };

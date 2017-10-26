@@ -7,7 +7,7 @@
 #include <Grafit/System/RefCounter.hpp>
 
 namespace gf {
-class IOStream : public Destructable, public RefCounter {
+class IOStream : public Destructable {
 public:
     virtual void write(char* buffer, size_t size) = 0;
 

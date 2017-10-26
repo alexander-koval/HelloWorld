@@ -1,10 +1,10 @@
 #include <Grafit/System/IO/FileStream.hpp>
 #include <Grafit/System/Assert.hpp>
-#include <Grafit/System/File.hpp>
 
 namespace gf {
 
-FileStream::FileStream() : m_file(nullptr) {
+FileStream::FileStream()
+    : m_size(), m_path(), m_stream() {
 
 }
 
@@ -14,32 +14,35 @@ FileStream::~FileStream() {
     }
 }
 
-void FileStream::open(const gf::File *file) {
-    m_file = file;
+void FileStream::open(File&& file) {
+    open(file);
+}
+
+void FileStream::open(const gf::File& file) {
+    m_size = file.getSize();
+    m_path = file.getNativePath();
     if (m_stream.is_open()) {
         m_stream.close();
     }
-    const std::string& name(file->getNativePath());
-    m_stream.open(name, std::ios_base::binary | std::ios_base::in);
+    m_stream.open(m_path, std::ios_base::binary | std::ios_base::in | std::ios_base::out);
 }
 
 void FileStream::write(char* buffer, std::size_t size) {
-    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName().c_str());
+    GF_ASSERT(m_stream.is_open(), "File does not opened", m_path.c_str());
     m_stream.write(buffer, static_cast<std::streamsize>(size));
     m_stream.flush();
 }
 
 char* FileStream::read(void) {
-    Uint64 size = m_file->getSize();
-    char* buffer = new char[size];
-    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName().c_str());
+    char* buffer = new char[m_size];
+    GF_ASSERT(m_stream.is_open(), "File does not opened", m_path.c_str());
     seek(0);
-    m_stream.read(buffer, static_cast<std::streamsize>(m_file->getSize()));
+    m_stream.read(buffer, static_cast<std::streamsize>(m_size));
     return buffer;
 }
 
 Int64 FileStream::seek(Int64 position) {
-    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName().c_str());
+    GF_ASSERT(m_stream.is_open(), "File does not opened", m_path.c_str());
     m_stream.seekg(position, std::ios_base::beg);
     std::ios_base::iostate state = m_stream.rdstate();
     GF_ASSERT(state == std::ios_base::goodbit, "Failed to set the file position", static_cast<int>(state));
@@ -47,7 +50,7 @@ Int64 FileStream::seek(Int64 position) {
 }
 
 Int64 FileStream::tell() {
-    GF_ASSERT(m_stream.is_open(), "File does not opened", m_file->getName().c_str());
+    GF_ASSERT(m_stream.is_open(), "File does not opened", m_path.c_str());
     return m_stream.tellg();
 }
 

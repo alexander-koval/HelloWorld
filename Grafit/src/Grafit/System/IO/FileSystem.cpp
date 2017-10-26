@@ -11,32 +11,30 @@ FileSystem::FileSystem(const std::string& root)
 }
 
 bool FileSystem::exists(const std::string& filename) const {
-    File file(m_root + filename);
+    File file(m_root + File::Separator + filename);
     return file.isExist();
 }
 
-//TODO: FIXME Утечка
-SmartPtr<IOStream> FileSystem::open(const std::string& filename) {
-    File* file = new File(m_root + File::Separator + filename);
-    if (file->isExist() && file->isRegularFile()) {
-        gf::FileStream* stream = new FileStream();
-        stream->open(file);
-        SmartPtr<IOStream> ptr(stream);
-        return ptr;
+SharedPtr<IOStream> FileSystem::open(const std::string& filename) {
+    File file(m_root + File::Separator + filename);
+    if (file.isExist() && file.isRegularFile()) {
+        SharedPtr<FileStream> streamPtr = make_shared<FileStream>();
+        streamPtr->open(std::move(file));
+        return streamPtr;
     }
-    return SmartPtr<IOStream>();
+    return SharedPtr<IOStream>();
 }
 
-SmartPtr<IOStream> FileSystem::openRead(const std::string& filename) {
+SharedPtr<IOStream> FileSystem::openRead(const std::string& filename) {
     return open(filename);
 }
 
-SmartPtr<IOStream> FileSystem::openWrite(const std::string& filename) {
+SharedPtr<IOStream> FileSystem::openWrite(const std::string& filename) {
     return open(filename);
 }
 
 void FileSystem::remove(const std::string& filename) {
-    File file(m_root + filename);
+    File file(m_root + File::Separator + filename);
     if (file.isExist()) {
         file.remove();
     }

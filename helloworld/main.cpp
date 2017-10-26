@@ -225,9 +225,9 @@ int main() {
               << "\t TEMP_DIR: " << gf::SystemInfo::getTempDirectory() << "\n"
               << std::endl;
 
-    gf::FileSystemPtr fs(new gf::FileSystem(gf::SystemInfo::getApplicationDirectory()));
+    gf::FileSystemPtr fs(gf::make_shared<gf::FileSystem>(gf::SystemInfo::getApplicationDirectory()));
     std::string dirPath(gf::SystemInfo::getApplicationDirectory());
-    gf::SmartPtr<gf::IOStream> fstream(fs->open(filename1));
+    gf::SharedPtr<gf::IOStream> fstream = fs->open(filename1);
     char* data = fstream->read();
     fs.reset();
 

@@ -19,7 +19,7 @@ Image::~Image(void) {
 bool Image::create(const File &file) {
     if (file.isExist() && file.isRegularFile()) {
         gf::FileStream stream;
-        stream.open(&file);
+        stream.open(file);
         return create(stream);
     }
     return false;

@@ -2,8 +2,23 @@
 #define SMART_PTR_HPP
 
 #include <cassert>
+#include <memory>
 
 namespace gf {
+
+using std::shared_ptr;
+using std::weak_ptr;
+using std::static_pointer_cast;
+using std::dynamic_pointer_cast;
+using std::const_pointer_cast;
+using std::enable_shared_from_this;
+using std::make_shared;
+
+template <typename T>
+using SharedPtr = shared_ptr<T>;
+
+template <typename T>
+using WeakPtr = weak_ptr<T>;
 
 template <typename T>
 inline void smart_ptr_add_ref(T* p) {
@@ -14,7 +29,6 @@ template <typename T>
 inline void smart_ptr_release(T* p) {
     intrusive_ptr_release(p);
 }
-
 
 template<typename T>
 class SmartPtr {

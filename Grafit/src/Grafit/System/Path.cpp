@@ -543,7 +543,7 @@ bool Path::find(StringVec::const_iterator it, StringVec::const_iterator end, con
 #endif
         p.makeDirectory();
         p.resolve(Path(name));
-        File f(p);
+        File f(p.toString());
         if (f.isExist())
         {
             path = p;
