@@ -27,18 +27,32 @@ void FileStream::open(const gf::File& file) {
     m_stream.open(m_path, std::ios_base::binary | std::ios_base::in | std::ios_base::out);
 }
 
+void FileStream::readAll(std::vector<char>& buffer) {
+    m_stream.seekg(0, std::ios::end);
+    std::fstream::pos_type pos = m_stream.tellg();
+    std::streamsize length = pos;
+    m_stream.seekg(0, std::ios::beg);
+    buffer.resize(static_cast<std::size_t>(length));
+    m_stream.read(&buffer[0], length);
+
+}
+
+void FileStream::writeAll(std::vector<char>& buffer) {
+    if (!buffer.empty()) {
+        write(&buffer.front(), buffer.size());
+    }
+}
+
 void FileStream::write(char* buffer, std::size_t size) {
     GF_ASSERT(m_stream.is_open(), "File does not opened", m_path.c_str());
     m_stream.write(buffer, static_cast<std::streamsize>(size));
     m_stream.flush();
 }
 
-char* FileStream::read(void) {
-    char* buffer = new char[m_size];
+Int64 FileStream::read(char* buffer, std::size_t size) {
     GF_ASSERT(m_stream.is_open(), "File does not opened", m_path.c_str());
-    seek(0);
-    m_stream.read(buffer, static_cast<std::streamsize>(m_size));
-    return buffer;
+    m_stream.read(buffer, static_cast<std::streamsize>(size));
+    return m_stream.gcount();
 }
 
 Int64 FileStream::seek(Int64 position) {

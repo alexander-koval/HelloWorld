@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <Grafit/System/Destructable.hpp>
-#include <Grafit/System/IO/IOStream.hpp>
+#include <Grafit/System/IO/Stream.hpp>
 #include <Grafit/System/SmartPtr.hpp>
 #include <Grafit/System/Path.hpp>
 

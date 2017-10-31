@@ -1,5 +1,5 @@
-#ifndef IDESTRUCTABLE_HPP
-#define IDESTRUCTABLE_HPP
+#ifndef DESTRUCTABLE_HPP
+#define DESTRUCTABLE_HPP
 
 namespace gf {
 class Destructable {

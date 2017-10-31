@@ -49,8 +49,10 @@ file(GLOB grafit_system_source_files
     "${SRCROOT}/System/RefCounter.cpp"
     "${SRCROOT}/System/ResourceManager.cpp"
     "${SRCROOT}/System/Promise/EventLoop.cpp"
+    "${SRCROOT}/System/IO/Stream.cpp"
     "${SRCROOT}/System/IO/FileStream.cpp"
     "${SRCROOT}/System/IO/FileSystem.cpp"
+    "${SRCROOT}/System/IO/PhysfsFileSystem.cpp"
 )
 
 if(WIN32)
@@ -149,6 +151,10 @@ find_library(GLFW_LIBRARY
     NAMES glfw3.a libglfw3.a
     PATHS ${GRAFIT_LINK_DIRECTORIES})
 
+find_library(PHYSFS_LIBRARY
+    NAMES libphysfs.a
+    PATHS ${GRAFIT_LINK_DIRECTORIES})
+
 message("GLFW " ${GLFW_LIBRARY})
 message("OPENGL_LIBRARY " ${OPENGL_LIBRARY})
 message("GLFW_LIBRARIES " ${GLFW_LIBRARIES})
@@ -178,6 +184,7 @@ add_library(grafit STATIC
     ${shaders})
 target_link_libraries(grafit
     ${GLFW_LIBRARY}
+    ${PHYSFS_LIBRARY}
     ${OPENGL_glu_LIBRARY}
     ${GLFW_LIBRARIES}
     ${grafit_window_extra_libs}

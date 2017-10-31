@@ -1,6 +1,6 @@
 #include <Grafit/Graphics/Bitmap.hpp>
 #include <Grafit/System/IO/FileStream.hpp>
-#include <Grafit/System/IO/IOStream.hpp>
+#include <Grafit/System/IO/Stream.hpp>
 #include <Grafit/System/Assert.hpp>
 #include <Grafit/System/File.hpp>
 #include <stb_image.h>
@@ -26,8 +26,9 @@ bool Image::create(const File &file) {
 }
 
 bool Image::create(gf::IOStream &stream) {
-    const Uint8* buffer = reinterpret_cast<const Uint8*>(stream.read());
-    return create(buffer, stream.getSize());
+    std::vector<char> buffer;
+    stream.readAll(buffer);
+    return create(reinterpret_cast<Uint8*>(&buffer[0]), buffer.size());
 }
 
 bool Image::create(const Uint8* buffer, std::size_t size) {

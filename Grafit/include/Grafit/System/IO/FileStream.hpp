@@ -2,7 +2,7 @@
 #define FILESTREAM_HPP
 
 #include <string>
-#include <Grafit/System/IO/IOStream.hpp>
+#include <Grafit/System/IO/Stream.hpp>
 #include <Grafit/System/NonCopyable.hpp>
 #include <Grafit/System/SmartPtr.hpp>
 #include <Grafit/System/RefCounter.hpp>
@@ -22,9 +22,13 @@ public:
 
     void open(const gf::File& file);
 
-    virtual void write(char* buffer, size_t size) override;
+    virtual void readAll(std::vector<char>& buffer) override;
 
-    virtual char* read(void) override;
+    virtual void writeAll(std::vector<char>& buffer) override;
+
+    virtual Int64 read(char* buffer, size_t size) override;
+
+    virtual void write(char* buffer, size_t size) override;
 
     virtual Int64 seek(Int64 position) override;
 

@@ -28,6 +28,7 @@
 #include <Grafit/System/IO/FileStream.hpp>
 #include <Grafit/Graphics/shaders/shaders.hpp>
 #include <Grafit/System/IO/FileSystem.hpp>
+#include <Grafit/System/IO/PhysfsFileSystem.hpp>
 
 
 #ifdef WIN32
@@ -225,10 +226,12 @@ int main() {
               << "\t TEMP_DIR: " << gf::SystemInfo::getTempDirectory() << "\n"
               << std::endl;
 
-    gf::FileSystemPtr fs(gf::make_shared<gf::FileSystem>(gf::SystemInfo::getApplicationDirectory()));
+    gf::PhysfsFileSystemPtr fs(gf::make_shared<gf::PhysfsFileSystem>(gf::SystemInfo::getApplicationDirectory()));
     std::string dirPath(gf::SystemInfo::getApplicationDirectory());
-    gf::SharedPtr<gf::IOStream> fstream = fs->open(filename1);
-    char* data = fstream->read();
+    fs->mount("Resources", "", true);
+    gf::SharedPtr<gf::IOStream> fstream = fs->open("serrano.png");
+    std::vector<char> buffer;
+    fstream->readAll(buffer);
     fs.reset();
 
     const std::string& filePath(dirPath.append(gf::File::Separator + filename1));

@@ -2,7 +2,7 @@
 #include <Grafit/Graphics/OpenGL.hpp>
 #include <Grafit/Graphics/Bitmap.hpp>
 #include <Grafit/System/File.hpp>
-#include <Grafit/System/IO/IOStream.hpp>
+#include <Grafit/System/IO/Stream.hpp>
 #include <Grafit/System/Assert.hpp>
 #include <iostream>
 
