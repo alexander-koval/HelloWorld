@@ -1,4 +1,5 @@
 #include "ThreadImpl.hpp"
+#include <Grafit/System/Exception.hpp>
 #include <Grafit/System/Thread.hpp>
 #include <iostream>
 #include <cassert>
@@ -10,8 +11,9 @@ ThreadImpl::ThreadImpl(Thread* owner)
 : m_isActive(true) {
     m_isActive = pthread_create(&m_thread, nullptr, &ThreadImpl::entryPoint, owner) == 0;
 
-    if (!m_isActive)
-        std::cerr << "Failed to create thread" << std::endl;
+    if (!m_isActive) {
+        NoThreadAvailableException("Failed to create thread");
+    }
 }
 
 void ThreadImpl::wait() {

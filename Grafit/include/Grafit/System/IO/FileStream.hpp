@@ -12,7 +12,7 @@
 namespace gf {
 class File;
 
-class FileStream : public IOStream, public NonCopyable {
+class FileStream : public IOStream {
 public:
     FileStream();
 
@@ -24,13 +24,17 @@ public:
 
     virtual void readAll(std::vector<char>& buffer) override;
 
+    virtual void readAll(OutputStream& stream) override;
+
     virtual void writeAll(std::vector<char>& buffer) override;
+
+    virtual void writeAll(InputStream& stream) override;
 
     virtual Int64 read(char* buffer, size_t size) override;
 
     virtual void write(char* buffer, size_t size) override;
 
-    virtual Int64 seek(Int64 position) override;
+    virtual Int64 seek(Int64 position, Origin origin) override;
 
     virtual Int64 tell(void) override;
 

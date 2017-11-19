@@ -41,6 +41,7 @@ file(GLOB grafit_system_source_files
     "${SRCROOT}/System/ThreadLocal.cpp"
     "${SRCROOT}/System/Time.cpp"
     "${SRCROOT}/System/Assert.cpp"
+    "${SRCROOT}/System/Exception.cpp"
     "${SRCROOT}/System/File.cpp"
     "${SRCROOT}/System/Path.cpp"
     "${SRCROOT}/System/SystemInfo.cpp"

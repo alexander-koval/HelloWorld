@@ -2,4 +2,6 @@
 
 namespace gf {
 
+Seekable::~Seekable() { }
+
 }
