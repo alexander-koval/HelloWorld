@@ -23,6 +23,8 @@ public:
 
     virtual void remove(const std::string& filename) override;
 
+    const std::string& getRoot() const { return m_root; };
+
 private:
     std::string m_root;
 

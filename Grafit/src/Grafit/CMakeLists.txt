@@ -54,6 +54,7 @@ file(GLOB grafit_system_source_files
     "${SRCROOT}/System/IO/FileStream.cpp"
     "${SRCROOT}/System/IO/FileSystem.cpp"
     "${SRCROOT}/System/IO/PhysfsFileSystem.cpp"
+    "${SRCROOT}/System/IO/VirtualFileSystem.cpp"
 )
 
 if(WIN32)

@@ -13,8 +13,6 @@ namespace gf {
 class IFileSystem : public Destructable
 {
 public:
-    const std::string& getRoot() const;
-
     virtual bool exists(const std::string& filename) const = 0;
 
     virtual SharedPtr<IOStream> openRead(const std::string& filename) = 0;

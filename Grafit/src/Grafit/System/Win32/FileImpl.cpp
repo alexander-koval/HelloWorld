@@ -67,7 +67,7 @@ void FileImpl::setPathImpl(const std::string& path)
 
 bool FileImpl::existsImpl() const
 {
-//    GF_ASSERT(!m_path.empty(), "File path is empty");
+    GF_ASSERT(!m_path.empty(), "File path is empty");
     DWORD attr = GetFileAttributes(m_path.c_str());
     if (attr == INVALID_FILE_ATTRIBUTES) {
         switch (GetLastError()) {
@@ -85,7 +85,7 @@ bool FileImpl::existsImpl() const
 
 bool FileImpl::canReadImpl() const
 {
-//    GF_ASSERT(!m_path.empty(), "File path is empty");
+    GF_ASSERT(!m_path.empty(), "File path is empty");
     DWORD attr = GetFileAttributes(m_path.c_str());
     if (attr == INVALID_FILE_ATTRIBUTES) {
         switch (GetLastError()) {
@@ -100,7 +100,7 @@ bool FileImpl::canReadImpl() const
 
 bool FileImpl::canWriteImpl() const
 {
-//    GF_ASSERT(!m_path.empty(), "File path is empty");
+    GF_ASSERT(!m_path.empty(), "File path is empty");
     DWORD attr = GetFileAttributes(m_path.c_str());
     if (attr == INVALID_FILE_ATTRIBUTES) {
         handleLastErrorImpl(m_path);
@@ -110,7 +110,7 @@ bool FileImpl::canWriteImpl() const
 
 bool FileImpl::canExecuteImpl() const
 {
-//    GF_ASSERT(!m_path.empty(), "File path is empty");
+    GF_ASSERT(!m_path.empty(), "File path is empty");
     Path p(m_path);
     std::string ext = p.getExtension();
     std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
@@ -119,13 +119,13 @@ bool FileImpl::canExecuteImpl() const
 
 bool FileImpl::isFileImpl() const
 {
-//    GF_ASSERT(!m_path.empty(), "File path is empty");
+    GF_ASSERT(!m_path.empty(), "File path is empty");
     return !isDirectoryImpl() && !isDeviceImpl();
 }
 
 bool FileImpl::isDirectoryImpl() const
 {
-//    GF_ASSERT(!m_path.empty(), "File path is empty");
+    GF_ASSERT(!m_path.empty(), "File path is empty");
     DWORD attr = GetFileAttributes(m_path.c_str());
     if (attr == INVALID_FILE_ATTRIBUTES) {
         handleLastErrorImpl(m_path);
@@ -135,13 +135,13 @@ bool FileImpl::isDirectoryImpl() const
 
 bool FileImpl::isLinkImpl() const
 {
-//    GF_ASSERT(!m_path.empty(), "File path is empty");
+    GF_ASSERT(!m_path.empty(), "File path is empty");
     return false;
 }
 
 bool FileImpl::isDeviceImpl() const
 {
-//    GF_ASSERT(!m_path.empty(), "File path is empty");
+    GF_ASSERT(!m_path.empty(), "File path is empty");
     return false;
 }
 

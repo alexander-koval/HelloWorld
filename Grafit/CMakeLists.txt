@@ -6,6 +6,11 @@ set(Grafit_VERSION_MINOR 1)
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules/")
 
+if(WIN32)
+    set(XXD "${PROJECT_SOURCE_DIR}/tools/win32/xxd.exe")
+else()
+    set(XXD "xxd")
+endif()
 #include ("${CMAKE_MODULE_PATH}/AddBoost.cmake")
 
 function(add_shaders output)
@@ -14,7 +19,7 @@ function(add_shaders output)
         file(RELATIVE_PATH SOURCE_FILE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${INPUT_FILE})
         set(OUTPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/${INPUT_FILE}.c")
         add_custom_command(OUTPUT ${OUTPUT_FILE}
-            COMMAND xxd -i ${SOURCE_FILE} > ${OUTPUT_FILE}
+            COMMAND ${XXD} -i ${SOURCE_FILE} > ${OUTPUT_FILE}
             DEPENDS ${INPUT_FILE}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
             COMMENT "Embedding shader to file ${OUTPUT_FILE}"
