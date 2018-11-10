@@ -87,7 +87,7 @@ add_definitions(-DGLFW_EXPOSE_NATIVE_X11 -DGLFW_EXPOSE_NATIVE_GLX -DGRAFIT_SYSTE
 endif()
 
 add_subdirectory(modules/glfw)
-add_subdirectory(modules/physfs)
+#add_subdirectory(modules/physfs)
 #add_subdirectory(modules/poco)
 add_subdirectory(src/Grafit)
 #add_subdirectory(src/Grafit/Graphics)
