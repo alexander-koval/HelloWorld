@@ -8,7 +8,7 @@ void EventLoop::enqueue(Fn&& eqf) {
     queue.push_back(std::move(eqf));
 }
 
-size_t EventLoop::size() {
+std::size_t EventLoop::size() {
     return queue.size();
 }
 

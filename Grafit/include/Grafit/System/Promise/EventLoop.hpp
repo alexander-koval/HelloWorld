@@ -13,7 +13,7 @@ using Queue = std::vector<std::function<void()>>;
 public:
     static void enqueue(Fn&& eqf);
 
-    static size_t size();
+    static std::size_t size();
 
     static void clear();
 

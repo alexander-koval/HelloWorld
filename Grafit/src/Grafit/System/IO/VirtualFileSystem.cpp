@@ -59,7 +59,7 @@ SharedPtr<IOStream> VirtualFileSystem::openWrite(const std::string &filename) {
 }
 
 SharedPtr<IOStream> VirtualFileSystem::open(const std::string &filename) {
-    openRead(filename);
+    return openRead(filename);
 }
 
 void VirtualFileSystem::remove(const std::string &filename) {

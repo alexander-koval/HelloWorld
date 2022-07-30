@@ -97,18 +97,18 @@ else()
                             ${resource} Resources
                             WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
     endforeach()
-    if(OBJCOPY)
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                            COMMAND ${OBJCOPY} $<TARGET_FILE:${PROJECT_NAME}>
-                            ARGS --only-keep-debug $<TARGET_FILE:${PROJECT_NAME}>.dSYM
-                            COMMENT "Generating binary with debug information"
-                            COMMAND ${OBJCOPY} $<TARGET_FILE:${PROJECT_NAME}>
-                            ARGS --add-gnu-debuglink=$<TARGET_FILE:${PROJECT_NAME}>.dSYM
-                            COMMENT "Link binary file with debug information"
-                            COMMAND ${CMAKE_STRIP} $<TARGET_FILE:${PROJECT_NAME}>
-                            COMMENT "Strip debug information from ${PROJECT_NAME}"
-                            VERBATIM)
-    endif(OBJCOPY)
+#    if(OBJCOPY)
+#        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#                            COMMAND ${OBJCOPY} $<TARGET_FILE:${PROJECT_NAME}>
+#                            ARGS --only-keep-debug $<TARGET_FILE:${PROJECT_NAME}>.dSYM
+#                            COMMENT "Generating binary with debug information"
+#                            COMMAND ${OBJCOPY} $<TARGET_FILE:${PROJECT_NAME}>
+#                            ARGS --add-gnu-debuglink=$<TARGET_FILE:${PROJECT_NAME}>.dSYM
+#                            COMMENT "Link binary file with debug information"
+#                            COMMAND ${CMAKE_STRIP} $<TARGET_FILE:${PROJECT_NAME}>
+#                            COMMENT "Strip debug information from ${PROJECT_NAME}"
+#                            VERBATIM)
+#    endif(OBJCOPY)
 endif()
 
 target_link_libraries(${PROJECT_NAME}

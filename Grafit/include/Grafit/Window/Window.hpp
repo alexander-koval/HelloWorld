@@ -7,7 +7,7 @@
 #include <Grafit/Graphics/Geometry/Vector2.hpp>
 #include <Grafit/Graphics/RenderTarget.hpp>
 
-class GLFWwindow;
+struct GLFWwindow;
 
 namespace gf {
 
@@ -46,7 +46,7 @@ public:
 
     Window(VideoMode mode, const std::string& title, Uint32 style = Style::Default, const ContextSettings& settings = ContextSettings());
 
-    ~Window(void);
+    ~Window(void) override;
 
     void create(VideoMode mode, const std::string& title, Uint32 style = Style::Default, const ContextSettings& settings = ContextSettings());
 
@@ -60,7 +60,7 @@ public:
 
     void setPosition(const Vector2I& position);
 
-    virtual Vector2U getSize(void) const;
+    virtual Vector2U getSize(void) const override;
 
     double getDotsPerInch(void) const;
 
@@ -93,7 +93,7 @@ public:
 private:
     void initialize(void);
 
-    inline virtual bool activate(bool active) const {
+    inline virtual bool activate(bool active) const override {
         return setActive(active);
     }
 

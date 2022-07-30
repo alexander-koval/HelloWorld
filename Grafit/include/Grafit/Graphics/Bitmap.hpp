@@ -21,10 +21,10 @@ public:
 
     void render(Mat4F mvpView);
 
-    ~Bitmap();
+    ~Bitmap() override;
 
 protected:
-    virtual void draw(const RenderTarget &target, RenderStates states) const;
+    virtual void draw(const RenderTarget &target, RenderStates states) const override;
 
 private:
     Image m_image;

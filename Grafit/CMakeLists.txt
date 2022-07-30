@@ -35,8 +35,8 @@ if(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" 
         option(GRAFIT_ENABLE_CXX_0X "Enable C++ 0x" OFF)
         option(GRAFIT_ENABLE_CXX_11 "Enable C++ 11" OFF)
         option(GRAFIT_ENABLE_CXX_1Y "Enable C++ 1y" OFF)
-        option(GRAFIT_ENABLE_CXX_14 "Enable C++ 14" ON)
-        option(GRAFIT_ENABLE_CXX_17 "Enable C++ 17" OFF)
+        option(GRAFIT_ENABLE_CXX_14 "Enable C++ 14" OFF)
+        option(GRAFIT_ENABLE_CXX_17 "Enable C++ 17" ON)
 
         if(GRAFIT_ENABLE_CXX_17)
                 set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++17")
@@ -124,3 +124,5 @@ set(PHYSFS_BUILD_SHARED FALSE CACHE BOOL "Build shared library")
 #    RUNTIME DESTINATION bin
 #    LIBRARY DESTINATION lib
 #    ARCHIVE DESTINATION lib)
+
+

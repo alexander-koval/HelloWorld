@@ -1,6 +1,5 @@
 #include <iostream>
 #include <sstream>
-#include <stb.h>
 #include <memory>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/Triangle.hpp>
@@ -135,7 +134,7 @@ void init() {
 //    picture->setOrigin(256, 256);
 //    picture->setScale(2.0f, 2.0f);
 
-    picture->setPosition(512, 256);;
+    picture->setPosition(512, 256);
     gf::Texture& texture = textureManager.get(0);
     texture.setRepeated(true);
     sprite = new gf::Sprite(texture, gf::RectI(0, 0, 512, 512));
@@ -245,8 +244,8 @@ int main() {
     window->setVerticalSyncEnabled(true);
 
     std::shared_ptr<gf::Signal1<int>> signal = std::make_shared<gf::Signal1<int>>();
-    gf::Connection& con1 = signal->connect(std::bind(&FreeFunction, std::placeholders::_1), true, 1);
-    gf::Connection& con2 = signal->connect(std::bind(&FreeFunction2, std::placeholders::_1), false, 0);
+//    gf::Connection& con1 = signal->connect(std::bind(&FreeFunction, std::placeholders::_1), true, 1);
+//    gf::Connection& con2 = signal->connect(std::bind(&FreeFunction2, std::placeholders::_1), false, 0);
 
     deferred = std::make_shared<gf::Deferred<gf::Window*>>();
 

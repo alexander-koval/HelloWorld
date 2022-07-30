@@ -146,6 +146,8 @@ else()
     list(APPEND grafit_window_extra_libs "-lX11 -lXxf86vm -lXrandr -lXi -lXinerama -lXcursor -lpthread -ldl")
 endif()
 
+set(OpenGL_GL_PREFERENCE GLVND)
+
 find_package(OpenGL REQUIRED)
 
 get_property(GRAFIT_LINK_DIRECTORIES DIRECTORY PROPERTY LINK_DIRECTORIES)
