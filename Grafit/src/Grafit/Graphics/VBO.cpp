@@ -28,7 +28,7 @@ bool VertexBuffer::create(Int32 sizePerVertex, Int32 numVertices, GLenum usage/*
 
     GL_CHECK(glGenBuffers(1, &m_vbo));
     GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, m_vbo));
-    GL_CHECK(glBufferData(GL_ARRAY_BUFFER, getSize(), NULL, m_usage));
+    GL_CHECK(glBufferData(GL_ARRAY_BUFFER, getSize(), nullptr, m_usage));
 
     GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
     return true;
@@ -43,7 +43,7 @@ Int32 VertexBuffer::getNumVertices(void) const {
 }
 
 bool VertexBuffer::update(const void *vertices, Int32 count, Int32 begin) {
-    if (count <= 0 || NULL == vertices) {
+    if (count <= 0 || nullptr == vertices) {
         return false;
     }
     if (begin < 0) {
@@ -95,7 +95,7 @@ bool IndexBuffer::create(Int32 sizePerIndex, Int32 numIndices, GLenum usage/* = 
 
     GL_CHECK(glGenBuffers(1, &m_vbo));
     GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vbo));
-    GL_CHECK(glBufferData(GL_ELEMENT_ARRAY_BUFFER, getSize(), NULL, m_usage));
+    GL_CHECK(glBufferData(GL_ELEMENT_ARRAY_BUFFER, getSize(), nullptr, m_usage));
 
     GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 
@@ -111,7 +111,7 @@ Int32 IndexBuffer::getNumIndices(void) const {
 }
 
 bool IndexBuffer::update(const void *indices, Int32 count, Int32 begin) {
-    if (count <= 0 || NULL == indices) {
+    if (count <= 0 || nullptr == indices) {
         return false;
     }
     if (begin < 0) {

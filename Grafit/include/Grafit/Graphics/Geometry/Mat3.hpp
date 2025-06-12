@@ -6,6 +6,7 @@
 #include <cstring>
 
 namespace gf {
+
 template <typename T>
 class Mat3 {
 public:
@@ -67,16 +68,16 @@ template <typename T>
 Mat3<T> operator *(const Mat3<T>& left, const Mat3<T>& right);
 
 template <typename T>
-Vector2<T> operator *(const Mat3<T>& left, const Vector2<T>& right);
+gf::Vector2<T> operator *(const Mat3<T>& left, const gf::Vector2<T>& right);
 
 template <typename T>
 Mat3<T>& operator *=(Mat3<T>& left, const Mat3<T>& right);
 
 template <typename T>
 inline Mat3<T>::Mat3(void) {
-    m_matrix[0] =   (T) 1; m_matrix[1] =        0; m_matrix[2] =        0;
-    m_matrix[3] =       0; m_matrix[4] =    (T) 1; m_matrix[5] =        0;
-    m_matrix[6] =       0; m_matrix[7] =        0; m_matrix[8] =    (T) 1;
+    m_matrix[0] =   static_cast<T>(1);  m_matrix[1] =   0;                  m_matrix[2] =   0;
+    m_matrix[3] =   0;                  m_matrix[4] =   static_cast<T>(1);  m_matrix[5] =   0;
+    m_matrix[6] =   0;                  m_matrix[7] =   0;                  m_matrix[8] =   static_cast<T>(1);
 }
 
 template <typename T>

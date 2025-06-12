@@ -1,9 +1,9 @@
 #include <Grafit/System/Clock.hpp>
 
 #if defined(GRAFIT_SYSTEM_WINDOWS)
-    #include <Grafit/System/Win32/ClockImpl.hpp>
+    #include "Win32/ClockImpl.hpp"
 #else
-    #include <Grafit/System/Unix/ClockImpl.hpp>
+    #include "Unix/ClockImpl.hpp"
 #endif
 
 namespace gf {

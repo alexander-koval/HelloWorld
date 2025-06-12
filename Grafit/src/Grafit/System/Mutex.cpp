@@ -1,9 +1,9 @@
 #include <Grafit/System/Mutex.hpp>
 
 #if defined(GRAFIT_SYSTEM_WINDOWS)
-    #include <Grafit/System/Win32/MutexImpl.hpp>
+    #include "Win32/MutexImpl.hpp"
 #else
-    #include <Grafit/System/Unix/MutexImpl.hpp>
+    #include "Unix/MutexImpl.hpp"
 #endif
 
 namespace gf {

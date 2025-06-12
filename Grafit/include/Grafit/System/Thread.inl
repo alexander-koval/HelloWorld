@@ -1,9 +1,14 @@
+#include <Grafit/System/Thread.hpp>
+
+namespace gf {
 namespace priv {
 // Base class for abstract thread functions
 struct ThreadFunc {
-    virtual ~ThreadFunc() {}
+    virtual ~ThreadFunc();
     virtual void run() = 0;
 };
+
+ThreadFunc::~ThreadFunc() { }
 
 // Specialization using a functor (including free functions) with no argument
 template <typename T>
@@ -33,23 +38,25 @@ struct ThreadMemberFunc : ThreadFunc {
 
 } // namespace priv
 
+template<typename F>
+Thread::Thread(F function)
+: m_impl(nullptr)
+, m_entryPoint(new priv::ThreadFunctor<F>(function)) {
 
-template <typename F>
-Thread::Thread(F functor) :
-m_impl      (NULL),
-m_entryPoint(new priv::ThreadFunctor<F>(functor)) {
 }
-
 
 template <typename F, typename A>
 Thread::Thread(F function, A argument) :
-m_impl      (NULL),
+m_impl      (nullptr),
 m_entryPoint(new priv::ThreadFunctorWithArg<F, A>(function, argument)) {
 }
 
 
 template <typename C>
 Thread::Thread(void(C::*function)(), C* object) :
-m_impl      (NULL),
+m_impl      (nullptr),
 m_entryPoint(new priv::ThreadMemberFunc<C>(function, object)) {
 }
+
+}
+

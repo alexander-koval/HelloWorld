@@ -1,73 +1,91 @@
 #include <Grafit/System/File.hpp>
+#include <Grafit/System/String.hpp>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#if defined(GRAFIT_SYSTEM_WINDOWS)
+    #include "Win32/FileImpl.hpp"
+#else
+    #include "Unix/FileImpl.hpp"
+#endif
 
 namespace gf {
 
-File::File(const String& path)
-    : m_path(path)
-    , m_status() {
-    using boost::filesystem::file_status;
-    boost::system::error_code code;
-    m_status = boost::filesystem::status(path.toWideString(), code);
+const char File::Separator = Path::separator();
+
+File::File()
+: m_pimpl(new FileImpl()) {
+
+}
+
+File::File(const File& that) {
+    m_pimpl = that.m_pimpl;
+}
+
+File::File(File&& that) {
+    m_pimpl = that.m_pimpl;
+}
+
+File::File(const std::string& path)
+: m_pimpl(new FileImpl(path)) {
+
+}
+
+File::File(const Path& path)
+: m_pimpl(new FileImpl(path.toString())) {
+
 }
 
 File::~File(void) {
-
+    delete m_pimpl;
 }
 
 bool File::isExist(void) const {
-    return boost::filesystem::exists(m_status);
+    return m_pimpl->existsImpl();
 }
 
 bool File::isDirectory(void) const {
-    return boost::filesystem::is_directory(m_status);
+    return m_pimpl->isDirectoryImpl();
 }
 
 bool File::isHidden(void) const {
-
+    return m_pimpl->isHiddenImpl();
 }
 
 bool File::isSymbolicLink(void) const {
-    return boost::filesystem::is_symlink(m_status);
+    return m_pimpl->isLinkImpl();
 }
 
 bool File::isRegularFile(void) const {
-    return boost::filesystem::is_regular_file(m_status);
+    return m_pimpl->isFileImpl();
 }
 
-String File::getName(void) const {
-    boost::filesystem::path path = m_path.stem();
-    return path.c_str();
+std::string File::getName(void) const {
+    return m_pimpl->getName();
 }
 
-String File::getExtension(void) const {
-    boost::filesystem::path path = m_path.extension();
-    return path.c_str();
+std::string File::getExtension(void) const {
+    return m_pimpl->getExtension();
 }
 
-String File::getNativePath(void) const {
-    return m_path.native();
+std::string File::getNativePath(void) const {
+    return m_pimpl->getPathImpl();
 }
 
-const File& File::getParent(void) const {
-
-}
-
-String File::getSeparator(void) const {
-    return boost::filesystem::path::preferred_separator;
-}
-
-float File::getSize(void) const {
-    boost::uintmax_t size = boost::filesystem::file_size(m_path);
-    return size;
+Uint64 File::getSize(void) const {
+    return m_pimpl->getSizeImpl();
 }
 
 float File::getSpaceAvailable(void) const {
-    boost::filesystem::space_info space = boost::filesystem::space(m_path);
-    return space.available;
+    return m_pimpl->freeSpaceImpl();
 }
 
-String File::getType(void) const {
-//    m_status.type();
+void File::swap(File&& that) {
+    std::swap(m_pimpl, that.m_pimpl);
+}
+
+void File::remove() {
+    m_pimpl->removeImpl();
 }
 
 }

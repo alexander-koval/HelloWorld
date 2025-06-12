@@ -2,14 +2,23 @@
 #define FILE_HPP
 
 #include <string>
-#include <Grafit/System/String.hpp>
-#include <boost/filesystem/operations.hpp>
+#include <Grafit/System/Path.hpp>
+#include <Grafit/System/Types.hpp>
 
 namespace gf {
+class FileImpl;
 
 class File {
 public:
-    File(const String& path);
+    File();
+
+    File(const std::string& path);
+
+    File(const Path& path);
+
+    File(const File& that);
+
+    File(File&& that);
 
     ~File(void);
 
@@ -23,26 +32,27 @@ public:
 
     bool isRegularFile(void) const;
 
-    String getName(void) const;
+    std::string getName(void) const;
 
-    String getExtension(void) const;
+    std::string getExtension(void) const;
 
-    String getNativePath(void) const;
+    std::string getNativePath(void) const;
 
-    const File& getParent(void) const;
-
-    String getSeparator(void) const;
-
-    float getSize(void) const;
+    Uint64 getSize(void) const;
 
     float getSpaceAvailable(void) const;
 
-    String getType(void) const;
+    void remove();
+
+    void swap(File&& that);
+
+public:
+    static const char Separator;
 
 private:
-    boost::filesystem::path m_path;
-    boost::filesystem::file_status m_status;
+    FileImpl* m_pimpl;
 };
+
 
 } // namespace gf
 

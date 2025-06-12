@@ -5,12 +5,11 @@
 #include <Grafit/System/NonCopyable.hpp>
 #include <cstdlib>
 
-
 namespace gf {
 namespace priv {
     class ThreadImpl;
     struct ThreadFunc;
-}
+};
 
 class Thread : NonCopyable {
 public:
@@ -42,10 +41,9 @@ private:
     priv::ThreadFunc* m_entryPoint; ///< Abstraction of the function to run
 };
 
-#include <Grafit/System/Thread.inl>
-
 } // namespace gf
 
+#include <Grafit/System/Thread.inl>
 #endif
 
 

@@ -7,7 +7,8 @@
 #include <Grafit/Graphics/Geometry/Vector2.hpp>
 
 namespace gf {
-class BitmapData;
+class File;
+class Image;
 class Texture {
 public:
     static void bind(const Texture* texture);
@@ -22,19 +23,19 @@ public:
 
     bool create(Uint32 width, Uint32 height);
 
-    bool loadFromFile(const std::string filename, const RectI& area = RectI());
+    bool create(const File& file);
 
-    bool loadFromMemory(const void* data, std::size_t size, const RectI& area = RectI());
+    bool create(const Image& image, const RectI& area = RectI());
 
-    bool loadFromImage(const BitmapData& image, const RectI& area = RectI());
+    bool create(const Uint8* buffer, std::size_t size, const RectI& area = RectI());
 
     void update(const Uint8* pixels);
 
     void update(const Uint8* pixels, Uint32 width, Uint32 height, Uint32 x, Uint32 y);
 
-    void update(const BitmapData& image);
+    void update(const Image& image);
 
-    void update(const BitmapData& image, Uint32 x, Uint32 y);
+    void update(const Image& image, Uint32 x, Uint32 y);
 
     Vector2U getSize(void) const;
 
@@ -49,15 +50,19 @@ public:
     Texture& operator =(const Texture& right);
 
 private:
-    static Int32 getValidSize(Int32 size);
-    static bool  isPowerOfTwo(Int32 size);
-    static Int32 getPowerOfTwo(Int32 size);
+    static Uint32 getValidSize(Uint32 size);
+    static bool  isPowerOfTwo(Uint32 size);
+    static Uint32 getPowerOfTwo(Uint32 size);
 
     Vector2U m_size;
     Vector2U m_actualSize;
     Uint32 m_textureID;
     bool m_isSmooth;
     bool m_isRepeated;
+
+//    template <typename Resource, typename Identifier>
+//    friend class ResourceManager;
+    friend class TextureLoader;
 };
 }
 #endif // TEXTURE_HPP

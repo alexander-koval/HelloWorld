@@ -1,6 +1,8 @@
 #include <Grafit/Graphics/Texture.hpp>
 #include <Grafit/Graphics/OpenGL.hpp>
 #include <Grafit/Graphics/Bitmap.hpp>
+#include <Grafit/System/File.hpp>
+#include <Grafit/System/IO/Stream.hpp>
 #include <Grafit/System/Assert.hpp>
 #include <iostream>
 
@@ -81,29 +83,28 @@ bool Texture::create(Uint32 width, Uint32 height) {
         m_textureID = texture;
     }
     Texture::bind(this);
-    GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_actualSize.x, m_actualSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL));
+    GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_actualSize.x, m_actualSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
     GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
 
     GL_CHECK(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
-    Texture::bind(NULL);
+    Texture::bind(nullptr);
 
     return true;
 }
 
-bool Texture::loadFromFile(const std::string filename, const RectI& area) {
-    BitmapData image;
-    return image.loadFromFile(filename) && loadFromImage(image, area);
+bool Texture::create(const File& file) {
+    gf::Image image;
+    if (image.create(file)) {
+        return create(image);
+    }
+    return false;
+
 }
 
-bool Texture::loadFromMemory(const void *data, std::size_t size, const RectI& area) {
-    BitmapData image;
-    return image.loadFromMemory(data, size) && loadFromImage(image, area);
-}
-
-bool Texture::loadFromImage(const BitmapData &image, const RectI& area) {
+bool Texture::create(const Image &image, const RectI& area) {
     int width = static_cast<int>(image.getSize().x);
     int height = static_cast<int>(image.getSize().y);
 
@@ -125,16 +126,23 @@ bool Texture::loadFromImage(const BitmapData &image, const RectI& area) {
             const Uint8* pixels = image.getPixels();
             Texture::bind(this);
             GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-                          width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL));
+                          width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr));
             GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, rect.width, rect.height,
                                      GL_RGB, GL_UNSIGNED_BYTE, pixels));
             GL_CHECK(glFlush());
-            Texture::bind(NULL);
+            Texture::bind(nullptr);
             return true;
         } else {
             return false;
         }
     }
+}
+
+
+
+bool Texture::create(const Uint8* buffer, std::size_t size, const RectI& area) {
+    Image image;
+    return image.create(buffer, size) && create(image, area);
 }
 
 void Texture::update(const Uint8 *pixels) {
@@ -147,15 +155,15 @@ void Texture::update(const Uint8 *pixels, Uint32 width, Uint32 height, Uint32 x,
     if (pixels && m_textureID) {
         Texture::bind(this);
         GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels));
-        Texture::bind(NULL);
+        Texture::bind(nullptr);
     }
 }
 
-void Texture::update(const BitmapData &image) {
+void Texture::update(const Image &image) {
     update(image.getPixels(), image.getSize().x, image.getSize().y, 0, 0);
 }
 
-void Texture::update(const BitmapData &image, Uint32 x, Uint32 y) {
+void Texture::update(const Image &image, Uint32 x, Uint32 y) {
     update(image.getPixels(), image.getSize().x, image.getSize().y, x, y);
 }
 
@@ -170,7 +178,7 @@ void Texture::setSmooth(bool smooth) {
             Texture::bind(this);
             GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
             GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_isSmooth ? GL_LINEAR : GL_NEAREST));
-            Texture::bind(NULL);
+            Texture::bind(nullptr);
         }
     }
 }
@@ -186,7 +194,7 @@ void Texture::setRepeated(bool repeated) {
             Texture::bind(this);
             GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
             GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_isRepeated ? GL_REPEAT : GL_CLAMP_TO_EDGE));
-            Texture::bind(NULL);
+            Texture::bind(nullptr);
         }
     }
 }
@@ -195,7 +203,7 @@ bool Texture::isRepeated() const {
     return m_isRepeated;
 }
 
-Int32 Texture::getValidSize(Int32 size) {
+Uint32 Texture::getValidSize(Uint32 size) {
     if (isPowerOfTwo(size)) {
         return size;
     }
@@ -205,11 +213,11 @@ Int32 Texture::getValidSize(Int32 size) {
     return getPowerOfTwo(size);
 }
 
-bool Texture::isPowerOfTwo(Int32 size) {
+bool Texture::isPowerOfTwo(Uint32 size) {
     return (size & (size - 1)) == 0;
 }
 
-Int32 Texture::getPowerOfTwo(Int32 size) {
+Uint32 Texture::getPowerOfTwo(Uint32 size) {
     --size;
     size |= (size >> 1);
     size |= (size >> 2);

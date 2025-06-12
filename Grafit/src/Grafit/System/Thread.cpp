@@ -1,9 +1,9 @@
 #include <Grafit/System/Thread.hpp>
 
 #if defined(GRAFIT_SYSTEM_WINDOWS)
-    #include <Grafit/System/Win32/ThreadImpl.hpp>
+    #include "Win32/ThreadImpl.hpp"
 #else
-    #include <Grafit/System/Unix/ThreadImpl.hpp>
+    #include "Unix/ThreadImpl.hpp"
 #endif
 
 namespace gf {
@@ -22,7 +22,7 @@ void Thread::wait() {
     if (m_impl) {
         m_impl->wait();
         delete m_impl;
-        m_impl = NULL;
+        m_impl = nullptr;
     }
 }
 
@@ -30,7 +30,7 @@ void Thread::terminate() {
     if (m_impl) {
         m_impl->terminate();
         delete m_impl;
-        m_impl = NULL;
+        m_impl = nullptr;
     }
 }
 

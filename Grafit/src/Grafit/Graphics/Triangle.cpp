@@ -9,9 +9,9 @@ Triangle::Triangle() {
     m_shader.loadFromMemory(positionColor_frag, GL_FRAGMENT_SHADER);
     GL_CHECK(m_shader.link());
     GL_CHECK(m_shader.use());
-    m_shader.setParameter<Shader::Uniform>("MVP");
-    m_shader.setParameter<Shader::Attribute>("VertexPosition");
-    m_shader.setParameter<Shader::Attribute>("VertexColor");
+    m_shader.setUniform("MVP");
+    m_shader.setAttribute("VertexPosition");
+    m_shader.setAttribute("VertexColor");
     GL_CHECK(m_shader.unuse());
 
     m_vertices[0].value1 = Vector2F(-1.f, -1.f);
@@ -27,14 +27,14 @@ Triangle::Triangle() {
     m_indices[2] = 2;
 
     m_vertexArray.initialize();
-    m_vertexArray.create<VertexBuffer>(sizeof(Vertex), 3);
-    m_vertexArray.create<IndexBuffer>(sizeof(GLushort), 3);
+    m_vertexArray.createVertices(sizeof(Vertex), 3);
+    m_vertexArray.createIndices(sizeof(GLushort), 3);
 
     m_vertexArray.use();
-    m_vertexArray.update<VertexBuffer>(&m_vertices[0], 3, 0);
-    m_vertexArray.update<IndexBuffer>(&m_indices[0], 3, 0);
-    m_shader.setParameter<Shader::Attribute>("VertexPosition", m_vertexArray.getVertexBuffer(), 2, GL_FLOAT, GL_FALSE, 0);
-    m_shader.setParameter<Shader::Attribute>("VertexColor", m_vertexArray.getVertexBuffer(), 3, GL_FLOAT, GL_FALSE,
+    m_vertexArray.updateVertices(&m_vertices[0], 3, 0);
+    m_vertexArray.updateIndices(&m_indices[0], 3, 0);
+    m_shader.setAttribute("VertexPosition", m_vertexArray.getVertexBuffer(), 2, GL_FLOAT, GL_FALSE, nullptr);
+    m_shader.setAttribute("VertexColor", m_vertexArray.getVertexBuffer(), 3, GL_FLOAT, GL_FALSE,
                                              (const GLvoid*)offsetof(Vertex, value2));
     m_vertexArray.unuse();
 }
@@ -43,7 +43,7 @@ void Triangle::render(Mat4F mvpView) {
     m_shader.use();
     rotate(-1);
     mvpView = mvpView * getTransform().getMatrix();
-    m_shader.setParameter<Shader::Uniform>("MVP", mvpView);
+    m_shader.setUniform("MVP", mvpView);
     m_vertexArray.use();
 //    GL_CHECK(glDrawArrays(GL_TRIANGLES, 0, 3));
     GL_CHECK(glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0));

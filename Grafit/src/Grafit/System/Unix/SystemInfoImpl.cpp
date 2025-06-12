@@ -1,4 +1,4 @@
-#include <Grafit/System/Unix/SystemInfoImpl.hpp>
+#include "SystemInfoImpl.hpp"
 #include <cstdlib>
 #include <unistd.h>
 #include <limits.h>
@@ -9,6 +9,7 @@
 //    #include <sys/pstat.h>
 //    #include <sys/types.h>
 #include <iostream>
+#include <linux/limits.h>
 
 namespace gf {
 namespace priv {

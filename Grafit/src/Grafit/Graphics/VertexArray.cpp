@@ -31,26 +31,21 @@ void VertexArray::initialize(void) {
     assert(m_vaoID >= 0);
 }
 
-template<>
-bool VertexArray::create<VertexBuffer>(Int32 sizePerVertex, Int32 count, GLenum usage /*= GL_STATIC_DRAW*/) {
+bool VertexArray::createVertices(Int32 sizePerVertex, Int32 count, GLenum usage) {
     return m_vertexBuffer.create(sizePerVertex, count, usage);
 }
 
-template<>
-bool VertexArray::create<IndexBuffer>(Int32 sizePerVertex, Int32 count, GLenum usage /*= GL_STATIC_DRAW*/) {
+bool VertexArray::createIndices(Int32 sizePerVertex, Int32 count, GLenum usage) {
     return m_indexBuffer.create(sizePerVertex, count, usage);
 }
 
-template<>
-bool VertexArray::update<VertexBuffer>(const void *data, Int32 count, Int32 begin) {
+bool VertexArray::updateVertices(const void* data, Int32 count, Int32 begin) {
     return m_vertexBuffer.update(data, count, begin);
 }
 
-template<>
-bool VertexArray::update<IndexBuffer>(const void *data, Int32 count, Int32 begin) {
-   return m_indexBuffer.update(data, count, begin);
+bool VertexArray::updateIndices(const void* data, Int32 count, Int32 begin) {
+    return m_indexBuffer.update(data, count, begin);
 }
-
 
 void VertexArray::use(void) const {
     GL_CHECK(glBindVertexArray(m_vaoID));

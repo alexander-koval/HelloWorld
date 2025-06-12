@@ -1,3 +1,4 @@
+#include <functional>
 #include <Grafit/System/Signals/Slot.hpp>
 
 namespace gf {
@@ -7,9 +8,7 @@ Slot<R(Args...)>::Slot(const std::function<R(Args...)>& listener, bool once, int
     : m_priority(priority)
     , m_listener(listener)
     , m_isEnabled(true)
-    , m_isOnce(once) {
-    int kkk = 0;
-}
+    , m_isOnce(once) { }
 
 template <typename R, typename ... Args>
 bool Slot<R(Args...)>::isOnce(void) const {

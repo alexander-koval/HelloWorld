@@ -1,14 +1,15 @@
 #include <Grafit/System/ThreadLocal.hpp>
 
-#if defined(SYSTEM_WINDOWS)
-    #include <Grafit/System/Win32/ThreadLocalImpl.hpp>
+#if defined(GRAFIT_SYSTEM_WINDOWS)
+    #include "Win32/ThreadLocalImpl.hpp"
 #else
-    #include <Grafit/System/Unix/ThreadLocalImpl.hpp>
+    #include "Unix/ThreadLocalImpl.hpp"
 #endif
 
+namespace gf {
 
 ThreadLocal::ThreadLocal(void* value) {
-    m_impl = new priv::ThreadLocalImpl;
+    m_impl = new priv::ThreadLocalImpl();
     setValue(value);
 }
 
@@ -23,4 +24,6 @@ void ThreadLocal::setValue(void* value) {
 
 void* ThreadLocal::getValue() const {
     return m_impl->getValue();
+}
+
 }

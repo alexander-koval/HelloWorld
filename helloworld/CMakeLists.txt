@@ -2,6 +2,14 @@ file(GLOB hello_world_source_files
     "main.cpp"
 )
 
+include_directories(
+    ${PROJECT_SOURCE_DIR}/Grafit/include
+    ${PROJECT_SOURCE_DIR}/Grafit/extlibs/include
+    ${PROJECT_SOURCE_DIR}/Grafit/modules/glm
+    ${PROJECT_SOURCE_DIR}/Grafit/modules/stb
+    ${PROJECT_SOURCE_DIR}/Grafit/modules/loki/include
+)
+
 if(APPLE)
 #    include(GmtHelperMacros)
     #dsymutil
@@ -60,8 +68,19 @@ if(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "output")
 
 elseif(WIN32)
+    file(GLOB COPY_RESOURCES ${PROJECT_SOURCE_DIR}/media/*.png)
+    set(BUNDLE_NAME ${PROJECT_NAME})
     add_executable(${PROJECT_NAME} WIN32 ${hello_world_source_files})
-
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E make_directory
+                        Resources
+                        WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+    foreach(resource ${COPY_RESOURCES})
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                            COMMAND ${CMAKE_COMMAND} -E copy
+                            ${resource} Resources
+                            WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+    endforeach()
 else()
     find_program(OBJCOPY objcopy)
     file(GLOB COPY_RESOURCES ${PROJECT_SOURCE_DIR}/media/*.png)
@@ -78,26 +97,28 @@ else()
                             ${resource} Resources
                             WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
     endforeach()
-    if(OBJCOPY)
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                            COMMAND ${OBJCOPY} $<TARGET_FILE:${PROJECT_NAME}>
-                            ARGS --only-keep-debug $<TARGET_FILE:${PROJECT_NAME}>.dSYM
-                            COMMENT "Generating binary with debug information"
-                            COMMAND ${OBJCOPY} $<TARGET_FILE:${PROJECT_NAME}>
-                            ARGS --add-gnu-debuglink=$<TARGET_FILE:${PROJECT_NAME}>.dSYM
-                            COMMENT "Link binary file with debug information"
-                            COMMAND ${CMAKE_STRIP} $<TARGET_FILE:${PROJECT_NAME}>
-                            COMMENT "Strip debug information from ${PROJECT_NAME}"
-                            VERBATIM)
-    endif(OBJCOPY)
+#    if(OBJCOPY)
+#        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#                            COMMAND ${OBJCOPY} $<TARGET_FILE:${PROJECT_NAME}>
+#                            ARGS --only-keep-debug $<TARGET_FILE:${PROJECT_NAME}>.dSYM
+#                            COMMENT "Generating binary with debug information"
+#                            COMMAND ${OBJCOPY} $<TARGET_FILE:${PROJECT_NAME}>
+#                            ARGS --add-gnu-debuglink=$<TARGET_FILE:${PROJECT_NAME}>.dSYM
+#                            COMMENT "Link binary file with debug information"
+#                            COMMAND ${CMAKE_STRIP} $<TARGET_FILE:${PROJECT_NAME}>
+#                            COMMENT "Strip debug information from ${PROJECT_NAME}"
+#                            VERBATIM)
+#    endif(OBJCOPY)
 endif()
 
 target_link_libraries(${PROJECT_NAME}
-    grafit-system
-    grafit-graphics
-    grafit-window
-    glfw
-#    ${Boost_LIBRARIES}
-    ${GLFW_LIBRARIES}
-    ${EXTRA_LIBS}
+    grafit
+#    grafit-system
+#    grafit-graphics
+#    grafit-window
 )
+
+install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION ./ COMPONENT ./
+    ARCHIVE DESTINATION lib COMPONENT lib
+    LIBRARY DESTINATION lib COMPONENT lib)

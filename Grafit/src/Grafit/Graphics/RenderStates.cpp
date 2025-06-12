@@ -10,24 +10,24 @@ const RenderStates RenderStates::Default(BlendMode(
 RenderStates::RenderStates() :
 blendMode(BlendAlpha),
 transform(),
-texture  (NULL),
-shader   (NULL)
+texture  (nullptr),
+shader   (nullptr)
 {
 }
 
 RenderStates::RenderStates(const Transform& theTransform) :
 blendMode(BlendAlpha),
 transform(theTransform),
-texture  (NULL),
-shader   (NULL)
+texture  (nullptr),
+shader   (nullptr)
 {
 }
 
 RenderStates::RenderStates(const BlendMode& theBlendMode) :
 blendMode(theBlendMode),
 transform(),
-texture  (NULL),
-shader   (NULL)
+texture  (nullptr),
+shader   (nullptr)
 {
 }
 
@@ -35,14 +35,14 @@ RenderStates::RenderStates(const Texture* theTexture) :
 blendMode(BlendAlpha),
 transform(),
 texture  (theTexture),
-shader   (NULL)
+shader   (nullptr)
 {
 }
 
 RenderStates::RenderStates(Shader* theShader) :
 blendMode(BlendAlpha),
 transform(),
-texture  (NULL),
+texture  (nullptr),
 shader   (theShader)
 {
 }

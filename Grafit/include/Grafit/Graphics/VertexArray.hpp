@@ -16,11 +16,13 @@ public:
 
     void initialize(void);
 
-    template <typename Type>
-    bool create(Int32 sizePerVertex, Int32 count, GLenum usage = GL_STATIC_DRAW);
+    bool createVertices(Int32 sizePerVertex, Int32 count, GLenum usage = GL_STATIC_DRAW);
 
-    template <typename Type>
-    bool update(const void* data, Int32 count, Int32 begin);
+    bool createIndices(Int32 sizePerVertex, Int32 count, GLenum usage = GL_STATIC_DRAW);
+
+    bool updateIndices(const void* data, Int32 count, Int32 begin);
+
+    bool updateVertices(const void* data, Int32 count, Int32 begin);
 
     void use(void) const;
 

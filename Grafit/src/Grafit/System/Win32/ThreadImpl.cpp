@@ -1,4 +1,4 @@
-#include <Grafit/System/Win32/ThreadImpl.hpp>
+#include "ThreadImpl.hpp"
 #include <Grafit/System/Thread.hpp>
 #include <cassert>
 #include <iostream>
@@ -8,7 +8,7 @@
 namespace gf {
 namespace priv {
 ThreadImpl::ThreadImpl(Thread* owner) {
-    m_thread = reinterpret_cast<HANDLE>(_beginthreadex(NULL, 0, &ThreadImpl::entryPoint, owner, 0, &m_threadId));
+    m_thread = reinterpret_cast<HANDLE>(_beginthreadex(nullptr, 0, &ThreadImpl::entryPoint, owner, 0, &m_threadId));
 
     if (!m_thread)
         std::cerr << "Failed to create thread" << std::endl;

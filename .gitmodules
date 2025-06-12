@@ -1,6 +1,3 @@
-[submodule "Grafit/modules/SOIL"]
-	path = Grafit/modules/SOIL
-	url = https://github.com/kbranigan/Simple-OpenGL-Image-Library.git
 [submodule "Grafit/modules/glfw"]
 	path = Grafit/modules/glfw
 	url = https://github.com/glfw/glfw.git
@@ -10,9 +7,6 @@
 [submodule "Grafit/modules/stb"]
 	path = Grafit/modules/stb
 	url = https://github.com/nothings/stb.git
-[submodule "Grafit/modules/loki"]
-	path = Grafit/modules/loki
-	url = https://github.com/snaewe/loki-lib.git
-[submodule "Grafit/modules/signals"]
-	path = Grafit/modules/signals
-	url = https://github.com/boostorg/signals.git
+[submodule "Grafit/modules/physfs"]
+	path = Grafit/modules/physfs
+	url = https://github.com/criptych/physfs.git

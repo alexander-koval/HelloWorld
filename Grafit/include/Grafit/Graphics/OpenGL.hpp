@@ -6,7 +6,7 @@
 
 namespace priv {
 
-#define GL_CHECK(x) x; priv::glCheckError(__FILE__, __LINE__);
+#define GL_CHECK(x) x; priv::glCheckError(__FILE__, __LINE__)
 
 void glCheckError(const char* file, unsigned int line);
 

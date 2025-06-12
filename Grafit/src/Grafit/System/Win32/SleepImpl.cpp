@@ -1,6 +1,6 @@
-#include <Grafit/System/Win32/SleepImpl.hpp>
+#include "SleepImpl.hpp"
 #include <windows.h>
-
+#include <mmsystem.h>
 
 namespace gf {
 namespace priv {

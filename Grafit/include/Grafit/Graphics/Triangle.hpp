@@ -1,7 +1,6 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include <glm/glm.hpp>
 #include <Grafit/Graphics/Transformable.hpp>
 #include <Grafit/Graphics/Shader.hpp>
 #include <Grafit/Graphics/OpenGL.hpp>

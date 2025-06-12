@@ -7,7 +7,7 @@
 
 namespace gf {
 namespace {
-    const Window* fullscreenWindow = NULL;
+    const Window* fullscreenWindow = nullptr;
 
     void onError(int error, const char* description) {
         std::cerr << "ERROR: " << error << " " << description << std::endl;
@@ -15,14 +15,14 @@ namespace {
 }
 
 Window::Window(void)
-    : m_window(NULL)
-    , m_previous(NULL) {
+    : m_window(nullptr)
+    , m_previous(nullptr) {
 
 }
 
 Window::Window(VideoMode mode, const std::string &title, Uint32 style, const ContextSettings &settings)
-    : m_window(NULL)
-    , m_previous(NULL) {
+    : m_window(nullptr)
+    , m_previous(nullptr) {
     if (!glfwInit()) exit(EXIT_FAILURE);
     glfwSetErrorCallback(onError);
     create(mode, title, style, settings);
@@ -50,7 +50,7 @@ void Window::create(VideoMode mode, const std::string &title, Uint32 style, cons
     if (style & Style::Fullscreen) {
         if (fullscreenWindow) {
             std::cerr << "Creating two fullscreen windows is not allowed, switching to windowed mode" << std::endl;
-            m_window = glfwCreateWindow(mode.width, mode.height, title.c_str(), NULL, NULL);
+            m_window = glfwCreateWindow(mode.width, mode.height, title.c_str(), nullptr, nullptr);
         } else {
             GLFWmonitor* monitor = glfwGetPrimaryMonitor();
             if (!mode.isValid()) {
@@ -58,10 +58,10 @@ void Window::create(VideoMode mode, const std::string &title, Uint32 style, cons
                 mode = VideoMode::getFullScreenModes()[0];
             }
             fullscreenWindow = this;
-            m_window = glfwCreateWindow(mode.width, mode.height, title.c_str(), monitor, NULL);
+            m_window = glfwCreateWindow(mode.width, mode.height, title.c_str(), monitor, nullptr);
         }
     } else {
-        m_window = glfwCreateWindow(mode.width, mode.height, title.c_str(), NULL, NULL);
+        m_window = glfwCreateWindow(mode.width, mode.height, title.c_str(), nullptr, nullptr);
     }
     initialize();
 }
@@ -69,8 +69,8 @@ void Window::create(VideoMode mode, const std::string &title, Uint32 style, cons
 void Window::close(void) {
     glfwSetWindowShouldClose(m_window, GL_TRUE);
     glfwDestroyWindow(m_window);
-    m_window = NULL;
-    fullscreenWindow = NULL;
+    m_window = nullptr;
+    fullscreenWindow = nullptr;
 }
 
 bool Window::isOpen(void) const {
@@ -115,7 +115,8 @@ void Window::setTitle(const std::string &title) {
 }
 
 void Window::setIcon(unsigned int width, unsigned int height, const Uint8 *pixels) {
-    //TODO Implement window icon
+//    GLFWimage
+//    glfwSetWindowIcon(m_window, 1, )
 }
 
 void Window::setVisible(bool visible) {
